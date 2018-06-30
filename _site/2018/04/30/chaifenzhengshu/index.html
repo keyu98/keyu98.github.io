@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>分类 - 七条鱼</title>
+	<title>将整数的每一位拆分 - 七条鱼</title>
 
 	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
 	<link rel="icon" href="/styles/images/favicon.jpg">
@@ -13,10 +13,10 @@
 	<link rel="stylesheet" href="/styles/css/index.css">
 	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/styles/css/syntax.css">
-	<link rel="canonical" href="/categories/">
+	<link rel="canonical" href="/2018/04/30/chaifenzhengshu/">
 	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
 	
-	<meta name="keywords" content="分类, 七条鱼, 个人博客;">
+	<meta name="keywords" content="将整数的每一位拆分, 七条鱼, 个人博客;">
 	<meta name="description" content="个人博客;">
 
 	<script src="/styles/js/jquery.min.js"></script>
@@ -84,8 +84,8 @@
   <div class="container">
   	
   		<!--
-		    <h1>分类</h1>
-		    <p>Post on  by <a href="/about">Keyu Zhao</a></p>
+		    <h1>将整数的每一位拆分</h1>
+		    <p>Post on Apr 30, 2018 by <a href="/about">Keyu Zhao</a></p>
 		-->
 		    <h1>It's our wits that make us men.</h1>
     
@@ -96,7 +96,8 @@
 <div class="banner">
   <div class="container">
   	
-    	学而不思则罔，思而不学则殆。
+    	<a href="/categories/#算法-ref">算法</a>	/
+    	<a href="/tag/#整数-ref">整数</a>
     
   </div>
 </div>
@@ -108,55 +109,54 @@
     <div class="col-md-3">
       <div class="sidebar hidden-print" role="complementary">
         <div id="navigation">
-        	<h1>目录</h1>
-      		<ul class="nav sidenav">
-				
-			    	 
-				    	<li><a href="#算法-ref">
-				    		算法 <span style="color: #999999;" >(2)</span>
-				    	</a></li>
-			    	
-			  	
-          	</ul>
-        </div>
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5ytn1ssq6za&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"> 
+    </script>
+  </div>
+</div>
+
+ 
       </div>
     </div>
     <div class="col-md-9" role="main">
       <div class="panel docs-content">
         <div class="wrapper">
-          <div class="home">
-			 
-			  <h2 id="算法-ref">算法</h2>
-			  <ul>
-			      
-			    
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2018/05/02/Maximum-subarray-sum/">Maximum subarray sum（求最大的子数组求和）</a></li>
-    		<li style="float:right;"><span>2018-05-02</span></li>
-    	</ol>
-    	
-    
-  
+            <header class="post-header">
+              <h1 class="post-title">将整数的每一位拆分</h1>
+              <!--
+                <p class="post-meta">Apr 30, 2018</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Apr 30, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <ul id="markdown-toc">
+  <li><a href="#用数学的方法来拆分" id="markdown-toc-用数学的方法来拆分">用数学的方法来拆分</a></li>
+  <li><a href="#类型转换的方法来拆分" id="markdown-toc-类型转换的方法来拆分">类型转换的方法来拆分</a></li>
+</ul>
 
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2018/04/30/chaifenzhengshu/">将整数的每一位拆分</a></li>
-    		<li style="float:right;"><span>2018-04-30</span></li>
-    	</ol>
-    	
-    
-  
+<h1 id="用数学的方法来拆分">用数学的方法来拆分</h1>
 
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">n</span><span class="o">=</span><span class="mi">12345</span>
+<span class="k">while</span> <span class="p">(</span><span class="n">n</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">):</span>
+    <span class="n">l</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="n">n</span><span class="o">%</span><span class="mi">10</span><span class="p">)</span>
+    <span class="n">n</span><span class="o">=</span><span class="n">n</span><span class="o">/</span><span class="mi">10</span>
+<span class="n">l</span><span class="o">=</span><span class="n">list</span><span class="p">(</span><span class="n">reversed</span><span class="p">(</span><span class="n">l</span><span class="p">))</span><span class="c1">#将顺序倒过来</span></code></pre></figure>
 
+<p>此时l生成列表[1,2,3,4,5]</p>
 
-			  </ul>
-			
-          </div>
+<h1 id="类型转换的方法来拆分">类型转换的方法来拆分</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">n</span><span class="o">=</span><span class="mi">12345</span>
+<span class="n">l</span><span class="o">=</span><span class="n">list</span><span class="p">(</span><span class="n">str</span><span class="p">(</span><span class="n">n</span><span class="p">))</span><span class="c1">#现将整数转化为字符串，然后变成列表</span>
+<span class="n">l</span><span class="o">=</span><span class="n">map</span><span class="p">(</span><span class="n">int</span><span class="p">,</span><span class="n">l</span><span class="p">)</span><span class="c1">#将列表中的元素转化成整数</span></code></pre></figure>
+
+<p>代码简单，但是运行时间却会长一些</p>
+
+            </article>
         </div>
       </div>
     </div>

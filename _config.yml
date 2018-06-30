@@ -1,12 +1,12 @@
 # Site settings
-name: Less Or More
+name: 七条鱼
 email: 347560833@qq.com
 author: Keyu Zhao
 url: http://goldofzky.github.io
-resume_site: http://www.hifreud.com/Resume.io/
-github: https://github.com/luoyan35714/
+resume_site: ""
+github: https://github.com/goldofzky/
 baseurl: ""
-description: Actually, less is more!
+description: ahu在读本科，鶸一只
 meta_description: 个人博客;
 motto: It's our wits that make us men.
 banner: 学而不思则罔，思而不学则殆。

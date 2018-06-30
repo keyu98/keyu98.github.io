@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>如何使用LessOrMore这个Jekyll模版 - 七条鱼</title>
+	<title>如何使用LessOrMore这个Jekyll模版 - Less Or More</title>
 
 	<link rel="shortcut icon" href="/LessOrMore/styles/images/favicon.jpg">
 	<link rel="icon" href="/LessOrMore/styles/images/favicon.jpg">
@@ -14,10 +14,10 @@
 	<link rel="stylesheet" href="/LessOrMore/styles/css/fontawesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/LessOrMore/styles/css/syntax.css">
 	<link rel="canonical" href="/LessOrMore/2016/08/27/how-to-use-this-jekyll-theme/">
-	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/LessOrMore/feed.xml">
+	<link rel="alternate" type="application/rss+xml" title="Less Or More" href="/LessOrMore/feed.xml">
 	
-	<meta name="keywords" content="如何使用LessOrMore这个Jekyll模版, 七条鱼, ahu在读本科，鶸一只。">
-	<meta name="description" content="ahu在读本科，鶸一只。">
+	<meta name="keywords" content="如何使用LessOrMore这个Jekyll模版, Less Or More, 康志华;个人博客;学而不思则罔;思而不学则殆;生命不止;折腾不休">
+	<meta name="description" content="康志华;个人博客;学而不思则罔;思而不学则殆;生命不止;折腾不休">
 
 	<script src="/LessOrMore/styles/js/jquery.min.js"></script>
 	<!--[if lt IE 9]>
@@ -49,12 +49,15 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a href="/LessOrMore/" class="navbar-brand">
+      <a href="/" class="navbar-brand">
         <img src="/LessOrMore/styles/images/logo.jpg">
       </a>
     </div>
     <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
       <ul class="nav navbar-nav">    
+        <li>
+          <a href="/LessOrMore/">Home</a>
+        </li>
         <li>
           <a href="/LessOrMore/categories/">大类分解</a>
         </li>
@@ -63,11 +66,23 @@
         </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
+        </li>
+        <li>
+          <a href="/LessOrMore/donate/"><strong>打赏</strong></a>
+        </li>
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
           <ul class="dropdown-menu">
-            <li><a rel="nofollow" target="_blank" href="https://github.com/Goldofzky">Github</a></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/luoyan35714/">Github</a></li>
+            <li><a rel="nofollow" target="_blank" href="http://www.hifreud.com/Resume.io/">关于作者</a></li>
+            <li><a rel="nofollow" href="/LessOrMore/books">我的书单</a></li>
+            <li><a rel="nofollow" href="http://www.hifreud.com/domains/">域名管理</a></li>
+            <li><a rel="nofollow" href="/LessOrMore/reference">推荐博客</a></li>
+            <li><a href="/LessOrMore/feed.xml">RSS订阅</a></li>
             <li class="divider"></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/luoyan35714/LessOrMore.git">本项目</a></li>
           </ul>
         </li>
       </ul>
@@ -79,9 +94,9 @@
   	
   		<!--
 		    <h1>如何使用LessOrMore这个Jekyll模版</h1>
-		    <p>Post on Aug 27, 2016 by <a href="/about">Keyu Zhao</a></p>
+		    <p>Post on Aug 27, 2016 by <a href="/about">Freud Kang</a></p>
 		-->
-		    <h1>七条鱼</h1>
+		    <h1>It's our wits that make us men.</h1>
     
   </div>
 </div>
@@ -123,7 +138,7 @@
               <!--
                 <p class="post-meta">Aug 27, 2016</p>
               -->
-              <div class="meta">Posted on <span class="postdate">Aug 27, 2016</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <div class="meta">Posted on <span class="postdate">Aug 27, 2016</span> By <a target="_blank" href="http://localhost:4000">Freud Kang</a></div>
               <br />
             </header>
             <article class="post-content">
@@ -135,6 +150,13 @@
       <li><a href="#How-to-write-document" id="markdown-toc-How-to-write-document">如何写文章</a></li>
       <li><a href="#execute" id="markdown-toc-execute">执行</a></li>
       <li><a href="#result" id="markdown-toc-result">效果</a></li>
+    </ul>
+  </li>
+  <li><a href="#why" id="markdown-toc-why">为什么重复造轮子</a></li>
+  <li><a href="#about-author" id="markdown-toc-about-author">关于作者</a></li>
+  <li><a href="#about-donate" id="markdown-toc-about-donate">关于打赏</a>    <ul>
+      <li><a href="#alipay" id="markdown-toc-alipay">支付宝</a></li>
+      <li><a href="#weixinpay" id="markdown-toc-weixinpay">微信</a></li>
     </ul>
   </li>
 </ul>
@@ -213,6 +235,30 @@ tag: 教程
 <h2 id="result">效果</h2>
 <p>打开浏览器并输入URL<code class="highlighter-rouge">http://localhost:4000/</code>,回车。</p>
 
+<h1 id="why">为什么重复造轮子</h1>
+
+<p>很明显，我在重复造轮子。在13年接触到GIT，14年末接触到Jekyll，然后搭建了自己的博客，当时是选用了<a href="http://jekyllthemes.org/">JekyllThemes</a>上的<a href="https://github.com/mattvh/solar-theme-jekyll">Solar</a>主题，一直到现在。不过中间一直感觉页面风格还是偏暗，阅读不方便。并且有一些小的细节做的不是很好。在页面的跨平台浏览上有一些瑕疵。并且不区分一级标题和二级标题，导致没有重点强调。诸如此类，用了2年，用的越多，越发吃力，中间就一直在寻找新的能够让我一眼认定的主题。</p>
+
+<p>虽然设计好看的主题很多。但是真正适合拿来做博客的却不多。中间一直没有找到合适的主题。直到有一天看到Less官网的主题之后，豁然觉得这就是我的博客想要的样子。简单而又不平凡。所以就决定了要把博客迁移到这个主题，然后拿了两天晚上来把这个主题做出来。</p>
+
+<p>重复造了轮子，但是这个是迄今为止自己觉得最适合我的博客的轮子，所以是值得的！</p>
+
+<h1 id="about-author">关于作者</h1>
+
+<p>热爱开源，热爱折腾的Java程序猿。更多个人信息和联系方式可以参照<a href="http://www.hifreud.com/Resume.io/">我的简介</a>。</p>
+
+<h1 id="about-donate">关于打赏</h1>
+
+<p>如果你也像我一样在寻觅一个简洁的博客主题。不妨试下LessOrMore。</p>
+
+<p>当然你也可以为了我的工作打赏！以激励我做出更好的东西。</p>
+
+<h2 id="alipay">支付宝</h2>
+
+<p><img src="/LessOrMore/styles/images/zhifubao.PNG" alt="支付宝二维码付款给Freud" width="310" /></p>
+
+<h2 id="weixinpay">微信</h2>
+<p><img src="/LessOrMore/styles/images/weixin.png" alt="微信二维码付款给Freud" /></p>
 
             </article>
         </div>
@@ -224,7 +270,7 @@ tag: 教程
     
     <footer class="footer" role="contentinfo">
 	<div class="container">
-		<p class="copyright">Copyright &copy; 2014-2018 <a href="https://github.com/Goldofzky"><code>Keyu Zhao</code></a>.</p>
+		<p class="copyright">Copyright &copy; 2014-2018 <a href="http://www.hifreud.com/Resume.io/"><code>Freud Kang</code></a>.</p>
 		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, themed from <a href="http://lesscss.cn/">Less</a>, refactored by <a href="http://www.hifreud.com/">Freud Kang</a></p>
 	</div>
 </footer>

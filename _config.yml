@@ -6,10 +6,10 @@ url: http://goldofzky.github.io
 resume_site: ""
 github: https://github.com/goldofzky/
 baseurl: ""
-description: ahu在读本科，鶸一只
+description: ahu本科在读
 meta_description: 个人博客;
-motto: It's our wits that make us men.
-banner: 学而不思则罔，思而不学则殆。
+motto:  Learn what I like,do what I want.
+banner: 坚持吧，加油！
 
 #permalink: /:categories/:year/:month/:day/:title/
 permalink: /:year/:month/:day/:title/
@@ -17,7 +17,7 @@ paginate: 10
 
 exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
 
-github_username: luoyan35714
+github_username: goldofzky
 
 # Build settings
 markdown: kramdown

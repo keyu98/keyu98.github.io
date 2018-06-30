@@ -1,1 +1,26 @@
-theme: jekyll-theme-minimal
+# Site settings
+name: 七条鱼
+email: 347560833@qq.com
+author: Keyu Zhao
+url: ''
+resume_site: https://github.com/Goldofzky
+github: https://github.com/Goldofzky
+baseurl: "/LessOrMore"
+description: 个人博客
+meta_description: ahu在读本科，鶸一只。
+motto: 七条鱼
+banner: 学而不思则罔，思而不学则殆。
+
+#permalink: /:categories/:year/:month/:day/:title/
+permalink: /:year/:month/:day/:title/
+paginate: 10
+
+exclude: ['README.md', 'Gemfile.lock', 'Gemfile', 'Rakefile']
+
+github_username: luoyan35714
+
+# Build settings
+markdown: kramdown
+
+baidu_analysis: 94be4b0f9fc5d94cc0d0415ea6761ae9
+

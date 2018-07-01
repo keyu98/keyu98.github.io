@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>haskell函数式编程实现的五种排序 - 七条鱼</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
+	<link rel="icon" href="/styles/images/favicon.jpg">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2018/05/05/haskellsort/">
+	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
+	
+	<meta name="keywords" content="haskell函数式编程实现的五种排序, 七条鱼, 个人博客;">
+	<meta name="description" content="个人博客;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  	<![endif]-->
+  	<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?94be4b0f9fc5d94cc0d0415ea6761ae9";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+  	<style type="text/css">
+	  	.docs-content{
+	  		margin-bottom: 10px;
+	  	}
+  	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg">
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">    
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/categories/">大分组</a>
+        </li>
+        <li>
+          <a href="/tag">细小分组</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a rel="nofollow" target="_blank" href="https://github.com/goldofzky/">Github</a></li>
+            <li class="divider"></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/Goldofzky/goldofzky.github.io/">博客源码</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+ 
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>haskell函数式编程实现的五种排序</h1>
+		    <p>Post on May 05, 2018 by <a href="/about">Keyu Zhao</a></p>
+		-->
+		    <h1>Learn what I like,do what I want.</h1>
+    
+  </div>
+</div>
+    
+      
+<div class="banner">
+  <div class="container">
+  	
+    	<a href="/categories/#编程语言-ref">编程语言</a>	/
+    	<a href="/tag/#haskell-ref">haskell</a>
+    
+  </div>
+</div>
+
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5ytn1ssq6za&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"> 
+    </script>
+  </div>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">haskell函数式编程实现的五种排序</h1>
+              <!--
+                <p class="post-meta">May 5, 2018</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">May 05, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <ul id="markdown-toc">
+  <li><a href="#插入排序" id="markdown-toc-插入排序">插入排序</a></li>
+  <li><a href="#归并排序" id="markdown-toc-归并排序">归并排序</a></li>
+  <li><a href="#快速排序" id="markdown-toc-快速排序">快速排序</a></li>
+  <li><a href="#冒泡排序" id="markdown-toc-冒泡排序">冒泡排序</a></li>
+  <li><a href="#选择排序" id="markdown-toc-选择排序">选择排序</a></li>
+</ul>
+
+<h1 id="插入排序">插入排序</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">select</span> <span class="o">::</span> <span class="no">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="nb">select</span> <span class="n">x</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+<span class="nb">select</span> <span class="n">x</span> <span class="p">(</span><span class="n">y</span><span class="ss">:ys</span><span class="p">)</span>
+        <span class="o">|</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="ss">:y:ys</span>
+        <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">y</span> <span class="p">:</span> <span class="n">delete</span> <span class="n">x</span> <span class="n">ys</span>
+
+<span class="n">insertSort</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">insertSort</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">insertSort</span> <span class="p">(</span><span class="n">x</span><span class="ss">:xs</span><span class="p">)</span> <span class="o">=</span> <span class="n">delete</span> <span class="n">x</span> <span class="p">(</span><span class="n">insertSort</span> <span class="n">xs</span><span class="p">)</span></code></pre></figure>
+
+<h1 id="归并排序">归并排序</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">merge</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">merge</span> <span class="n">xs</span> <span class="p">[]</span> <span class="o">=</span> <span class="n">xs</span>
+<span class="n">merge</span> <span class="p">[]</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">ys</span>
+<span class="n">merge</span> <span class="p">(</span><span class="n">x</span><span class="ss">:xs</span><span class="p">)</span> <span class="p">(</span><span class="n">y</span><span class="ss">:ys</span><span class="p">)</span>
+        <span class="o">|</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="ss">:merge</span> <span class="p">(</span><span class="n">x</span><span class="ss">:xs</span><span class="p">)</span> <span class="n">ys</span>
+        <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">x</span><span class="ss">:merge</span> <span class="n">xs</span> <span class="p">(</span><span class="n">y</span><span class="ss">:ys</span><span class="p">)</span>
+
+<span class="n">mergeSort</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">mergeSort</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">mergeSort</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+<span class="n">mergeSort</span> <span class="n">list</span> <span class="o">=</span> <span class="n">merge</span> <span class="p">(</span><span class="n">mergeSort</span> <span class="n">a</span><span class="p">)</span> <span class="p">(</span><span class="n">mergeSort</span> <span class="n">b</span><span class="p">)</span>
+       <span class="n">where</span> 
+           <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">splitAt</span> <span class="p">(</span><span class="n">div</span> <span class="p">(</span><span class="n">length</span> <span class="n">list</span><span class="p">)</span><span class="mi">2</span><span class="p">)</span> <span class="n">list</span></code></pre></figure>
+
+<h1 id="快速排序">快速排序</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">quickSort</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">quickSort</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">quickSort</span> <span class="p">(</span><span class="n">x</span><span class="ss">:xs</span><span class="p">)</span> <span class="o">=</span> <span class="n">quickSort</span> <span class="p">[</span><span class="n">a</span><span class="o">|</span><span class="n">a</span><span class="o">&lt;-</span><span class="n">xs</span><span class="p">,</span><span class="n">a</span><span class="o">&lt;=</span><span class="n">x</span><span class="p">]</span> <span class="o">++</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">++</span> <span class="n">quickSort</span> <span class="p">[</span><span class="n">a</span><span class="o">|</span><span class="n">a</span><span class="o">&lt;-</span><span class="n">xs</span><span class="p">,</span><span class="n">a</span><span class="o">&gt;</span><span class="n">x</span><span class="p">]</span></code></pre></figure>
+
+<h1 id="冒泡排序">冒泡排序</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">swaps</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">swaps</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">swaps</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+<span class="n">swaps</span> <span class="p">(</span><span class="n">x1</span><span class="ss">:x2:xs</span><span class="p">)</span>
+       <span class="o">|</span> <span class="n">x1</span> <span class="o">&gt;</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x2</span> <span class="p">:</span> <span class="n">swaps</span><span class="p">(</span><span class="n">x1</span><span class="ss">:xs</span><span class="p">)</span>
+       <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">x1</span> <span class="p">:</span> <span class="n">swaps</span><span class="p">(</span><span class="n">x2</span><span class="ss">:xs</span><span class="p">)</span>
+
+<span class="n">bubbleSort</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">bubbleSort</span> <span class="n">xs</span>
+           <span class="o">|</span> <span class="n">swaps</span> <span class="n">xs</span> <span class="o">==</span> <span class="n">xs</span> <span class="o">=</span><span class="n">xs</span>
+           <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">bubbleSort</span> <span class="err">$</span> <span class="n">swaps</span> <span class="n">xs</span></code></pre></figure>
+
+<h1 id="选择排序">选择排序</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">delete</span> <span class="o">::</span> <span class="no">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">delete</span> <span class="n">_</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">delete</span> <span class="n">x</span> <span class="p">(</span><span class="n">y</span><span class="ss">:ys</span><span class="p">)</span>
+           <span class="o">|</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="o">=</span><span class="n">ys</span>
+           <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">y</span><span class="ss">:delete</span> <span class="n">x</span> <span class="n">ys</span>
+
+
+<span class="n">selectSort</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">selectSort</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">selectSort</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">mini</span> <span class="p">:</span> <span class="n">selectSort</span> <span class="n">xs</span><span class="s1">'
+        where
+            mini = minimum xs
+            xs'</span> <span class="o">=</span> <span class="n">delete</span> <span class="n">mini</span> <span class="n">xs</span></code></pre></figure>
+
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2018-2018 <a href=""><code>Keyu Zhao</code></a>.</p>
+		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, themed from <a href="http://lesscss.cn/">Less</a>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  </body>
+</html>

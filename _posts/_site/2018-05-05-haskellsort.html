@@ -1,0 +1,72 @@
+<ul id="markdown-toc">
+  <li><a href="#插入排序" id="markdown-toc-插入排序">插入排序</a></li>
+  <li><a href="#归并排序" id="markdown-toc-归并排序">归并排序</a></li>
+  <li><a href="#快速排序" id="markdown-toc-快速排序">快速排序</a></li>
+  <li><a href="#冒泡排序" id="markdown-toc-冒泡排序">冒泡排序</a></li>
+  <li><a href="#选择排序" id="markdown-toc-选择排序">选择排序</a></li>
+</ul>
+
+<h1 id="插入排序">插入排序</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="nb">select</span> <span class="o">::</span> <span class="no">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="nb">select</span> <span class="n">x</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+<span class="nb">select</span> <span class="n">x</span> <span class="p">(</span><span class="n">y</span><span class="ss">:ys</span><span class="p">)</span>
+        <span class="o">|</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="ss">:y:ys</span>
+        <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">y</span> <span class="p">:</span> <span class="n">delete</span> <span class="n">x</span> <span class="n">ys</span>
+
+<span class="n">insertSort</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">insertSort</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">insertSort</span> <span class="p">(</span><span class="n">x</span><span class="ss">:xs</span><span class="p">)</span> <span class="o">=</span> <span class="n">delete</span> <span class="n">x</span> <span class="p">(</span><span class="n">insertSort</span> <span class="n">xs</span><span class="p">)</span></code></pre></figure>
+
+<h1 id="归并排序">归并排序</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">merge</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">merge</span> <span class="n">xs</span> <span class="p">[]</span> <span class="o">=</span> <span class="n">xs</span>
+<span class="n">merge</span> <span class="p">[]</span> <span class="n">ys</span> <span class="o">=</span> <span class="n">ys</span>
+<span class="n">merge</span> <span class="p">(</span><span class="n">x</span><span class="ss">:xs</span><span class="p">)</span> <span class="p">(</span><span class="n">y</span><span class="ss">:ys</span><span class="p">)</span>
+        <span class="o">|</span> <span class="n">x</span> <span class="o">&gt;</span> <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="ss">:merge</span> <span class="p">(</span><span class="n">x</span><span class="ss">:xs</span><span class="p">)</span> <span class="n">ys</span>
+        <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">x</span><span class="ss">:merge</span> <span class="n">xs</span> <span class="p">(</span><span class="n">y</span><span class="ss">:ys</span><span class="p">)</span>
+
+<span class="n">mergeSort</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">mergeSort</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">mergeSort</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+<span class="n">mergeSort</span> <span class="n">list</span> <span class="o">=</span> <span class="n">merge</span> <span class="p">(</span><span class="n">mergeSort</span> <span class="n">a</span><span class="p">)</span> <span class="p">(</span><span class="n">mergeSort</span> <span class="n">b</span><span class="p">)</span>
+       <span class="n">where</span> 
+           <span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">b</span><span class="p">)</span> <span class="o">=</span> <span class="n">splitAt</span> <span class="p">(</span><span class="n">div</span> <span class="p">(</span><span class="n">length</span> <span class="n">list</span><span class="p">)</span><span class="mi">2</span><span class="p">)</span> <span class="n">list</span></code></pre></figure>
+
+<h1 id="快速排序">快速排序</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">quickSort</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">quickSort</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">quickSort</span> <span class="p">(</span><span class="n">x</span><span class="ss">:xs</span><span class="p">)</span> <span class="o">=</span> <span class="n">quickSort</span> <span class="p">[</span><span class="n">a</span><span class="o">|</span><span class="n">a</span><span class="o">&lt;-</span><span class="n">xs</span><span class="p">,</span><span class="n">a</span><span class="o">&lt;=</span><span class="n">x</span><span class="p">]</span> <span class="o">++</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">++</span> <span class="n">quickSort</span> <span class="p">[</span><span class="n">a</span><span class="o">|</span><span class="n">a</span><span class="o">&lt;-</span><span class="n">xs</span><span class="p">,</span><span class="n">a</span><span class="o">&gt;</span><span class="n">x</span><span class="p">]</span></code></pre></figure>
+
+<h1 id="冒泡排序">冒泡排序</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">swaps</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">swaps</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">swaps</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">]</span>
+<span class="n">swaps</span> <span class="p">(</span><span class="n">x1</span><span class="ss">:x2:xs</span><span class="p">)</span>
+       <span class="o">|</span> <span class="n">x1</span> <span class="o">&gt;</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x2</span> <span class="p">:</span> <span class="n">swaps</span><span class="p">(</span><span class="n">x1</span><span class="ss">:xs</span><span class="p">)</span>
+       <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">x1</span> <span class="p">:</span> <span class="n">swaps</span><span class="p">(</span><span class="n">x2</span><span class="ss">:xs</span><span class="p">)</span>
+
+<span class="n">bubbleSort</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">bubbleSort</span> <span class="n">xs</span>
+           <span class="o">|</span> <span class="n">swaps</span> <span class="n">xs</span> <span class="o">==</span> <span class="n">xs</span> <span class="o">=</span><span class="n">xs</span>
+           <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">bubbleSort</span> <span class="err">$</span> <span class="n">swaps</span> <span class="n">xs</span></code></pre></figure>
+
+<h1 id="选择排序">选择排序</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">delete</span> <span class="o">::</span> <span class="no">Int</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">delete</span> <span class="n">_</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">delete</span> <span class="n">x</span> <span class="p">(</span><span class="n">y</span><span class="ss">:ys</span><span class="p">)</span>
+           <span class="o">|</span> <span class="n">x</span> <span class="o">==</span> <span class="n">y</span> <span class="o">=</span><span class="n">ys</span>
+           <span class="o">|</span> <span class="n">otherwise</span> <span class="o">=</span> <span class="n">y</span><span class="ss">:delete</span> <span class="n">x</span> <span class="n">ys</span>
+
+
+<span class="n">selectSort</span> <span class="o">::</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span> <span class="o">-&gt;</span> <span class="p">[</span><span class="no">Int</span><span class="p">]</span>
+<span class="n">selectSort</span> <span class="p">[]</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">selectSort</span> <span class="n">xs</span> <span class="o">=</span> <span class="n">mini</span> <span class="p">:</span> <span class="n">selectSort</span> <span class="n">xs</span><span class="s1">'
+        where
+            mini = minimum xs
+            xs'</span> <span class="o">=</span> <span class="n">delete</span> <span class="n">mini</span> <span class="n">xs</span></code></pre></figure>
+

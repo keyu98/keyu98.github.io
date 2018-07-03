@@ -138,6 +138,7 @@
             <article class="post-content">
               <ul id="markdown-toc">
   <li><a href="#1二维数组的查找" id="markdown-toc-1二维数组的查找">1.二维数组的查找</a></li>
+  <li><a href="#2替换空格" id="markdown-toc-2替换空格">2.替换空格</a></li>
 </ul>
 
 <h1 id="1二维数组的查找">1.二维数组的查找</h1>
@@ -181,6 +182,51 @@
         }
         return false;/</span><span class="o">/</span><span class="err">没有找到，返回</span><span class="kp">false</span>
     <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<hr />
+
+<h1 id="2替换空格">2.替换空格</h1>
+
+<p>#题目描述#</p>
+<blockquote>
+  <p>请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
+</blockquote>
+
+<p>#解题思路#</p>
+<blockquote>
+  <p>为了使时间复杂度尽量变小，那么就不能从左到右以此替换，我们应该尽量让字符替换的次数变少</p>
+</blockquote>
+
+<blockquote>
+  <p>在程序中，我们先从左到右以此记录空格的数量，然后再从右到左依次替换，这样就把每个字符移动的次数都缩小为一次</p>
+</blockquote>
+
+<blockquote>
+  <p>在从右到左替换的过程中，由于空格替换为”%20“，增加了两个字符，所以原来的字符应该向后移动【前面的空格数×2】位</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="ss">public:
+	</span><span class="n">void</span> <span class="n">replaceSpace</span><span class="p">(</span><span class="n">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span><span class="n">int</span> <span class="n">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="sr">//</span><span class="err">用于记录空格次数</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">length</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">' '</span><span class="p">)</span><span class="o">/</span><span class="sr">/如果字符是空格，那么记录加1
+                count++;
+        }
+        for (int i=length-1;i&gt;=0;i--)/</span><span class="o">/</span><span class="err">从右到左依次替换</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">' '</span><span class="p">)</span>
+                <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="sr">//</span><span class="err">如果不是空格，就将字符向后移动</span><span class="mi">2</span><span class="err">位</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="n">count</span><span class="o">--</span><span class="p">;</span><span class="sr">//</span><span class="err">空格记录减</span><span class="mi">1</span>
+                <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="s1">'%'</span><span class="p">;</span>
+                <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">count</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="s1">'2'</span><span class="p">;</span>
+                <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="n">count</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="s1">'0'</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+     <span class="p">}</span>
 <span class="p">};</span></code></pre></figure>
 
 <hr />

@@ -49,5 +49,43 @@ public:
 };
 {% endhighlight %}
 ----
+
+2.替换空格
+==========
+
+#题目描述#
+>请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。
+
+#解题思路#
+>为了使时间复杂度尽量变小，那么就不能从左到右以此替换，我们应该尽量让字符替换的次数变少
+
+>在程序中，我们先从左到右以此记录空格的数量，然后再从右到左依次替换，这样就把每个字符移动的次数都缩小为一次
+
+>在从右到左替换的过程中，由于空格替换为”%20“，增加了两个字符，所以原来的字符应该向后移动【前面的空格数×2】位
+{% highlight ruby %}
+class Solution {
+public:
+	void replaceSpace(char *str,int length) {
+        int count = 0;//用于记录空格次数
+        for (int i=0;i<length;i++){
+            if (str[i] == ' ')//如果字符是空格，那么记录加1
+                count++;
+        }
+        for (int i=length-1;i>=0;i--)//从右到左依次替换
+        {
+            if(str[i] != ' ')
+                str[i+2*count] = str[i];//如果不是空格，就将字符向后移动2位
+            else
+            {
+                count--;//空格记录减1
+                str[i+count*2]='%';
+                str[i+1+count*2]='2';
+                str[i+2+count*2]='0';
+            }
+        }
+     }
+};
+{% endhighlight %}
+----
 更新中...
 

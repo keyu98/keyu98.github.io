@@ -87,5 +87,96 @@ public:
 };
 {% endhighlight %}
 ----
+
+3.从头到尾输出链表
+==========
+
+#题目描述#
+>输入一个链表，从尾到头打印链表每个节点的值。
+
+#解题思路#
+
+>递归
+
+{% highlight ruby %}
+class Solution {
+public:
+    vector<int> printListFromTailToHead(struct ListNode* head) {
+        vector<int> value;
+        if(head != NULL)
+        {
+            value.insert(value.begin(),head->val);
+            if(head->next != NULL)
+            {
+                vector<int> tempVec = printListFromTailToHead(head->next);
+                if(tempVec.size()>0)
+                value.insert(value.begin(),tempVec.begin(),tempVec.end());  
+            }         
+             
+        }
+        return value;
+    }
+};
+{% endhighlight %}
+
+>递归
+
+{% highlight ruby %}
+class Solution {
+ public:
+  vector<int> dev;
+  vector<int>& printListFromTailToHead(struct ListNode* head) {
+    if(head!=NULL) {
+      if(head->next!=NULL) {
+        dev=printListFromTailToHead(head->next);
+      }
+      dev.push_back(head->val);
+    }
+    return dev;
+  }
+};
+{% endhighlight %}
+
+>反向迭代器
+
+{% highlight ruby %}
+class Solution {
+public:
+    vector<int> printListFromTailToHead(struct ListNode* head) {
+        vector<int> v;
+                        
+        ListNode *p = head;
+        while (p != nullptr) {
+           v.push_back(p->val);
+           p = p->next;
+        }
+        //反向迭代器创建临时对象
+        return vector<int>(v.rbegin(), v.rend());
+    }
+};
+{% endhighlight %}
+
+>用reverse
+
+{% highlight ruby %}
+class Solution {
+public:
+    vector<int> printListFromTailToHead(struct ListNode* head) {
+        vector<int> value;
+        if(head != NULL)
+        {
+            value.insert(value.begin(),head->val);
+            while(head->next != NULL)
+            {
+                value.insert(value.begin(),head->next->val);
+                head = head->next;
+            }         
+             
+        }
+        return value;
+    }
+};
+{% endhighlight %}
+----
 更新中...
 

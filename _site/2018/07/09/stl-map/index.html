@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>C++ map容器用法 - 七条鱼</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
+	<link rel="icon" href="/styles/images/favicon.jpg">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2018/07/09/stl-map/">
+	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
+	
+	<meta name="keywords" content="C++ map容器用法, 七条鱼, 个人博客;">
+	<meta name="description" content="个人博客;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  	<![endif]-->
+  	<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?94be4b0f9fc5d94cc0d0415ea6761ae9";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+  	<style type="text/css">
+	  	.docs-content{
+	  		margin-bottom: 10px;
+	  	}
+  	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg">
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">    
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/categories/">大分组</a>
+        </li>
+        <li>
+          <a href="/tag">细小分组</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a rel="nofollow" target="_blank" href="https://github.com/goldofzky/">Github</a></li>
+            <li class="divider"></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/Goldofzky/goldofzky.github.io/">博客源码</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+ 
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>C++ map容器用法</h1>
+		    <p>Post on Jul 09, 2018 by <a href="/about">Keyu Zhao</a></p>
+		-->
+		    <h1>Learn what I like,do what I want.</h1>
+    
+  </div>
+</div>
+    
+      
+<div class="banner">
+  <div class="container">
+  	
+    	<a href="/categories/#编程语言-ref">编程语言</a>	/
+    	<a href="/tag/#STL-ref">STL</a>
+    
+  </div>
+</div>
+
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5ytn1ssq6za&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"> 
+    </script>
+  </div>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">C++ map容器用法</h1>
+              <!--
+                <p class="post-meta">Jul 9, 2018</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Jul 09, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <ul id="markdown-toc">
+  <li><a href="#介绍" id="markdown-toc-介绍">介绍</a></li>
+  <li><a href="#用法" id="markdown-toc-用法">用法</a></li>
+  <li><a href="#基本操作" id="markdown-toc-基本操作">基本操作</a></li>
+  <li><a href="#map容器和哈希表" id="markdown-toc-map容器和哈希表">map容器和哈希表</a></li>
+  <li><a href="#map成员函数" id="markdown-toc-map成员函数">map成员函数</a></li>
+</ul>
+
+<h1 id="介绍">介绍</h1>
+<blockquote>
+  <p>Map是键-值对的集合，map中的所有元素都是pair，可以使用键作为下标来获取一个值。Map中所有元素都会根据元素的值自动被排序，同时拥有实值value和键值key，pair的第一元素被视为键值，第二元素被视为实值，同时map不允许两个元素有相同的键值。</p>
+</blockquote>
+
+<h1 id="用法">用法</h1>
+<blockquote>
+  <p>头文件</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#include&lt;map&gt;</span></code></pre></figure>
+
+<blockquote>
+  <p>声明及其初始化</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">map</span><span class="o">&lt;</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">&gt;</span> <span class="n">m</span><span class="p">;</span><span class="sr">//</span><span class="err">创建一个名为</span><span class="n">m</span><span class="err">的空</span><span class="n">map</span><span class="err">对象，其键和值的类型分别为</span><span class="n">key</span><span class="err">和</span><span class="n">value</span><span class="err">。</span>
+
+<span class="n">map</span><span class="o">&lt;</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">&gt;</span> <span class="n">m</span><span class="p">(</span><span class="n">m2</span><span class="p">);</span><span class="sr">//</span><span class="err">创建</span><span class="n">m2</span><span class="err">的副本</span><span class="n">m</span><span class="err">，</span><span class="n">m</span><span class="err">与</span><span class="n">m2</span><span class="err">必须有相同的键类型和值类型。</span>
+
+<span class="n">map</span><span class="o">&lt;</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="o">&gt;</span> <span class="n">m</span><span class="p">(</span><span class="n">b</span><span class="p">,</span><span class="n">e</span><span class="p">);</span><span class="sr">//</span><span class="err">创建</span><span class="n">map</span><span class="err">类型的对象</span><span class="n">m</span><span class="err">，存储迭代器</span><span class="n">b</span><span class="err">和</span><span class="n">e</span><span class="err">标记的范围内所有元素的副本，元素的类型必须能转换为</span><span class="n">pair</span>
+   
+<span class="n">map</span><span class="o">&lt;</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">comp</span><span class="o">&gt;</span> <span class="n">mp</span><span class="p">;</span><span class="sr">//</span><span class="n">comp</span><span class="err">可选，为键值对存放策略，即键的比较函数，默认标准库使用键类型定义的</span> <span class="o">&lt;</span> <span class="err">操作符来实现键的比较。所用的比较函数必须在键类型上定义严格的弱排序，可将其理解为键类型数据上的“小于”关系。在实际应用中，键类型必须能定义</span> <span class="o">&lt;</span> <span class="err">操作符。对于键类型，其唯一的约束就是必须支持</span> <span class="o">&lt;</span> <span class="err">操作符。</span></code></pre></figure>
+
+<h1 id="基本操作">基本操作</h1>
+<blockquote>
+  <p>给map容器添加元素可通过两种方式实现：</p>
+  <ol>
+    <li>通过insert成员函数实现。</li>
+    <li>通过下标操作符获取元素，然后给获取的元素赋值。
+map对象的访问可通过下标和迭代器两种方式实现：</li>
+    <li>map的下标是键，返回的是特定键所关联的值。</li>
+    <li>使用迭代器访问，iter-&gt;first指向元素的键，iter-&gt;second指向键对应的值。
+使用下标访问map容器与使用下标访问vector的行为截然不同：用下标访问map中不存在的元素将导致在map容器中添加一个新的元素，这个元素的键即为该下标值，键所对应的值为空。</li>
+  </ol>
+</blockquote>
+
+<h1 id="map容器和哈希表">map容器和哈希表</h1>
+<p>对于map容器，使用其下标行为一次访问一系列的相同类型的元素，则可以将这个过程理解为构造了这些元素的一个哈希表，以统计输入单词的出现次数为例：</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">int</span><span class="o">&gt;</span> <span class="n">word_count</span><span class="p">;</span>
+<span class="n">string</span> <span class="n">word</span><span class="p">;</span>
+<span class="k">while</span><span class="p">(</span><span class="n">cin</span><span class="o">&gt;&gt;</span><span class="n">word</span><span class="p">)</span>
+    <span class="o">++</span><span class="n">word_count</span><span class="p">[</span><span class="n">word</span><span class="p">];</span>  <span class="sr">//</span> <span class="err">相当于生成了一个哈希表</span><span class="n">word_count</span></code></pre></figure>
+
+<p>在单词的第一次出现时，会在word_count中创建并插入一个以该单词为索引的新元素，同时将它的值初始化为0。然后其值立即加1，所以每次在map中添加新元素时，所统计的次数正好从1开始。需要注意的是，使用map创建的哈希表已经按键值进行了排序，所以序列的顺序已经不再是原始的输入顺序了。</p>
+
+<h1 id="map成员函数">map成员函数</h1>
+<blockquote>
+  <p>不修改map对象的查询操作:</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">m</span><span class="p">.</span><span class="nf">count</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>  <span class="sr">//</span> <span class="err">返回</span><span class="n">m</span><span class="err">中键值等于</span><span class="n">k</span><span class="err">的元素的个数。</span>
+<span class="n">m</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>  <span class="sr">//</span> <span class="err">如果</span><span class="n">m</span><span class="err">中存在按</span><span class="n">k</span><span class="err">索引的元素，则返回指向该元素的迭代器。如果不存在，则返回结束游标</span><span class="k">end</span><span class="p">()</span><span class="err">。</span></code></pre></figure>
+
+<p>对于map对象，由于map中不存在相同的两个或者多个键，所以count成员的返回值只能是0或者1，用于检查map对象中某键是否存在。find成员返回的是指向元素的迭代器，如果元素不存在，则返回end迭代器，用于读取元素而又不插入元素。</p>
+
+<blockquote>
+  <p>从map对象中删除元素</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">m</span><span class="p">.</span><span class="nf">erase</span><span class="p">(</span><span class="n">k</span><span class="p">);</span>  <span class="sr">//</span> <span class="err">删除</span><span class="n">m</span><span class="err">中键为</span><span class="n">k</span><span class="err">的元素，返回</span><span class="n">size_type</span><span class="err">类型的值，表示删除元素的个数。</span>
+<span class="n">m</span><span class="p">.</span><span class="nf">erase</span><span class="p">(</span><span class="nb">p</span><span class="p">);</span>  <span class="sr">//</span> <span class="err">从</span><span class="n">m</span><span class="err">中删除迭代器</span><span class="n">p</span><span class="err">所指向的元素，</span><span class="n">p</span><span class="err">必须指向</span><span class="n">m</span><span class="err">中确实存在的元素，而且不能等于</span><span class="n">m</span><span class="p">.</span><span class="nf">end</span><span class="p">()</span><span class="err">，返回</span><span class="n">void</span><span class="err">类型。</span>
+<span class="n">m</span><span class="p">.</span><span class="nf">erase</span><span class="p">(</span><span class="n">iterator</span> <span class="n">first</span><span class="p">,</span> <span class="n">iterator</span> <span class="n">last</span><span class="p">);</span>  <span class="sr">//</span> <span class="err">删除一个范围，返回</span><span class="n">void</span><span class="err">类型。</span></code></pre></figure>
+
+<blockquote>
+  <p>map容器提供的insert操作</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>m.insert(e) ;
+</code></pre></div></div>
+<p>e是一个用在m上的value_type类型的值。如果键e.first不在m中，则插入一个值为e.second的新元素；如果该键在m中已存在，那么不进行任何操作。该函数返回一个pair类型对象，包含指向键为e.first的元素的map迭代器，以及一个bool类型的对象，表示是否插入了该元素。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>m.insert(beg, end);
+</code></pre></div></div>
+<p>beg和end是标记元素范围的迭代器，对于该范围内的所有元素，如果它的键在m中不存在，则将该键及其关联的值插入到m。 返回void类型。</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>m.insert(iter, e);
+</code></pre></div></div>
+<p>e是value_type类型的值，如果e.first不在m中，则创建新元素，并以迭代器iter为起点搜索新元素存储的位置，返回一个迭代器，指向m中具有给定键的元素。
+在添加新的map元素时，使用insert成员可避免使用下标操作符带来的副作用：不必要的初始化。</p>
+
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2018-2018 <a href=""><code>Keyu Zhao</code></a>.</p>
+		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, themed from <a href="http://lesscss.cn/">Less</a>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  </body>
+</html>

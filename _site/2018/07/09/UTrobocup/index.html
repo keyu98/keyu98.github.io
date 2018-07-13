@@ -5,7 +5,7 @@
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>分类 - 七条鱼</title>
+	<title>UT代码框架 - 七条鱼</title>
 
 	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
 	<link rel="icon" href="/styles/images/favicon.jpg">
@@ -13,10 +13,10 @@
 	<link rel="stylesheet" href="/styles/css/index.css">
 	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/styles/css/syntax.css">
-	<link rel="canonical" href="/categories/">
+	<link rel="canonical" href="/2018/07/09/UTrobocup/">
 	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
 	
-	<meta name="keywords" content="分类, 七条鱼, 个人博客;">
+	<meta name="keywords" content="UT代码框架, 七条鱼, 个人博客;">
 	<meta name="description" content="个人博客;">
 
 	<script src="/styles/js/jquery.min.js"></script>
@@ -87,8 +87,8 @@
   <div class="container">
   	
   		<!--
-		    <h1>分类</h1>
-		    <p>Post on  by <a href="/about">Keyu Zhao</a></p>
+		    <h1>UT代码框架</h1>
+		    <p>Post on Jul 09, 2018 by <a href="/about">Keyu Zhao</a></p>
 		-->
 		    <h1>Learn what I like,do what I want.</h1>
     
@@ -99,7 +99,8 @@
 <div class="banner">
   <div class="container">
   	
-    	坚持吧，加油！
+    	<a href="/categories/#robocup-ref">robocup</a>	/
+    	<a href="/tag/#源码-ref">源码</a>
     
   </div>
 </div>
@@ -111,146 +112,99 @@
     <div class="col-md-3">
       <div class="sidebar hidden-print" role="complementary">
         <div id="navigation">
-        	<h1>目录</h1>
-      		<ul class="nav sidenav">
-				
-			    	 
-				    	<li><a href="#算法-ref">
-				    		算法 <span style="color: #999999;" >(2)</span>
-				    	</a></li>
-			    	 
-				    	<li><a href="#编程语言-ref">
-				    		编程语言 <span style="color: #999999;" >(3)</span>
-				    	</a></li>
-			    	 
-				    	<li><a href="#offer相关-ref">
-				    		offer相关 <span style="color: #999999;" >(1)</span>
-				    	</a></li>
-			    	 
-				    	<li><a href="#robocup-ref">
-				    		robocup <span style="color: #999999;" >(1)</span>
-				    	</a></li>
-			    	
-			  	
-          	</ul>
-        </div>
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//rf.revolvermaps.com/0/0/8.js?i=5ytn1ssq6za&amp;m=0&amp;c=ff0000&amp;cr1=ffffff&amp;f=arial&amp;l=33" async="async"> 
+    </script>
+  </div>
+</div>
+
+ 
       </div>
     </div>
     <div class="col-md-9" role="main">
       <div class="panel docs-content">
         <div class="wrapper">
-          <div class="home">
-			 
-			  <h2 id="算法-ref">算法</h2>
-			  <ul>
-			      
-			    
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2018/05/02/Maximum-subarray-sum/">Maximum subarray sum（求最大的子数组求和）</a></li>
-    		<li style="float:right;"><span>2018-05-02</span></li>
-    	</ol>
-    	
-    
-  
+            <header class="post-header">
+              <h1 class="post-title">UT代码框架</h1>
+              <!--
+                <p class="post-meta">Jul 9, 2018</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Jul 09, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <ul id="markdown-toc">
+  <li><a href="#载入参数" id="markdown-toc-载入参数">载入参数</a></li>
+</ul>
 
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2018/04/30/chaifenzhengshu/">将整数的每一位拆分</a></li>
-    		<li style="float:right;"><span>2018-04-30</span></li>
-    	</ol>
-    	
-    
-  
+<p><img src="/styles/images/robocup框架.png" alt="框架图" /></p>
 
+<h1 id="载入参数">载入参数</h1>
+<p>源码如下</p>
 
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
+/*
+ * Read in parameters from inputsFile, which should be formatted
+ * with a set of parameters as key value pairs from strings to
+ * floats.  The parameter name should be separated from its value
+ * with a tab and parameters should be separated from each other
+ * with a single newline.  Parameters will be loaded into the
+ * namedParams map.
+ */
+map&lt;string, string&gt; namedParams;
+void LoadParams(const string&amp; inputsFile) {
+    istream *input;
+    ifstream infile;
+    istringstream inString;
 
-			  </ul>
-			 
-			  <h2 id="编程语言-ref">编程语言</h2>
-			  <ul>
-			      
-			    
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2018/07/09/stl-map/">C++ map容器用法</a></li>
-    		<li style="float:right;"><span>2018-07-09</span></li>
-    	</ol>
-    	
-    
-  
+    infile.open(inputsFile.c_str(), ifstream::in);
 
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2018/07/05/stl-vector/">C++ vector容器用法</a></li>
-    		<li style="float:right;"><span>2018-07-05</span></li>
-    	</ol>
-    	
-    
-  
+    if(!infile) {
+        cerr &lt;&lt; "Could not open parameter file " &lt;&lt; inputsFile &lt;&lt; endl;
+        exit(1);
+    }
 
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2018/05/05/haskellsort/">haskell函数式编程实现的五种排序</a></li>
-    		<li style="float:right;"><span>2018-05-05</span></li>
-    	</ol>
-    	
-    
-  
+    input = &amp;(infile);
 
+    string name;
+    bool fBlockComment = false;
+    while(!input-&gt;eof())
+    {
 
+        // Skip comments and empty lines
+        std::string str;
+        std::getline(*input, str);
+        if (str.length() &gt;= 2 &amp;&amp; str.substr(0,2) == "/*") {
+            fBlockComment = true;
+        } else if (str == "*/") {
+            fBlockComment = false;
+        }
+        if(fBlockComment || str == "" || str[0] == '#' ) {
+            continue;
+        }
 
-			  </ul>
-			 
-			  <h2 id="offer相关-ref">offer相关</h2>
-			  <ul>
-			      
-			    
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2018/07/03/sword-to-offer/">剑指offer解题代码及思路</a></li>
-    		<li style="float:right;"><span>2018-07-03</span></li>
-    	</ol>
-    	
-    
-  
+        // otherwise parse strings
+        stringstream s(str);
+        std::string key;
+        std::string value;
+        std::getline(s, key, '\t');      //read thru tab
+        std::getline(s, value);          //read thru newline
+        if(value.empty()) {
+            continue;
+        }
+        namedParams[key] = value;
+    }
+
+    infile.close();
+}
+
+</code></pre></div></div>
 
 
-
-			  </ul>
-			 
-			  <h2 id="robocup-ref">robocup</h2>
-			  <ul>
-			      
-			    
-  
-    
-    	
-    	<ol class="breadcrumb">
-    		<li><a href="/2018/07/09/UTrobocup/">UT代码框架</a></li>
-    		<li style="float:right;"><span>2018-07-09</span></li>
-    	</ol>
-    	
-    
-  
-
-
-
-			  </ul>
-			
-          </div>
+            </article>
         </div>
       </div>
     </div>

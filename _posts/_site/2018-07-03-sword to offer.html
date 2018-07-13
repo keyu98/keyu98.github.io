@@ -1,0 +1,190 @@
+<ul id="markdown-toc">
+  <li><a href="#1二维数组的查找" id="markdown-toc-1二维数组的查找">1.二维数组的查找</a></li>
+  <li><a href="#2替换空格" id="markdown-toc-2替换空格">2.替换空格</a></li>
+  <li><a href="#3从头到尾输出链表" id="markdown-toc-3从头到尾输出链表">3.从头到尾输出链表</a></li>
+</ul>
+
+<h1 id="1二维数组的查找">1.二维数组的查找</h1>
+<p>#题目描述#</p>
+<blockquote>
+  <p>在一个二维数组中，每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
+</blockquote>
+
+<p>#解题思路#</p>
+<blockquote>
+  <p>矩阵有序，从左下角来看，向上数字递减，向右数字递增</p>
+</blockquote>
+
+<blockquote>
+  <p>从左下角开始查找，如果比目标值小，则右移，如果比目标值大，则上移。最后能够找到我们要的数</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="ss">public:
+    </span><span class="n">bool</span> <span class="no">Find</span><span class="p">(</span><span class="n">int</span> <span class="n">target</span><span class="p">,</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="o">&gt;</span> <span class="n">array</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">int</span> <span class="n">row</span> <span class="o">=</span> <span class="n">array</span><span class="p">.</span><span class="nf">size</span><span class="p">();</span><span class="sr">//</span><span class="err">得到行数</span>
+        <span class="n">int</span> <span class="n">col</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="nf">size</span><span class="p">();</span><span class="sr">//</span><span class="err">得到列数</span>
+        <span class="n">int</span> <span class="n">nowcol</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="n">int</span> <span class="n">nowrow</span> <span class="o">=</span> <span class="n">row</span><span class="o">-</span><span class="mi">1</span><span class="p">;</span><span class="sr">//</span><span class="err">将元素查找初始值置为左下角</span>
+        <span class="n">int</span> <span class="n">now</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="n">nowrow</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="o">&amp;&amp;</span> <span class="n">nowcol</span> <span class="o">&lt;=</span> <span class="n">col</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">now</span> <span class="o">=</span> <span class="n">array</span><span class="p">[</span><span class="n">nowrow</span><span class="p">][</span><span class="n">nowcol</span><span class="p">];</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span> <span class="o">==</span> <span class="n">target</span><span class="p">)</span><span class="o">/</span><span class="sr">/如果找到，则返回true
+                return true;
+            if (now &lt; target)/</span><span class="o">/</span><span class="err">如果比目标值小，则右移</span>
+            <span class="p">{</span>
+                <span class="n">nowcol</span><span class="o">++</span><span class="p">;</span>
+                <span class="n">continue</span><span class="p">;</span>
+            <span class="p">}</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">now</span> <span class="o">&gt;</span> <span class="n">target</span><span class="p">)</span><span class="o">/</span><span class="sr">/如果比目标值大，则上移
+            {
+                nowrow--;
+                continue;
+            }
+        }
+        return false;/</span><span class="o">/</span><span class="err">没有找到，返回</span><span class="kp">false</span>
+    <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<hr />
+
+<h1 id="2替换空格">2.替换空格</h1>
+
+<p>#题目描述#</p>
+<blockquote>
+  <p>请实现一个函数，将一个字符串中的空格替换成“%20”。例如，当字符串为We Are Happy.则经过替换之后的字符串为We%20Are%20Happy。</p>
+</blockquote>
+
+<p>#解题思路#</p>
+<blockquote>
+  <p>为了使时间复杂度尽量变小，那么就不能从左到右以此替换，我们应该尽量让字符替换的次数变少</p>
+</blockquote>
+
+<blockquote>
+  <p>在程序中，我们先从左到右以此记录空格的数量，然后再从右到左依次替换，这样就把每个字符移动的次数都缩小为一次</p>
+</blockquote>
+
+<blockquote>
+  <p>在从右到左替换的过程中，由于空格替换为”%20“，增加了两个字符，所以原来的字符应该向后移动【前面的空格数×2】位</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="ss">public:
+	</span><span class="n">void</span> <span class="n">replaceSpace</span><span class="p">(</span><span class="n">char</span> <span class="o">*</span><span class="n">str</span><span class="p">,</span><span class="n">int</span> <span class="n">length</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span><span class="sr">//</span><span class="err">用于记录空格次数</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">int</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;</span><span class="n">length</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">){</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="s1">' '</span><span class="p">)</span><span class="o">/</span><span class="sr">/如果字符是空格，那么记录加1
+                count++;
+        }
+        for (int i=length-1;i&gt;=0;i--)/</span><span class="o">/</span><span class="err">从右到左依次替换</span>
+        <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">' '</span><span class="p">)</span>
+                <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">*</span><span class="n">count</span><span class="p">]</span> <span class="o">=</span> <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="p">];</span><span class="sr">//</span><span class="err">如果不是空格，就将字符向后移动</span><span class="mi">2</span><span class="err">位</span>
+            <span class="k">else</span>
+            <span class="p">{</span>
+                <span class="n">count</span><span class="o">--</span><span class="p">;</span><span class="sr">//</span><span class="err">空格记录减</span><span class="mi">1</span>
+                <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="n">count</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="s1">'%'</span><span class="p">;</span>
+                <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="o">+</span><span class="n">count</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="s1">'2'</span><span class="p">;</span>
+                <span class="n">str</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">2</span><span class="o">+</span><span class="n">count</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span><span class="o">=</span><span class="s1">'0'</span><span class="p">;</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+     <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<hr />
+
+<h1 id="3从头到尾输出链表">3.从头到尾输出链表</h1>
+
+<p>#题目描述#</p>
+<blockquote>
+  <p>输入一个链表，从尾到头打印链表每个节点的值。</p>
+</blockquote>
+
+<p>#解题思路#</p>
+
+<blockquote>
+  <p>递归</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="ss">public:
+    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">printListFromTailToHead</span><span class="p">(</span><span class="n">struct</span> <span class="no">ListNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">value</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">head</span> <span class="o">!=</span> <span class="no">NULL</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">value</span><span class="p">.</span><span class="nf">insert</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span> <span class="o">!=</span> <span class="no">NULL</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">tempVec</span> <span class="o">=</span> <span class="n">printListFromTailToHead</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span><span class="p">);</span>
+                <span class="k">if</span><span class="p">(</span><span class="n">tempVec</span><span class="p">.</span><span class="nf">size</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
+                <span class="n">value</span><span class="p">.</span><span class="nf">insert</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span><span class="n">tempVec</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span><span class="n">tempVec</span><span class="p">.</span><span class="nf">end</span><span class="p">());</span>  
+            <span class="p">}</span>         
+             
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">value</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<blockquote>
+  <p>递归</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+ <span class="ss">public:
+  </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">dev</span><span class="p">;</span>
+  <span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;&amp;</span> <span class="n">printListFromTailToHead</span><span class="p">(</span><span class="n">struct</span> <span class="no">ListNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">head!</span><span class="o">=</span><span class="no">NULL</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">if</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span><span class="o">!=</span><span class="no">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">dev</span><span class="o">=</span><span class="n">printListFromTailToHead</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span><span class="p">);</span>
+      <span class="p">}</span>
+      <span class="n">dev</span><span class="p">.</span><span class="nf">push_back</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">dev</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<blockquote>
+  <p>反向迭代器</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="ss">public:
+    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">printListFromTailToHead</span><span class="p">(</span><span class="n">struct</span> <span class="no">ListNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">v</span><span class="p">;</span>
+                        
+        <span class="no">ListNode</span> <span class="o">*</span><span class="nb">p</span> <span class="o">=</span> <span class="n">head</span><span class="p">;</span>
+        <span class="k">while</span> <span class="p">(</span><span class="nb">p</span> <span class="o">!=</span> <span class="n">nullptr</span><span class="p">)</span> <span class="p">{</span>
+           <span class="n">v</span><span class="p">.</span><span class="nf">push_back</span><span class="p">(</span><span class="nb">p</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+           <span class="nb">p</span> <span class="o">=</span> <span class="nb">p</span><span class="o">-&gt;</span><span class="k">next</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="sr">//</span><span class="err">反向迭代器创建临时对象</span>
+        <span class="k">return</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="nf">rbegin</span><span class="p">(),</span> <span class="n">v</span><span class="p">.</span><span class="nf">rend</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<blockquote>
+  <p>用reverse</p>
+</blockquote>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
+<span class="ss">public:
+    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">printListFromTailToHead</span><span class="p">(</span><span class="n">struct</span> <span class="no">ListNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">value</span><span class="p">;</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">head</span> <span class="o">!=</span> <span class="no">NULL</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">value</span><span class="p">.</span><span class="nf">insert</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+            <span class="k">while</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span> <span class="o">!=</span> <span class="no">NULL</span><span class="p">)</span>
+            <span class="p">{</span>
+                <span class="n">value</span><span class="p">.</span><span class="nf">insert</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span><span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
+                <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span><span class="p">;</span>
+            <span class="p">}</span>         
+             
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="n">value</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">};</span></code></pre></figure>
+
+<hr />
+<p>更新中…</p>
+

@@ -143,15 +143,16 @@
   <li><a href="#初始化函数" id="markdown-toc-初始化函数">初始化函数</a></li>
   <li><a href="#运行函数" id="markdown-toc-运行函数">运行函数</a></li>
   <li><a href="#结束" id="markdown-toc-结束">结束</a></li>
+  <li><a href="#startsh文件" id="markdown-toc-startsh文件">start.sh文件</a></li>
 </ul>
 
 <p><img src="/styles/images/robocup框架.png" alt="框架图" /></p>
 
 <h1 id="主函数">主函数</h1>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">int</span> <span class="n">main</span><span class="p">(</span><span class="n">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
-<span class="p">{</span>
-    <span class="sr">//</span> <span class="n">registering</span> <span class="n">the</span> <span class="n">handler</span><span class="p">,</span> <span class="n">catching</span> <span class="no">SIGINT</span> <span class="n">signals</span>
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">int</span> <span class="n">main</span><span class="p">(</span><span class="n">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span><span class="o">/</span><span class="sr">/main传入的两个参数可以在start.sh文件中找到
+{
+    /</span><span class="o">/</span> <span class="n">registering</span> <span class="n">the</span> <span class="n">handler</span><span class="p">,</span> <span class="n">catching</span> <span class="no">SIGINT</span> <span class="n">signals</span>
     <span class="n">signal</span><span class="p">(</span><span class="no">SIGINT</span><span class="p">,</span> <span class="n">handler</span><span class="p">);</span>
 
     <span class="sr">//</span> <span class="no">Actually</span> <span class="nb">print</span> <span class="n">out</span> <span class="n">the</span> <span class="n">errors</span> <span class="n">that</span> <span class="n">are</span> <span class="n">thrown</span><span class="p">.</span>
@@ -181,6 +182,22 @@
         <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"-----------END ERROR----------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">int main(int argc, char* argv[])</code>关于主函数传参</p>
+<blockquote>
+  <p><code class="highlighter-rouge">main(int argc, char *argv[ ], char **env)</code>才是UNIX和Linux中的标准写法。<br />
+argc: 整数,用来统计你运行程序时送给main函数的命令行参数的个数 <br />
+*argv[ ]: 指针数组，用来存放指向你的字符串参数的指针，每一个元素指向一个参数<br />
+argv[0] 指向程序运行的全路径名<br />
+argv[1] 指向在DOS命令行中执行程序名后的第一个字符串<br />
+argv[2] 指向执行程序名后的第二个字符串<br />
+… <br />
+argv[argc]为NULL。 <br />
+**env:字符串数组。env[ ]的每一个元素都包含ENVVAR=value形式的字符串。其中ENVVAR为环境变量，value 为ENVVAR的对应值。 <br />
+argc, argv,env是在main( )函数之前被赋值的，编译器生成的可执行文件，main( )不是真正的入口点，而是一个标准的函数,这个函数名与具体的操作系统有关。</p>
+</blockquote>
+
+<hr />
 
 <h1 id="载入参数">载入参数</h1>
 <p>源码如下</p>
@@ -392,6 +409,21 @@ char delim表示遇到这个字符停止读入，在不设置的情况下系统�
 }</span></code></pre></figure>
 
 <hr />
+<p><code class="highlighter-rouge">string rsg("rsg/agent/nao/nao.rsg");</code></p>
+<blockquote>
+  <p>这个位置在Linux安装robocup环境时的rcsserver3d-0.6.10/data里面.这里主要时nao机器人的躯体类型信息</p>
+</blockquote>
+
+<p>内容如下:</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (importScene rsg/agent/nao/nao_hetero.rsg 0)
+)
+ 
+</code></pre></div></div>
 
 <h1 id="初始化函数">初始化函数</h1>
 
@@ -558,6 +590,151 @@ char delim表示遇到这个字符停止读入，在不设置的情况下系统�
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
+
+<h1 id="startsh文件">start.sh文件</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#!/bin/bash</span>
+<span class="c1">#</span>
+<span class="c1"># UT Austin Villa start script for 3D Simulation Competitions</span>
+<span class="c1">#</span>
+
+
+<span class="no">AGENT_BINARY</span><span class="o">=</span><span class="n">agentspark</span>
+<span class="no">BINARY_DIR</span><span class="o">=</span><span class="s2">"."</span>
+<span class="no">LIBS_DIR</span><span class="o">=</span><span class="s2">"./libs"</span>
+<span class="no">NUM_PLAYERS</span><span class="o">=</span><span class="mi">3</span>
+
+<span class="n">team</span><span class="o">=</span><span class="s2">"UTAustinVilla_Base"</span>
+<span class="n">host</span><span class="o">=</span><span class="s2">"localhost"</span>
+<span class="n">port</span><span class="o">=</span><span class="mi">3100</span>
+<span class="n">paramsfile</span><span class="o">=</span><span class="n">paramfiles</span><span class="o">/</span><span class="n">defaultParams</span><span class="p">.</span><span class="nf">txt</span>
+<span class="n">mhost</span><span class="o">=</span><span class="s2">"localhost"</span>
+
+
+<span class="n">export</span> <span class="no">LD_LIBRARY_PATH</span><span class="o">=</span><span class="vg">$LIBS_DIR</span><span class="p">:</span><span class="vg">$LD_LIBRARY_PATH</span>
+
+
+<span class="n">usage</span><span class="p">()</span>
+<span class="p">{</span>
+  <span class="p">(</span><span class="n">echo</span> <span class="s2">"Usage: $0 [options]"</span>
+   <span class="n">echo</span> <span class="s2">"Available options:"</span>
+   <span class="n">echo</span> <span class="s2">"  --help                       prints this"</span>
+   <span class="n">echo</span> <span class="s2">"  HOST                         specifies server host (default: localhost)"</span>
+   <span class="n">echo</span> <span class="s2">"  -p, --port PORT              specifies server port (default: 3100)"</span>
+   <span class="n">echo</span> <span class="s2">"  -t, --team TEAMNAME          specifies team name"</span>
+   <span class="n">echo</span> <span class="s2">"  -mh, --mhost HOST            IP of the monitor for sending draw commands (default: localhost)"</span>
+   <span class="n">echo</span> <span class="s2">"  -pf, --paramsfile FILENAME   name of a parameters file to be loaded (default: paramfiles/defaultParams.txt)"</span><span class="p">)</span> <span class="mi">1</span><span class="o">&gt;&amp;</span><span class="mi">2</span>
+<span class="p">}</span>
+
+
+<span class="n">fParsedHost</span><span class="o">=</span><span class="kp">false</span>
+<span class="n">paramsfile_args</span><span class="o">=</span><span class="s2">"--paramsfile ${paramsfile}"</span>
+
+<span class="k">while</span> <span class="p">[</span> <span class="err">$</span><span class="c1"># -gt 0 ]</span>
+<span class="k">do</span>
+  <span class="k">case</span> <span class="vg">$1</span> <span class="k">in</span>
+
+    <span class="o">--</span><span class="n">help</span><span class="p">)</span>
+      <span class="n">usage</span>
+      <span class="nb">exit</span> <span class="mi">0</span>
+      <span class="p">;;</span>
+
+    <span class="o">-</span><span class="n">mh</span><span class="o">|--</span><span class="n">mhost</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">[</span> <span class="err">$</span><span class="c1"># -lt 2 ]; then</span>
+        <span class="n">usage</span>
+        <span class="nb">exit</span> <span class="mi">1</span>
+      <span class="n">fi</span>
+      <span class="n">mhost</span><span class="o">=</span><span class="s2">"${2}"</span>
+      <span class="n">shift</span> <span class="mi">1</span>
+      <span class="p">;;</span>
+
+    <span class="o">-</span><span class="nb">p</span><span class="o">|--</span><span class="n">port</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">[</span> <span class="err">$</span><span class="c1"># -lt 2 ]; then</span>
+        <span class="n">usage</span>
+        <span class="nb">exit</span> <span class="mi">1</span>
+      <span class="n">fi</span>
+      <span class="n">port</span><span class="o">=</span><span class="s2">"${2}"</span>
+      <span class="n">shift</span> <span class="mi">1</span>
+      <span class="p">;;</span>
+
+    <span class="o">-</span><span class="n">t</span><span class="o">|--</span><span class="n">team</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">[</span> <span class="err">$</span><span class="c1"># -lt 2 ]; then</span>
+        <span class="n">usage</span>
+        <span class="nb">exit</span> <span class="mi">1</span>
+      <span class="n">fi</span>
+      <span class="n">team</span><span class="o">=</span><span class="s2">"${2}"</span>
+      <span class="n">shift</span> <span class="mi">1</span>
+      <span class="p">;;</span>
+
+    <span class="o">-</span><span class="n">pf</span><span class="o">|--</span><span class="n">paramsfile</span><span class="p">)</span>
+      <span class="k">if</span> <span class="p">[</span> <span class="err">$</span><span class="c1"># -lt 2 ]; then</span>
+        <span class="n">usage</span>
+        <span class="nb">exit</span> <span class="mi">1</span>
+      <span class="n">fi</span>
+      <span class="no">DIR_PARAMS</span><span class="o">=</span><span class="s2">"$( cd "</span><span class="err">$</span><span class="p">(</span> <span class="n">dirname</span> <span class="s2">"$2"</span> <span class="p">)</span><span class="s2">" &amp;&amp; pwd )"</span>
+      <span class="no">PARAMS_FILE</span><span class="o">=</span><span class="vg">$DIR_PARAMS</span><span class="o">/</span><span class="err">$</span><span class="p">(</span><span class="n">basename</span> <span class="vg">$2</span><span class="p">)</span>
+      <span class="n">paramsfile_args</span><span class="o">=</span><span class="s2">"${paramsfile_args} --paramsfile ${PARAMS_FILE}"</span>
+      <span class="n">shift</span> <span class="mi">1</span>
+      <span class="p">;;</span>
+    <span class="o">*</span><span class="p">)</span>
+      <span class="k">if</span> <span class="vg">$fParsedHost</span><span class="p">;</span>
+      <span class="k">then</span>
+        <span class="n">echo</span> <span class="mi">1</span><span class="o">&gt;&amp;</span><span class="mi">2</span>
+        <span class="n">echo</span> <span class="s2">"invalid option </span><span class="se">\"</span><span class="s2">${1}</span><span class="se">\"</span><span class="s2">."</span> <span class="mi">1</span><span class="o">&gt;&amp;</span><span class="mi">2</span>
+        <span class="n">echo</span> <span class="mi">1</span><span class="o">&gt;&amp;</span><span class="mi">2</span>
+        <span class="n">usage</span>
+        <span class="nb">exit</span> <span class="mi">1</span>
+      <span class="k">else</span>
+        <span class="n">host</span><span class="o">=</span><span class="s2">"${1}"</span>
+	<span class="n">fParsedHost</span><span class="o">=</span><span class="kp">true</span>
+      <span class="n">fi</span>
+      <span class="p">;;</span>
+  <span class="n">esac</span>
+
+  <span class="n">shift</span> <span class="mi">1</span>
+<span class="n">done</span>
+
+<span class="n">opt</span><span class="o">=</span><span class="s2">"${opt} --host=${host} --port ${port} --team ${team} ${paramsfile_args} --mhost=${mhost}"</span>
+
+<span class="no">DIR</span><span class="o">=</span><span class="s2">"$( cd "</span><span class="err">$</span><span class="p">(</span> <span class="n">dirname</span> <span class="s2">"$0"</span> <span class="p">)</span><span class="s2">" &amp;&amp; pwd )"</span> 
+<span class="n">cd</span> <span class="vg">$DIR</span>
+
+<span class="k">for</span> <span class="p">((</span><span class="n">i</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="n">i</span><span class="o">&lt;=</span><span class="vg">$NUM_PLAYERS</span><span class="p">;</span><span class="n">i</span><span class="o">++</span><span class="p">));</span> <span class="k">do</span>
+    <span class="k">case</span> <span class="vg">$i</span> <span class="k">in</span>
+	<span class="mi">1</span><span class="o">|</span><span class="mi">2</span><span class="p">)</span>
+	    <span class="n">echo</span> <span class="s2">"Running agent No. $i -- Type 0"</span>
+	    <span class="s2">"$BINARY_DIR/$AGENT_BINARY"</span> <span class="vg">$opt</span> <span class="o">--</span><span class="n">unum</span> <span class="vg">$i</span> <span class="o">--</span><span class="n">type</span> <span class="mi">0</span> <span class="o">--</span><span class="n">paramsfile</span> <span class="n">paramfiles</span><span class="o">/</span><span class="n">defaultParams_t0</span><span class="p">.</span><span class="nf">txt</span> <span class="o">&amp;</span><span class="c1">#&gt; /dev/null &amp;</span>
+	    <span class="c1">#"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 0 --paramsfile paramfiles/defaultParams_t0.txt &gt; stdout$i 2&gt; stderr$i &amp;</span>
+	    <span class="p">;;</span>
+	<span class="mi">3</span><span class="o">|</span><span class="mi">4</span><span class="p">)</span>
+	    <span class="n">echo</span> <span class="s2">"Running agent No. $i -- Type 1"</span>
+	    <span class="s2">"$BINARY_DIR/$AGENT_BINARY"</span> <span class="vg">$opt</span> <span class="o">--</span><span class="n">unum</span> <span class="vg">$i</span> <span class="o">--</span><span class="n">type</span> <span class="mi">1</span> <span class="o">--</span><span class="n">paramsfile</span> <span class="n">paramfiles</span><span class="o">/</span><span class="n">defaultParams_t1</span><span class="p">.</span><span class="nf">txt</span> <span class="o">&amp;</span><span class="c1">#&gt;  /dev/null &amp;</span>
+	    <span class="c1">#"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 1 --paramsfile paramfiles/defaultParams_t1.txt &gt; stdout$i 2&gt; stderr$i &amp;</span>
+	    <span class="p">;;</span>
+	<span class="mi">5</span><span class="o">|</span><span class="mi">6</span><span class="p">)</span>
+	    <span class="n">echo</span> <span class="s2">"Running agent No. $i -- Type 2"</span>
+	    <span class="s2">"$BINARY_DIR/$AGENT_BINARY"</span> <span class="vg">$opt</span> <span class="o">--</span><span class="n">unum</span> <span class="vg">$i</span> <span class="o">--</span><span class="n">type</span> <span class="mi">2</span> <span class="o">--</span><span class="n">paramsfile</span> <span class="n">paramfiles</span><span class="o">/</span><span class="n">defaultParams_t2</span><span class="p">.</span><span class="nf">txt</span> <span class="o">&amp;</span><span class="c1">#&gt; /dev/null &amp;</span>
+	    <span class="c1">#"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 2 --paramsfile paramfiles/defaultParams_t2.txt &gt; stdout$i 2&gt; stderr$i &amp;</span>
+	    <span class="p">;;</span>
+	<span class="mi">7</span><span class="o">|</span><span class="mi">8</span><span class="p">)</span>
+	    <span class="n">echo</span> <span class="s2">"Running agent No. $i -- Type 3"</span>
+	    <span class="s2">"$BINARY_DIR/$AGENT_BINARY"</span> <span class="vg">$opt</span> <span class="o">--</span><span class="n">unum</span> <span class="vg">$i</span> <span class="o">--</span><span class="n">type</span> <span class="mi">3</span> <span class="o">--</span><span class="n">paramsfile</span> <span class="n">paramfiles</span><span class="o">/</span><span class="n">defaultParams_t3</span><span class="p">.</span><span class="nf">txt</span> <span class="o">&amp;</span><span class="c1">#&gt; /dev/null &amp;</span>
+	    <span class="c1">#"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 3 --paramsfile paramfiles/defaultParams_t3.txt &gt; stdout$i 2&gt; stderr$i &amp;</span>
+	    <span class="p">;;</span>
+	<span class="o">*</span><span class="p">)</span>
+	    <span class="n">echo</span> <span class="s2">"Running agent No. $i -- Type 4"</span>
+	    <span class="s2">"$BINARY_DIR/$AGENT_BINARY"</span> <span class="vg">$opt</span> <span class="o">--</span><span class="n">unum</span> <span class="vg">$i</span> <span class="o">--</span><span class="n">type</span> <span class="mi">4</span> <span class="o">--</span><span class="n">paramsfile</span> <span class="n">paramfiles</span><span class="o">/</span><span class="n">defaultParams_t4</span><span class="p">.</span><span class="nf">txt</span> <span class="o">&amp;</span><span class="c1">#&gt; /dev/null &amp;</span>
+	    <span class="c1">#"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 4 --paramsfile paramfiles/defaultParams_t4.txt &gt; stdout$i 2&gt; stderr$i &amp;</span>
+	    <span class="p">;;</span>
+	
+    <span class="n">esac</span>
+    <span class="nb">sleep</span> <span class="mi">1</span>
+<span class="n">done</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 0 --paramsfile paramfiles/defaultParams_t0.txt &amp;#&gt; /dev/null &amp;</code>调用1或者2编号的机器人时的语句</p>
+<blockquote>
+  <p>其中<code class="highlighter-rouge">"$BINARY_DIR/$AGENT_BINARY"</code>指的是生成的agentspark二进制文件,这里面有机器人的动作,策略等一系列的信息.</p>
+</blockquote>
 
 
             </article>

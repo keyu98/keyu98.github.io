@@ -15,7 +15,7 @@ tag: 源码
 ======
 {% highlight ruby %}
 
-int main(int argc, char* argv[])
+int main(int argc, char* argv[])//main传入的两个参数可以在start.sh文件中找到
 {
     // registering the handler, catching SIGINT signals
     signal(SIGINT, handler);
@@ -49,6 +49,20 @@ int main(int argc, char* argv[])
 }
 
 {% endhighlight %}
+
+`int main(int argc, char* argv[])`关于主函数传参   
+>`main(int argc, char *argv[ ], char **env)`才是UNIX和Linux中的标准写法。  
+argc: 整数,用来统计你运行程序时送给main函数的命令行参数的个数   
+*argv[ ]: 指针数组，用来存放指向你的字符串参数的指针，每一个元素指向一个参数  
+argv[0] 指向程序运行的全路径名  
+argv[1] 指向在DOS命令行中执行程序名后的第一个字符串  
+argv[2] 指向执行程序名后的第二个字符串  
+...   
+argv[argc]为NULL。   
+**env:字符串数组。env[ ]的每一个元素都包含ENVVAR=value形式的字符串。其中ENVVAR为环境变量，value 为ENVVAR的对应值。   
+argc, argv,env是在main( )函数之前被赋值的，编译器生成的可执行文件，main( )不是真正的入口点，而是一个标准的函数,这个函数名与具体的操作系统有关。
+
+---
 
 载入参数
 ========
@@ -266,6 +280,21 @@ void ReadOptions(int argc, char* argv[])
 {% endhighlight %}
 
 ---
+`string rsg("rsg/agent/nao/nao.rsg");` 
+>这个位置在Linux安装robocup环境时的rcsserver3d-0.6.10/data里面.这里主要时nao机器人的躯体类型信息
+
+内容如下:
+
+```
+; -*- mode: lisp; -*-
+
+(RSG 0 1)
+(
+ (importScene rsg/agent/nao/nao_hetero.rsg 0)
+)
+ 
+```
+
 
 初始化函数
 ==========
@@ -439,4 +468,150 @@ bool SelectInput()
     }
 }
 {% endhighlight %}
+
+
+start.sh文件
+============
+{% highlight ruby %}
+#!/bin/bash
+#
+# UT Austin Villa start script for 3D Simulation Competitions
+#
+
+
+AGENT_BINARY=agentspark
+BINARY_DIR="."
+LIBS_DIR="./libs"
+NUM_PLAYERS=3
+
+team="UTAustinVilla_Base"
+host="localhost"
+port=3100
+paramsfile=paramfiles/defaultParams.txt
+mhost="localhost"
+
+
+export LD_LIBRARY_PATH=$LIBS_DIR:$LD_LIBRARY_PATH
+
+
+usage()
+{
+  (echo "Usage: $0 [options]"
+   echo "Available options:"
+   echo "  --help                       prints this"
+   echo "  HOST                         specifies server host (default: localhost)"
+   echo "  -p, --port PORT              specifies server port (default: 3100)"
+   echo "  -t, --team TEAMNAME          specifies team name"
+   echo "  -mh, --mhost HOST            IP of the monitor for sending draw commands (default: localhost)"
+   echo "  -pf, --paramsfile FILENAME   name of a parameters file to be loaded (default: paramfiles/defaultParams.txt)") 1>&2
+}
+
+
+fParsedHost=false
+paramsfile_args="--paramsfile ${paramsfile}"
+
+while [ $# -gt 0 ]
+do
+  case $1 in
+
+    --help)
+      usage
+      exit 0
+      ;;
+
+    -mh|--mhost)
+      if [ $# -lt 2 ]; then
+        usage
+        exit 1
+      fi
+      mhost="${2}"
+      shift 1
+      ;;
+
+    -p|--port)
+      if [ $# -lt 2 ]; then
+        usage
+        exit 1
+      fi
+      port="${2}"
+      shift 1
+      ;;
+
+    -t|--team)
+      if [ $# -lt 2 ]; then
+        usage
+        exit 1
+      fi
+      team="${2}"
+      shift 1
+      ;;
+
+    -pf|--paramsfile)
+      if [ $# -lt 2 ]; then
+        usage
+        exit 1
+      fi
+      DIR_PARAMS="$( cd "$( dirname "$2" )" && pwd )"
+      PARAMS_FILE=$DIR_PARAMS/$(basename $2)
+      paramsfile_args="${paramsfile_args} --paramsfile ${PARAMS_FILE}"
+      shift 1
+      ;;
+    *)
+      if $fParsedHost;
+      then
+        echo 1>&2
+        echo "invalid option \"${1}\"." 1>&2
+        echo 1>&2
+        usage
+        exit 1
+      else
+        host="${1}"
+	fParsedHost=true
+      fi
+      ;;
+  esac
+
+  shift 1
+done
+
+opt="${opt} --host=${host} --port ${port} --team ${team} ${paramsfile_args} --mhost=${mhost}"
+
+DIR="$( cd "$( dirname "$0" )" && pwd )" 
+cd $DIR
+
+for ((i=1;i<=$NUM_PLAYERS;i++)); do
+    case $i in
+	1|2)
+	    echo "Running agent No. $i -- Type 0"
+	    "$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 0 --paramsfile paramfiles/defaultParams_t0.txt &#> /dev/null &
+	    #"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 0 --paramsfile paramfiles/defaultParams_t0.txt > stdout$i 2> stderr$i &
+	    ;;
+	3|4)
+	    echo "Running agent No. $i -- Type 1"
+	    "$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 1 --paramsfile paramfiles/defaultParams_t1.txt &#>  /dev/null &
+	    #"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 1 --paramsfile paramfiles/defaultParams_t1.txt > stdout$i 2> stderr$i &
+	    ;;
+	5|6)
+	    echo "Running agent No. $i -- Type 2"
+	    "$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 2 --paramsfile paramfiles/defaultParams_t2.txt &#> /dev/null &
+	    #"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 2 --paramsfile paramfiles/defaultParams_t2.txt > stdout$i 2> stderr$i &
+	    ;;
+	7|8)
+	    echo "Running agent No. $i -- Type 3"
+	    "$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 3 --paramsfile paramfiles/defaultParams_t3.txt &#> /dev/null &
+	    #"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 3 --paramsfile paramfiles/defaultParams_t3.txt > stdout$i 2> stderr$i &
+	    ;;
+	*)
+	    echo "Running agent No. $i -- Type 4"
+	    "$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 4 --paramsfile paramfiles/defaultParams_t4.txt &#> /dev/null &
+	    #"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 4 --paramsfile paramfiles/defaultParams_t4.txt > stdout$i 2> stderr$i &
+	    ;;
+	
+    esac
+    sleep 1
+done
+{% endhighlight %}
+
+`"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 0 --paramsfile paramfiles/defaultParams_t0.txt &#> /dev/null &`调用1或者2编号的机器人时的语句
+>其中`"$BINARY_DIR/$AGENT_BINARY"`指的是生成的agentspark二进制文件,这里面有机器人的动作,策略等一系列的信息.
 

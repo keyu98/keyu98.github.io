@@ -137,71 +137,427 @@
             </header>
             <article class="post-content">
               <ul id="markdown-toc">
+  <li><a href="#主函数" id="markdown-toc-主函数">主函数</a></li>
   <li><a href="#载入参数" id="markdown-toc-载入参数">载入参数</a></li>
+  <li><a href="#读取设置" id="markdown-toc-读取设置">读取设置</a></li>
+  <li><a href="#初始化函数" id="markdown-toc-初始化函数">初始化函数</a></li>
+  <li><a href="#运行函数" id="markdown-toc-运行函数">运行函数</a></li>
+  <li><a href="#结束" id="markdown-toc-结束">结束</a></li>
 </ul>
 
 <p><img src="/styles/images/robocup框架.png" alt="框架图" /></p>
 
+<h1 id="主函数">主函数</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">int</span> <span class="n">main</span><span class="p">(</span><span class="n">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+    <span class="sr">//</span> <span class="n">registering</span> <span class="n">the</span> <span class="n">handler</span><span class="p">,</span> <span class="n">catching</span> <span class="no">SIGINT</span> <span class="n">signals</span>
+    <span class="n">signal</span><span class="p">(</span><span class="no">SIGINT</span><span class="p">,</span> <span class="n">handler</span><span class="p">);</span>
+
+    <span class="sr">//</span> <span class="no">Actually</span> <span class="nb">print</span> <span class="n">out</span> <span class="n">the</span> <span class="n">errors</span> <span class="n">that</span> <span class="n">are</span> <span class="n">thrown</span><span class="p">.</span>
+    <span class="nf">try</span>
+    <span class="p">{</span>
+        <span class="no">PrintGreeting</span><span class="p">();</span>
+        <span class="no">ReadOptions</span><span class="p">(</span><span class="n">argc</span><span class="p">,</span><span class="n">argv</span><span class="p">);</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="no">Init</span><span class="p">())</span>
+        <span class="p">{</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="no">Run</span><span class="p">();</span>
+        <span class="no">Done</span><span class="p">();</span>
+    <span class="p">}</span>
+    <span class="kp">catch</span> <span class="p">(</span><span class="n">char</span> <span class="n">const</span><span class="o">*</span> <span class="n">c</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"-------------ERROR------------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="n">c</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"-----------END ERROR----------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="kp">catch</span> <span class="p">(</span><span class="n">string</span> <span class="n">s</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"-------------ERROR------------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="n">s</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"-----------END ERROR----------"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
 <h1 id="载入参数">载入参数</h1>
 <p>源码如下</p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>
-/*
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/*
  * Read in parameters from inputsFile, which should be formatted
  * with a set of parameters as key value pairs from strings to
  * floats.  The parameter name should be separated from its value
  * with a tab and parameters should be separated from each other
  * with a single newline.  Parameters will be loaded into the
  * namedParams map.
- */
-map&lt;string, string&gt; namedParams;
-void LoadParams(const string&amp; inputsFile) {
-    istream *input;
-    ifstream infile;
-    istringstream inString;
+ */</span>
+<span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">namedParams</span><span class="p">;</span><span class="sr">//</span><span class="err">声明</span><span class="n">map</span><span class="err">类型用来存储函数</span>
+<span class="n">void</span> <span class="no">LoadParams</span><span class="p">(</span><span class="n">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">inputsFile</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">istream</span> <span class="o">*</span><span class="n">input</span><span class="p">;</span>
+    <span class="n">ifstream</span> <span class="n">infile</span><span class="p">;</span>
+    <span class="n">istringstream</span> <span class="n">inString</span><span class="p">;</span>
 
-    infile.open(inputsFile.c_str(), ifstream::in);
+    <span class="n">infile</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="n">inputsFile</span><span class="p">.</span><span class="nf">c_str</span><span class="p">(),</span> <span class="n">ifstream</span><span class="o">::</span><span class="k">in</span><span class="p">);</span><span class="sr">//</span><span class="err">打开文件</span>
 
-    if(!infile) {
-        cerr &lt;&lt; "Could not open parameter file " &lt;&lt; inputsFile &lt;&lt; endl;
-        exit(1);
-    }
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">infile</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"Could not open parameter file "</span> <span class="o">&lt;&lt;</span> <span class="n">inputsFile</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
 
-    input = &amp;(infile);
+    <span class="n">input</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">infile</span><span class="p">);</span>
 
-    string name;
-    bool fBlockComment = false;
-    while(!input-&gt;eof())
-    {
+    <span class="n">string</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="n">bool</span> <span class="n">fBlockComment</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">input</span><span class="o">-&gt;</span><span class="n">eof</span><span class="p">())</span>
+    <span class="p">{</span>
 
-        // Skip comments and empty lines
-        std::string str;
-        std::getline(*input, str);
-        if (str.length() &gt;= 2 &amp;&amp; str.substr(0,2) == "/*") {
-            fBlockComment = true;
-        } else if (str == "*/") {
-            fBlockComment = false;
-        }
-        if(fBlockComment || str == "" || str[0] == '#' ) {
-            continue;
-        }
+        <span class="sr">//</span> <span class="no">Skip</span> <span class="n">comments</span> <span class="n">and</span> <span class="n">empty</span> <span class="n">lines</span>
+        <span class="sr">//</span><span class="err">这段代码用于过滤信息</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">getline</span><span class="p">(</span><span class="o">*</span><span class="n">input</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span><span class="sr">//</span><span class="err">这一段用于读取整行的文本</span><span class="p">,</span><span class="err">并将文本存储在</span><span class="n">str</span><span class="err">中</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="nf">length</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="p">.</span><span class="nf">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"/*"</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">fBlockComment</span> <span class="o">=</span> <span class="kp">true</span><span class="p">;</span><span class="sr">//</span><span class="err">当长度大于二</span><span class="p">,</span><span class="err">且前</span><span class="mi">2</span><span class="err">个字符为</span><span class="s2">"/*"</span><span class="err">时</span><span class="p">,</span><span class="n">fBlockComment</span><span class="err">置为</span><span class="kp">true</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">str</span> <span class="o">==</span> <span class="s2">"*/"</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">fBlockComment</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span><span class="sr">//</span><span class="err">当字符串为</span><span class="s2">"*/"</span><span class="p">,</span><span class="n">fBlockComment</span><span class="err">置为</span><span class="kp">false</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">fBlockComment</span> <span class="o">||</span> <span class="n">str</span> <span class="o">==</span> <span class="s2">""</span> <span class="o">||</span> <span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'#'</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="n">continue</span><span class="p">;</span><span class="sr">//</span><span class="err">当</span><span class="n">fBlockComment</span><span class="err">为</span><span class="n">true</span><span class="err">或者字符串为空</span><span class="p">,</span><span class="err">或者第一个字符为</span><span class="s1">'#'</span><span class="err">时</span><span class="p">,</span><span class="err">跳转</span><span class="p">,</span><span class="err">过滤消息</span><span class="o">.</span>
+        <span class="p">}</span>
 
-        // otherwise parse strings
-        stringstream s(str);
-        std::string key;
-        std::string value;
-        std::getline(s, key, '\t');      //read thru tab
-        std::getline(s, value);          //read thru newline
-        if(value.empty()) {
-            continue;
-        }
-        namedParams[key] = value;
-    }
+        <span class="sr">//</span> <span class="n">otherwise</span> <span class="n">parse</span> <span class="n">strings</span>
+        <span class="sr">//</span><span class="err">当遇到我们想要的字符时</span>
+        <span class="n">stringstream</span> <span class="n">s</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">key</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">value</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">getline</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="s1">'\t'</span><span class="p">);</span>      <span class="sr">//</span><span class="err">读取</span><span class="n">key</span><span class="err">值</span><span class="p">,</span><span class="err">遇到</span><span class="s1">'\t'</span><span class="err">跳转</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">getline</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>          <span class="sr">//</span><span class="n">r</span><span class="err">读取</span><span class="n">value</span><span class="err">值</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="nf">empty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">continue</span><span class="p">;</span><span class="sr">//</span><span class="err">当</span><span class="n">value</span><span class="err">为空时</span><span class="p">,</span><span class="err">转到下一行</span>
+        <span class="p">}</span>
+        <span class="n">namedParams</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span><span class="sr">//</span><span class="err">将参数存进</span><span class="n">map</span><span class="err">容器</span>
+    <span class="p">}</span>
 
-    infile.close();
-}
+    <span class="n">infile</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span><span class="sr">//</span><span class="err">关闭文件</span>
+<span class="p">}</span></code></pre></figure>
 
+<p><code class="highlighter-rouge">infile.open(inputsFile.c_str(), ifstream::in);//打开文件</code></p>
+
+<blockquote>
+  <p>这一段读取时候,open的参数不是文件名,而是文件名.c_str 原因在于如果一个文件名被申明为“string”，那么就必须使用 “c_str”，然而，当你申明一个文件名为字符数组型，就没有必要使用，比如:</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>char filename[20]; 
+in.open(finename) 
+
+otherwise 
+
+string filename; 
+in.open(filename.c_str)
 </code></pre></div></div>
+<p>c_str是string类的一个函数，可以把string类型变量转换成char<em>变量
+open()要求的是一个char</em>字符串</p>
+
+<hr />
+<p><code class="highlighter-rouge">std::getline(*input, str);//这一段用于读取整行的文本,并将文本存储在str中.</code></p>
+<blockquote>
+  <p>getline()函数详解:
+<code class="highlighter-rouge">istream&amp; getline ( istream &amp;is , string &amp;str , char delim );</code>
+其中 istream &amp;is 表示一个输入流，譬如cin；
+string&amp;str表示把从输入流读入的字符串存放在这个字符串中（可以自己随便命名，str什么的都可以）；
+char delim表示遇到这个字符停止读入，在不设置的情况下系统默认该字符为’\n’，也就是回车换行符（遇到回车停止读入）。</p>
+</blockquote>
+
+<hr />
+
+<h1 id="读取设置">读取设置</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">string</span> <span class="n">teamName</span><span class="p">;</span>
+<span class="n">int</span> <span class="n">uNum</span><span class="p">;</span>
+<span class="n">string</span> <span class="n">outputFile</span><span class="p">(</span><span class="s2">""</span><span class="p">);</span> <span class="sr">//</span> <span class="no">For</span> <span class="n">optimization</span>
+<span class="n">string</span> <span class="n">agentType</span><span class="p">(</span><span class="s2">"naoagent"</span><span class="p">);</span>
+<span class="n">string</span> <span class="n">rsg</span><span class="p">(</span><span class="s2">"rsg/agent/nao/nao.rsg"</span><span class="p">);</span>
+<span class="n">void</span> <span class="no">ReadOptions</span><span class="p">(</span><span class="n">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span>
+<span class="p">{</span>
+
+    <span class="n">teamName</span> <span class="o">=</span> <span class="s2">"UTAustinVilla_Base"</span><span class="p">;</span>
+    <span class="n">uNum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="sr">//</span> <span class="no">Value</span> <span class="n">of</span> <span class="mi">0</span> <span class="n">means</span> <span class="n">choose</span> <span class="k">next</span> <span class="n">available</span> <span class="n">number</span>
+
+    <span class="k">for</span><span class="p">(</span> <span class="n">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">argc</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span> <span class="n">strcmp</span><span class="p">(</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--help"</span> <span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="no">PrintHelp</span><span class="p">();</span>
+            <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">strncmp</span><span class="p">(</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--host"</span><span class="p">,</span> <span class="mi">6</span> <span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">string</span> <span class="n">tmp</span><span class="o">=</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+
+            <span class="k">if</span> <span class="p">(</span> <span class="n">tmp</span><span class="p">.</span><span class="nf">length</span><span class="p">()</span> <span class="o">&lt;=</span> <span class="mi">7</span> <span class="p">)</span> <span class="o">/</span><span class="sr">/ minimal sanity check
+            {
+                PrintHelp();
+                exit(0);
+            }
+            gHost = tmp.substr(7);
+        }
+        else if ( strncmp( argv[i], "--mhost", 7 ) == 0 )
+        {
+            string tmp=argv[i];
+
+            if ( tmp.length() &lt;= 8 ) /</span><span class="o">/</span> <span class="n">minimal</span> <span class="n">sanity</span> <span class="n">check</span>
+            <span class="p">{</span>
+                <span class="no">PrintHelp</span><span class="p">();</span>
+                <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">mHost</span> <span class="o">=</span> <span class="n">tmp</span><span class="p">.</span><span class="nf">substr</span><span class="p">(</span><span class="mi">8</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">strncmp</span><span class="p">(</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--port"</span><span class="p">,</span> <span class="mi">6</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">argc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="no">PrintHelp</span><span class="p">();</span>
+                <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">gPort</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span> <span class="n">strncmp</span><span class="p">(</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--mport"</span><span class="p">,</span> <span class="mi">7</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">argc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="no">PrintHelp</span><span class="p">();</span>
+                <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">mPort</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--team"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">argc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="no">PrintHelp</span><span class="p">();</span>
+                <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+
+            <span class="n">teamName</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--unum"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">argc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="no">PrintHelp</span><span class="p">();</span>
+                <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">uNum</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span><span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--paramsfile"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">argc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="no">PrintHelp</span><span class="p">();</span>
+                <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">string</span> <span class="n">inputsFile</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+            <span class="no">LoadParams</span><span class="p">(</span><span class="n">inputsFile</span><span class="p">);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--experimentout"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">argc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="no">PrintHelp</span><span class="p">();</span>
+                <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">outputFile</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--optimize"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">argc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="no">PrintHelp</span><span class="p">();</span>
+                <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">agentType</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--type"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">argc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="no">PrintHelp</span><span class="p">();</span>
+                <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">rsg</span> <span class="o">=</span> <span class="s2">"rsg/agent/nao/nao_hetero.rsg "</span> <span class="o">+</span> <span class="n">string</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+            <span class="n">agentBodyType</span> <span class="o">=</span> <span class="n">atoi</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">]);</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--rsg"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">i</span> <span class="o">==</span> <span class="n">argc</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+                <span class="no">PrintHelp</span><span class="p">();</span>
+                <span class="nb">exit</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+            <span class="p">}</span>
+            <span class="n">rsg</span> <span class="o">=</span> <span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">];</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--pkgoalie"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">agentType</span> <span class="o">=</span> <span class="s2">"pkgoalie"</span><span class="p">;</span>
+        <span class="p">}</span>
+        <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--pkshooter"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">agentType</span> <span class="o">=</span> <span class="s2">"pkshooter"</span><span class="p">;</span>
+        <span class="p">}</span>
+	<span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">strcmp</span><span class="p">(</span><span class="n">argv</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="s2">"--gazebo"</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">agentType</span> <span class="o">=</span> <span class="s2">"gazebo"</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span> <span class="o">/</span><span class="sr">/ for-loop
+}</span></code></pre></figure>
+
+<hr />
+
+<h1 id="初始化函数">初始化函数</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">bool</span> <span class="no">Init</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">"connecting to TCP "</span> <span class="o">&lt;&lt;</span> <span class="n">gHost</span> <span class="o">&lt;&lt;</span> <span class="s2">":"</span> <span class="o">&lt;&lt;</span> <span class="n">gPort</span> <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+    <span class="sr">//</span><span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">"connecting to UDP "</span> <span class="o">&lt;&lt;</span> <span class="n">gHost</span> <span class="o">&lt;&lt;</span> <span class="s2">":"</span> <span class="o">&lt;&lt;</span> <span class="n">gPort</span> <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+
+    <span class="n">try</span>
+    <span class="p">{</span>
+        <span class="no">Addr</span> <span class="n">local</span><span class="p">(</span><span class="no">INADDR_ANY</span><span class="p">,</span><span class="no">INADDR_ANY</span><span class="p">);</span>
+        <span class="n">gSocket</span><span class="p">.</span><span class="nf">bind</span><span class="p">(</span><span class="n">local</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">catch</span> <span class="p">(</span><span class="no">BindErr</span> <span class="n">error</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"failed to bind socket with '"</span>
+             <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="nf">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s2">"'"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+        <span class="n">gSocket</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+        <span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="n">try</span>
+    <span class="p">{</span>
+        <span class="no">Addr</span> <span class="n">server</span><span class="p">(</span><span class="n">gPort</span><span class="p">,</span><span class="n">gHost</span><span class="p">);</span>
+        <span class="n">gSocket</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">server</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">catch</span> <span class="p">(</span><span class="no">ConnectErr</span> <span class="n">error</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"connection failed with: '"</span>
+             <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="nf">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s2">"'"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">gSocket</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+        <span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="sr">//</span> <span class="no">Connect</span> <span class="n">to</span> <span class="n">the</span> <span class="n">monitor</span> <span class="n">port</span> <span class="n">so</span> <span class="n">that</span> <span class="n">we</span> <span class="n">can</span> <span class="n">use</span> <span class="n">the</span> <span class="n">training</span> <span class="n">command</span> <span class="n">parser</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">mPort</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">try</span>
+        <span class="p">{</span>
+            <span class="no">Addr</span> <span class="n">local</span><span class="p">(</span><span class="no">INADDR_ANY</span><span class="p">,</span><span class="no">INADDR_ANY</span><span class="p">);</span>
+            <span class="n">mSocket</span><span class="p">.</span><span class="nf">bind</span><span class="p">(</span><span class="n">local</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="kp">catch</span> <span class="p">(</span><span class="no">BindErr</span> <span class="n">error</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"failed to bind socket with '"</span>
+                 <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="nf">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s2">"'"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+
+            <span class="n">mSocket</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+            <span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="n">try</span>
+        <span class="p">{</span>
+            <span class="no">Addr</span> <span class="n">server</span><span class="p">(</span><span class="n">mPort</span><span class="p">,</span><span class="n">gHost</span><span class="p">);</span>
+            <span class="n">mSocket</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="n">server</span><span class="p">);</span>
+        <span class="p">}</span>
+
+        <span class="kp">catch</span> <span class="p">(</span><span class="no">ConnectErr</span> <span class="n">error</span><span class="p">)</span>
+        <span class="p">{</span>
+            <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"connection failed with: '"</span>
+                 <span class="o">&lt;&lt;</span> <span class="n">error</span><span class="p">.</span><span class="nf">what</span><span class="p">()</span> <span class="o">&lt;&lt;</span> <span class="s2">"'"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+            <span class="n">mSocket</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+            <span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+
+
+    <span class="k">return</span> <span class="kp">true</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<hr />
+
+<h1 id="运行函数">运行函数</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">void</span> <span class="no">Run</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="no">Behavior</span> <span class="o">*</span><span class="n">behavior</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">agentType</span> <span class="o">==</span> <span class="s2">"naoagent"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">behavior</span> <span class="o">=</span> <span class="n">new</span> <span class="no">NaoBehavior</span><span class="p">(</span><span class="n">teamName</span><span class="p">,</span> <span class="n">uNum</span><span class="p">,</span> <span class="n">namedParams</span><span class="p">,</span> <span class="n">rsg</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">agentType</span> <span class="o">==</span> <span class="s2">"pkgoalie"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">behavior</span> <span class="o">=</span> <span class="n">new</span> <span class="no">PKGoalieBehavior</span><span class="p">(</span><span class="n">teamName</span><span class="p">,</span> <span class="n">uNum</span><span class="p">,</span> <span class="n">namedParams</span><span class="p">,</span> <span class="n">rsg</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">agentType</span> <span class="o">==</span> <span class="s2">"pkshooter"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">behavior</span> <span class="o">=</span> <span class="n">new</span> <span class="no">PKShooterBehavior</span><span class="p">(</span><span class="n">teamName</span><span class="p">,</span> <span class="n">uNum</span><span class="p">,</span> <span class="n">namedParams</span><span class="p">,</span> <span class="n">rsg</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">agentType</span> <span class="o">==</span> <span class="s2">"gazebo"</span><span class="p">)</span> <span class="p">{</span>
+      <span class="n">agentBodyType</span> <span class="o">=</span> <span class="no">GAZEBO_AGENT_TYPE</span><span class="p">;</span>
+        <span class="n">behavior</span> <span class="o">=</span> <span class="n">new</span> <span class="no">GazeboBehavior</span><span class="p">(</span><span class="n">teamName</span><span class="p">,</span> <span class="n">uNum</span><span class="p">,</span> <span class="n">namedParams</span><span class="p">,</span> <span class="n">rsg</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">agentType</span> <span class="o">==</span> <span class="s2">"fixedKickAgent"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"creating OptimizationBehaviorFixedKick"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">behavior</span> <span class="o">=</span> <span class="n">new</span> <span class="no">OptimizationBehaviorFixedKick</span><span class="p">(</span>  <span class="n">teamName</span><span class="p">,</span>
+                <span class="n">uNum</span><span class="p">,</span>
+                <span class="n">namedParams</span><span class="p">,</span>
+                <span class="n">rsg</span><span class="p">,</span>
+                <span class="n">outputFile</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">agentType</span> <span class="o">==</span> <span class="s2">"walkForwardAgent"</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"creating OptimizationBehaviorWalkForward"</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="n">behavior</span> <span class="o">=</span> <span class="n">new</span> <span class="no">OptimizationBehaviorWalkForward</span><span class="p">(</span>  <span class="n">teamName</span><span class="p">,</span>
+                <span class="n">uNum</span><span class="p">,</span>
+                <span class="n">namedParams</span><span class="p">,</span>
+                <span class="n">rsg</span><span class="p">,</span>
+                <span class="n">outputFile</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span> <span class="p">{</span>
+        <span class="kp">throw</span> <span class="s2">"unknown agent type"</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="no">PutMessage</span><span class="p">(</span><span class="n">behavior</span><span class="o">-&gt;</span><span class="no">Init</span><span class="p">()</span><span class="o">+</span><span class="s2">"(syn)"</span><span class="p">);</span>
+
+    <span class="n">string</span> <span class="n">msg</span><span class="p">;</span>
+    <span class="k">while</span> <span class="p">(</span><span class="n">gLoop</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="no">GetMessage</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+        <span class="n">string</span> <span class="n">msgToServer</span> <span class="o">=</span> <span class="n">behavior</span><span class="o">-&gt;</span><span class="no">Think</span><span class="p">(</span><span class="n">msg</span><span class="p">);</span>
+        <span class="sr">//</span> <span class="no">To</span> <span class="n">support</span> <span class="n">agent</span> <span class="n">sync</span> <span class="n">mode</span>
+        <span class="n">msgToServer</span><span class="p">.</span><span class="nf">append</span><span class="p">(</span><span class="s2">"(syn)"</span><span class="p">);</span>
+        <span class="no">PutMessage</span><span class="p">(</span><span class="n">msgToServer</span><span class="p">);</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">mPort</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+            <span class="no">PutMonMessage</span><span class="p">(</span><span class="n">behavior</span><span class="o">-&gt;</span><span class="n">getMonMessage</span><span class="p">());</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<hr />
+
+<h1 id="结束">结束</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">void</span> <span class="no">Done</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">gSocket</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+    <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s2">"closed connection to "</span> <span class="o">&lt;&lt;</span> <span class="n">gHost</span> <span class="o">&lt;&lt;</span> <span class="s2">":"</span> <span class="o">&lt;&lt;</span> <span class="n">gPort</span> <span class="o">&lt;&lt;</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="p">;</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">mPort</span> <span class="o">!=</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">mSocket</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="n">bool</span> <span class="no">SelectInput</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">fd_set</span> <span class="n">readfds</span><span class="p">;</span>
+    <span class="n">struct</span> <span class="n">timeval</span> <span class="n">tv</span> <span class="o">=</span> <span class="p">{</span><span class="mi">60</span><span class="p">,</span><span class="mi">0</span><span class="p">};</span>
+    <span class="no">FD_ZERO</span><span class="p">(</span><span class="o">&amp;</span><span class="n">readfds</span><span class="p">);</span>
+    <span class="no">FD_SET</span><span class="p">(</span><span class="n">gSocket</span><span class="p">.</span><span class="nf">getFD</span><span class="p">(),</span><span class="o">&amp;</span><span class="n">readfds</span><span class="p">);</span>
+
+    <span class="k">while</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">switch</span><span class="p">(</span><span class="nb">select</span><span class="p">(</span><span class="n">gSocket</span><span class="p">.</span><span class="nf">getFD</span><span class="p">()</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="o">&amp;</span><span class="n">readfds</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">tv</span><span class="p">))</span> <span class="p">{</span>
+        <span class="k">case</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mi">1</span><span class="p">;</span>
+        <span class="k">case</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"(SelectInput) select failed "</span> <span class="o">&lt;&lt;</span> <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+            <span class="nb">abort</span><span class="p">();</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="ss">default:
+            </span><span class="k">if</span><span class="p">(</span><span class="n">errno</span> <span class="o">==</span> <span class="no">EINTR</span><span class="p">)</span>
+                <span class="n">continue</span><span class="p">;</span>
+            <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"(SelectInput) select failed "</span> <span class="o">&lt;&lt;</span> <span class="n">strerror</span><span class="p">(</span><span class="n">errno</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+            <span class="nb">abort</span><span class="p">();</span>
+            <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
 
 
             </article>

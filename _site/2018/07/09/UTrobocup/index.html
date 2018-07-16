@@ -138,10 +138,13 @@
             <article class="post-content">
               <ul id="markdown-toc">
   <li><a href="#主函数" id="markdown-toc-主函数">主函数</a></li>
-  <li><a href="#载入参数" id="markdown-toc-载入参数">载入参数</a></li>
-  <li><a href="#读取设置" id="markdown-toc-读取设置">读取设置</a></li>
+  <li><a href="#读取主函数参数" id="markdown-toc-读取主函数参数">读取主函数参数</a></li>
   <li><a href="#初始化函数" id="markdown-toc-初始化函数">初始化函数</a></li>
-  <li><a href="#运行函数" id="markdown-toc-运行函数">运行函数</a></li>
+  <li><a href="#putmessage" id="markdown-toc-putmessage">PutMessage()</a></li>
+  <li><a href="#putmonmessage" id="markdown-toc-putmonmessage">PutMonMessage()</a></li>
+  <li><a href="#getmessage" id="markdown-toc-getmessage">GetMessage()</a></li>
+  <li><a href="#载入机器人参数" id="markdown-toc-载入机器人参数">载入机器人参数</a></li>
+  <li><a href="#运行" id="markdown-toc-运行">运行</a></li>
   <li><a href="#结束" id="markdown-toc-结束">结束</a></li>
   <li><a href="#startsh文件" id="markdown-toc-startsh文件">start.sh文件</a></li>
 </ul>
@@ -150,7 +153,7 @@
 
 <h1 id="主函数">主函数</h1>
 
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">int</span> <span class="n">main</span><span class="p">(</span><span class="n">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span><span class="o">/</span><span class="sr">/main传入的两个参数可以在start.sh文件中找到
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">int</span> <span class="n">main</span><span class="p">(</span><span class="n">int</span> <span class="n">argc</span><span class="p">,</span> <span class="n">char</span><span class="o">*</span> <span class="n">argv</span><span class="p">[])</span> <span class="o">/</span><span class="sr">/main传入的参数可以在start.sh文件中找到
 {
     /</span><span class="o">/</span> <span class="n">registering</span> <span class="n">the</span> <span class="n">handler</span><span class="p">,</span> <span class="n">catching</span> <span class="no">SIGINT</span> <span class="n">signals</span>
     <span class="n">signal</span><span class="p">(</span><span class="no">SIGINT</span><span class="p">,</span> <span class="n">handler</span><span class="p">);</span>
@@ -199,96 +202,7 @@ argc, argv,env是在main( )函数之前被赋值的，编译器生成的可执�
 
 <hr />
 
-<h1 id="载入参数">载入参数</h1>
-<p>源码如下</p>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/*
- * Read in parameters from inputsFile, which should be formatted
- * with a set of parameters as key value pairs from strings to
- * floats.  The parameter name should be separated from its value
- * with a tab and parameters should be separated from each other
- * with a single newline.  Parameters will be loaded into the
- * namedParams map.
- */</span>
-<span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">namedParams</span><span class="p">;</span><span class="sr">//</span><span class="err">声明</span><span class="n">map</span><span class="err">类型用来存储函数</span>
-<span class="n">void</span> <span class="no">LoadParams</span><span class="p">(</span><span class="n">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">inputsFile</span><span class="p">)</span> <span class="p">{</span>
-    <span class="n">istream</span> <span class="o">*</span><span class="n">input</span><span class="p">;</span>
-    <span class="n">ifstream</span> <span class="n">infile</span><span class="p">;</span>
-    <span class="n">istringstream</span> <span class="n">inString</span><span class="p">;</span>
-
-    <span class="n">infile</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="n">inputsFile</span><span class="p">.</span><span class="nf">c_str</span><span class="p">(),</span> <span class="n">ifstream</span><span class="o">::</span><span class="k">in</span><span class="p">);</span><span class="sr">//</span><span class="err">打开文件</span>
-
-    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">infile</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"Could not open parameter file "</span> <span class="o">&lt;&lt;</span> <span class="n">inputsFile</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
-        <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
-    <span class="p">}</span>
-
-    <span class="n">input</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">infile</span><span class="p">);</span>
-
-    <span class="n">string</span> <span class="nb">name</span><span class="p">;</span>
-    <span class="n">bool</span> <span class="n">fBlockComment</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
-    <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">input</span><span class="o">-&gt;</span><span class="n">eof</span><span class="p">())</span>
-    <span class="p">{</span>
-
-        <span class="sr">//</span> <span class="no">Skip</span> <span class="n">comments</span> <span class="n">and</span> <span class="n">empty</span> <span class="n">lines</span>
-        <span class="sr">//</span><span class="err">这段代码用于过滤信息</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str</span><span class="p">;</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">getline</span><span class="p">(</span><span class="o">*</span><span class="n">input</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span><span class="sr">//</span><span class="err">这一段用于读取整行的文本</span><span class="p">,</span><span class="err">并将文本存储在</span><span class="n">str</span><span class="err">中</span>
-        <span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="nf">length</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="p">.</span><span class="nf">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"/*"</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">fBlockComment</span> <span class="o">=</span> <span class="kp">true</span><span class="p">;</span><span class="sr">//</span><span class="err">当长度大于二</span><span class="p">,</span><span class="err">且前</span><span class="mi">2</span><span class="err">个字符为</span><span class="s2">"/*"</span><span class="err">时</span><span class="p">,</span><span class="n">fBlockComment</span><span class="err">置为</span><span class="kp">true</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">str</span> <span class="o">==</span> <span class="s2">"*/"</span><span class="p">)</span> <span class="p">{</span>
-            <span class="n">fBlockComment</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span><span class="sr">//</span><span class="err">当字符串为</span><span class="s2">"*/"</span><span class="p">,</span><span class="n">fBlockComment</span><span class="err">置为</span><span class="kp">false</span>
-        <span class="p">}</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">fBlockComment</span> <span class="o">||</span> <span class="n">str</span> <span class="o">==</span> <span class="s2">""</span> <span class="o">||</span> <span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'#'</span> <span class="p">)</span> <span class="p">{</span>
-            <span class="n">continue</span><span class="p">;</span><span class="sr">//</span><span class="err">当</span><span class="n">fBlockComment</span><span class="err">为</span><span class="n">true</span><span class="err">或者字符串为空</span><span class="p">,</span><span class="err">或者第一个字符为</span><span class="s1">'#'</span><span class="err">时</span><span class="p">,</span><span class="err">跳转</span><span class="p">,</span><span class="err">过滤消息</span><span class="o">.</span>
-        <span class="p">}</span>
-
-        <span class="sr">//</span> <span class="n">otherwise</span> <span class="n">parse</span> <span class="n">strings</span>
-        <span class="sr">//</span><span class="err">当遇到我们想要的字符时</span>
-        <span class="n">stringstream</span> <span class="n">s</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">key</span><span class="p">;</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">value</span><span class="p">;</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">getline</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="s1">'\t'</span><span class="p">);</span>      <span class="sr">//</span><span class="err">读取</span><span class="n">key</span><span class="err">值</span><span class="p">,</span><span class="err">遇到</span><span class="s1">'\t'</span><span class="err">跳转</span>
-        <span class="n">std</span><span class="o">::</span><span class="n">getline</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>          <span class="sr">//</span><span class="n">r</span><span class="err">读取</span><span class="n">value</span><span class="err">值</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="nf">empty</span><span class="p">())</span> <span class="p">{</span>
-            <span class="n">continue</span><span class="p">;</span><span class="sr">//</span><span class="err">当</span><span class="n">value</span><span class="err">为空时</span><span class="p">,</span><span class="err">转到下一行</span>
-        <span class="p">}</span>
-        <span class="n">namedParams</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span><span class="sr">//</span><span class="err">将参数存进</span><span class="n">map</span><span class="err">容器</span>
-    <span class="p">}</span>
-
-    <span class="n">infile</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span><span class="sr">//</span><span class="err">关闭文件</span>
-<span class="p">}</span></code></pre></figure>
-
-<p><code class="highlighter-rouge">infile.open(inputsFile.c_str(), ifstream::in);//打开文件</code></p>
-
-<blockquote>
-  <p>这一段读取时候,open的参数不是文件名,而是文件名.c_str 原因在于如果一个文件名被申明为“string”，那么就必须使用 “c_str”，然而，当你申明一个文件名为字符数组型，就没有必要使用，比如:</p>
-</blockquote>
-
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>char filename[20]; 
-in.open(finename) 
-
-otherwise 
-
-string filename; 
-in.open(filename.c_str)
-</code></pre></div></div>
-<p>c_str是string类的一个函数，可以把string类型变量转换成char<em>变量
-open()要求的是一个char</em>字符串</p>
-
-<hr />
-<p><code class="highlighter-rouge">std::getline(*input, str);//这一段用于读取整行的文本,并将文本存储在str中.</code></p>
-<blockquote>
-  <p>getline()函数详解:
-<code class="highlighter-rouge">istream&amp; getline ( istream &amp;is , string &amp;str , char delim );</code>
-其中 istream &amp;is 表示一个输入流，譬如cin；
-string&amp;str表示把从输入流读入的字符串存放在这个字符串中（可以自己随便命名，str什么的都可以）；
-char delim表示遇到这个字符停止读入，在不设置的情况下系统默认该字符为’\n’，也就是回车换行符（遇到回车停止读入）。</p>
-</blockquote>
-
-<hr />
-
-<h1 id="读取设置">读取设置</h1>
+<h1 id="读取主函数参数">读取主函数参数</h1>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">string</span> <span class="n">teamName</span><span class="p">;</span>
 <span class="n">int</span> <span class="n">uNum</span><span class="p">;</span>
@@ -408,6 +322,9 @@ char delim表示遇到这个字符停止读入，在不设置的情况下系统�
     <span class="p">}</span> <span class="o">/</span><span class="sr">/ for-loop
 }</span></code></pre></figure>
 
+<p>此段大概用来检查参数是否准确,以及将在<code class="highlighter-rouge">start.sh</code>中传入的参数用变量名表示.<br />
+在3d仿真比赛中主要用的是<code class="highlighter-rouge">nao</code>机器人</p>
+
 <hr />
 <p><code class="highlighter-rouge">string rsg("rsg/agent/nao/nao.rsg");</code></p>
 <blockquote>
@@ -497,9 +414,232 @@ char delim表示遇到这个字符停止读入，在不设置的情况下系统�
     <span class="k">return</span> <span class="kp">true</span><span class="p">;</span>
 <span class="p">}</span></code></pre></figure>
 
+<p>此段为服务器编程,主要用于和服务器交互信息</p>
+
 <hr />
 
-<h1 id="运行函数">运行函数</h1>
+<h1 id="putmessage">PutMessage()</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void PutMessage(const string&amp; msg)
+{
+    if (msg.empty())
+    {
+        return;
+    }
+
+    // prefix the message with its payload length
+    unsigned int len = htonl(msg.size());
+    string prefix((const char*)&amp;len,sizeof(unsigned int));
+    string str = prefix + msg;
+    if ( static_cast&lt;ssize_t&gt;(str.size()) != write(gSocket.getFD(), str.data(), str.size())) {
+        LOG_STR("could not put entire message: " + msg);
+    }
+}
+</code></pre></div></div>
+<p><code class="highlighter-rouge">此段用于机器人向服务器传递信息</code></p>
+
+<h1 id="putmonmessage">PutMonMessage()</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void PutMonMessage(const string&amp; msg)
+{
+    if (msg.empty())
+    {
+        return;
+    }
+
+    // prefix the message with its payload length
+    unsigned int len = htonl(msg.size());
+    string prefix((const char*)&amp;len,sizeof(unsigned int));
+    string str = prefix + msg;
+    if ( static_cast&lt;ssize_t&gt;(str.size()) != write(mSocket.getFD(), str.data(), str.size())) {
+        LOG_STR("could not put entire monitor message: " + msg);
+    }
+}
+</code></pre></div></div>
+<p><code class="highlighter-rouge">此段用于传递监控信息</code></p>
+
+<h1 id="getmessage">GetMessage()</h1>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>bool GetMessage(string&amp; msg)
+{
+    static char buffer[16 * 1024];
+
+    unsigned int bytesRead = 0;
+    while(bytesRead &lt; sizeof(unsigned int))
+    {
+        SelectInput();
+        int readResult = read(gSocket.getFD(), buffer + bytesRead, sizeof(unsigned int) - bytesRead);
+        if(readResult &lt; 0)
+            continue;
+        if (readResult == 0) {
+            // [patmac] Kill ourselves if we disconnect from the server
+            // for instance when the server is killed.  This helps to
+            // prevent runaway agents.
+            cerr &lt;&lt; "Lost connection to server" &lt;&lt; endl;
+            Done();
+            exit(1);
+        }
+        bytesRead += readResult;
+    }
+
+    //cerr &lt;&lt; "buffer = |" &lt;&lt; string(buffer+1) &lt;&lt; "|\n";
+    //cerr &lt;&lt; "bytesRead = |" &lt;&lt; bytesRead &lt;&lt; "|\n";
+    //cerr &lt;&lt; "Size of buffer = |" &lt;&lt; sizeof(buffer) &lt;&lt; "|\n";
+    //cerr &lt;&lt; "buffer = |" &lt;&lt; buffer &lt;&lt; "|\n";
+    //cerr &lt;&lt; "buffer[5] = |" &lt;&lt; buffer[5] &lt;&lt; "|\n";
+    //printf ("xxx-%s\n", buffer+5);
+
+    // msg is prefixed with it's total length
+    union int_char_t {
+        char *c;
+        unsigned int *i;
+    };
+    int_char_t size;
+    size.c = buffer;
+    unsigned int msgLen = ntohl(*(size.i));
+    // cerr &lt;&lt; "GM 6 / " &lt;&lt; msgLen &lt;&lt; " (bytesRead " &lt;&lt; bytesRead &lt;&lt; ")\n";
+    if(sizeof(unsigned int) + msgLen &gt; sizeof(buffer)) {
+        cerr &lt;&lt; "too long message; aborting" &lt;&lt; endl;
+        abort();
+    }
+
+    // read remaining message segments
+    unsigned int msgRead = bytesRead - sizeof(unsigned int);
+
+    //cerr &lt;&lt; "msgRead = |" &lt;&lt; msgRead &lt;&lt; "|\n";
+
+    char *offset = buffer + bytesRead;
+
+    while (msgRead &lt; msgLen)
+    {
+        if (! SelectInput())
+        {
+            return false;
+        }
+
+        unsigned readLen = sizeof(buffer) - msgRead;
+        if(readLen &gt; msgLen - msgRead)
+            readLen = msgLen - msgRead;
+
+        int readResult = read(gSocket.getFD(), offset, readLen);
+        if(readResult &lt; 0)
+            continue;
+        msgRead += readResult;
+        offset += readResult;
+        //cerr &lt;&lt; "msgRead = |" &lt;&lt; msgRead &lt;&lt; "|\n";
+    }
+
+    // zero terminate received data
+    (*offset) = 0;
+
+    msg = string(buffer+sizeof(unsigned int));
+
+    // DEBUG
+    //cout &lt;&lt; msg &lt;&lt; endl;
+
+    static string lastMsg = "";
+    if (msg.compare(lastMsg) == 0) {
+        cerr &lt;&lt; "Duplicate message received from server -- has the server killed us?\n";
+        Done();
+        exit(1);
+    }
+    lastMsg = msg;
+
+    return true;
+}
+</code></pre></div></div>
+<p><code class="highlighter-rouge">此段用于获取服务器信息</code></p>
+
+<h1 id="载入机器人参数">载入机器人参数</h1>
+<p>源码如下</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/*
+ * Read in parameters from inputsFile, which should be formatted
+ * with a set of parameters as key value pairs from strings to
+ * floats.  The parameter name should be separated from its value
+ * with a tab and parameters should be separated from each other
+ * with a single newline.  Parameters will be loaded into the
+ * namedParams map.
+ */</span>
+<span class="n">map</span><span class="o">&lt;</span><span class="n">string</span><span class="p">,</span> <span class="n">string</span><span class="o">&gt;</span> <span class="n">namedParams</span><span class="p">;</span><span class="sr">//</span><span class="err">声明</span><span class="n">map</span><span class="err">类型用来存储函数</span>
+<span class="n">void</span> <span class="no">LoadParams</span><span class="p">(</span><span class="n">const</span> <span class="n">string</span><span class="o">&amp;</span> <span class="n">inputsFile</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">istream</span> <span class="o">*</span><span class="n">input</span><span class="p">;</span>
+    <span class="n">ifstream</span> <span class="n">infile</span><span class="p">;</span>
+    <span class="n">istringstream</span> <span class="n">inString</span><span class="p">;</span>
+
+    <span class="n">infile</span><span class="p">.</span><span class="nf">open</span><span class="p">(</span><span class="n">inputsFile</span><span class="p">.</span><span class="nf">c_str</span><span class="p">(),</span> <span class="n">ifstream</span><span class="o">::</span><span class="k">in</span><span class="p">);</span><span class="sr">//</span><span class="err">打开文件</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">infile</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">cerr</span> <span class="o">&lt;&lt;</span> <span class="s2">"Could not open parameter file "</span> <span class="o">&lt;&lt;</span> <span class="n">inputsFile</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span>
+        <span class="nb">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="n">input</span> <span class="o">=</span> <span class="o">&amp;</span><span class="p">(</span><span class="n">infile</span><span class="p">);</span>
+
+    <span class="n">string</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="n">bool</span> <span class="n">fBlockComment</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span>
+    <span class="k">while</span><span class="p">(</span><span class="o">!</span><span class="n">input</span><span class="o">-&gt;</span><span class="n">eof</span><span class="p">())</span>
+    <span class="p">{</span>
+
+        <span class="sr">//</span> <span class="no">Skip</span> <span class="n">comments</span> <span class="n">and</span> <span class="n">empty</span> <span class="n">lines</span>
+        <span class="sr">//</span><span class="err">这段代码用于过滤信息</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">str</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">getline</span><span class="p">(</span><span class="o">*</span><span class="n">input</span><span class="p">,</span> <span class="n">str</span><span class="p">);</span><span class="sr">//</span><span class="err">这一段用于读取整行的文本</span><span class="p">,</span><span class="err">并将文本存储在</span><span class="n">str</span><span class="err">中</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">str</span><span class="p">.</span><span class="nf">length</span><span class="p">()</span> <span class="o">&gt;=</span> <span class="mi">2</span> <span class="o">&amp;&amp;</span> <span class="n">str</span><span class="p">.</span><span class="nf">substr</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> <span class="o">==</span> <span class="s2">"/*"</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">fBlockComment</span> <span class="o">=</span> <span class="kp">true</span><span class="p">;</span><span class="sr">//</span><span class="err">当长度大于二</span><span class="p">,</span><span class="err">且前</span><span class="mi">2</span><span class="err">个字符为</span><span class="s2">"/*"</span><span class="err">时</span><span class="p">,</span><span class="n">fBlockComment</span><span class="err">置为</span><span class="kp">true</span>
+        <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="n">str</span> <span class="o">==</span> <span class="s2">"*/"</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">fBlockComment</span> <span class="o">=</span> <span class="kp">false</span><span class="p">;</span><span class="sr">//</span><span class="err">当字符串为</span><span class="s2">"*/"</span><span class="p">,</span><span class="n">fBlockComment</span><span class="err">置为</span><span class="kp">false</span>
+        <span class="p">}</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">fBlockComment</span> <span class="o">||</span> <span class="n">str</span> <span class="o">==</span> <span class="s2">""</span> <span class="o">||</span> <span class="n">str</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="s1">'#'</span> <span class="p">)</span> <span class="p">{</span>
+            <span class="n">continue</span><span class="p">;</span><span class="sr">//</span><span class="err">当</span><span class="n">fBlockComment</span><span class="err">为</span><span class="n">true</span><span class="err">或者字符串为空</span><span class="p">,</span><span class="err">或者第一个字符为</span><span class="s1">'#'</span><span class="err">时</span><span class="p">,</span><span class="err">跳转</span><span class="p">,</span><span class="err">过滤消息</span><span class="o">.</span>
+        <span class="p">}</span>
+
+        <span class="sr">//</span> <span class="n">otherwise</span> <span class="n">parse</span> <span class="n">strings</span>
+        <span class="sr">//</span><span class="err">当遇到我们想要的字符时</span>
+        <span class="n">stringstream</span> <span class="n">s</span><span class="p">(</span><span class="n">str</span><span class="p">);</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">key</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">string</span> <span class="n">value</span><span class="p">;</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">getline</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="s1">'\t'</span><span class="p">);</span>      <span class="sr">//</span><span class="err">读取</span><span class="n">key</span><span class="err">值</span><span class="p">,</span><span class="err">遇到</span><span class="s1">'\t'</span><span class="err">跳转</span>
+        <span class="n">std</span><span class="o">::</span><span class="n">getline</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">value</span><span class="p">);</span>          <span class="sr">//</span><span class="n">r</span><span class="err">读取</span><span class="n">value</span><span class="err">值</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="nf">empty</span><span class="p">())</span> <span class="p">{</span>
+            <span class="n">continue</span><span class="p">;</span><span class="sr">//</span><span class="err">当</span><span class="n">value</span><span class="err">为空时</span><span class="p">,</span><span class="err">转到下一行</span>
+        <span class="p">}</span>
+        <span class="n">namedParams</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="p">;</span><span class="sr">//</span><span class="err">将参数存进</span><span class="n">map</span><span class="err">容器</span>
+    <span class="p">}</span>
+
+    <span class="n">infile</span><span class="p">.</span><span class="nf">close</span><span class="p">();</span><span class="sr">//</span><span class="err">关闭文件</span>
+<span class="p">}</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">infile.open(inputsFile.c_str(), ifstream::in);//打开文件</code></p>
+
+<blockquote>
+  <p>这一段读取时候,open的参数不是文件名,而是文件名.c_str 原因在于如果一个文件名被申明为“string”，那么就必须使用 “c_str”，然而，当你申明一个文件名为字符数组型，就没有必要使用，比如:</p>
+</blockquote>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>char filename[20]; 
+in.open(finename) 
+
+otherwise 
+
+string filename; 
+in.open(filename.c_str)
+</code></pre></div></div>
+<p>c_str是string类的一个函数，可以把string类型变量转换成char<em>变量
+open()要求的是一个char</em>字符串</p>
+
+<hr />
+<p><code class="highlighter-rouge">std::getline(*input, str);//这一段用于读取整行的文本,并将文本存储在str中.</code></p>
+<blockquote>
+  <p>getline()函数详解:
+<code class="highlighter-rouge">istream&amp; getline ( istream &amp;is , string &amp;str , char delim );</code>
+其中 istream &amp;is 表示一个输入流，譬如cin；
+string&amp;str表示把从输入流读入的字符串存放在这个字符串中（可以自己随便命名，str什么的都可以）；
+char delim表示遇到这个字符停止读入，在不设置的情况下系统默认该字符为’\n’，也就是回车换行符（遇到回车停止读入）。</p>
+</blockquote>
+
+<hr />
+
+<h1 id="运行">运行</h1>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">void</span> <span class="no">Run</span><span class="p">()</span>
 <span class="p">{</span>
@@ -553,6 +693,24 @@ char delim表示遇到这个字符停止读入，在不设置的情况下系统�
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
+<p>以下为机器人运行的主要循环<br />
+机器人不断从服务器获取信息<code class="highlighter-rouge">GetMessage(msg);</code> <br />
+机器人进行思考和运动<code class="highlighter-rouge">msgToServer.append("(syn)");</code><br />
+机器人向服务器传递信息<code class="highlighter-rouge">PutMessage(msgToServer);</code></p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>while (gLoop)
+    {
+        GetMessage(msg);
+        string msgToServer = behavior-&gt;Think(msg);
+        // To support agent sync mode
+        msgToServer.append("(syn)");
+        PutMessage(msgToServer);
+        if (mPort != -1) {
+            PutMonMessage(behavior-&gt;getMonMessage());
+        }
+    }
+</code></pre></div></div>
+
 <hr />
 
 <h1 id="结束">结束</h1>
@@ -590,6 +748,8 @@ char delim表示遇到这个字符停止读入，在不设置的情况下系统�
         <span class="p">}</span>
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
+
+<p><code class="highlighter-rouge">这里主要是一些结束时,断开服务器的操作</code></p>
 
 <h1 id="startsh文件">start.sh文件</h1>
 
@@ -733,7 +893,8 @@ char delim表示遇到这个字符停止读入，在不设置的情况下系统�
 
 <p><code class="highlighter-rouge">"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 0 --paramsfile paramfiles/defaultParams_t0.txt &amp;#&gt; /dev/null &amp;</code>调用1或者2编号的机器人时的语句</p>
 <blockquote>
-  <p>其中<code class="highlighter-rouge">"$BINARY_DIR/$AGENT_BINARY"</code>指的是生成的agentspark二进制文件,这里面有机器人的动作,策略等一系列的信息.</p>
+  <p>其中<code class="highlighter-rouge">"$BINARY_DIR/$AGENT_BINARY"</code>指的是生成的<code class="highlighter-rouge">agentspark</code>二进制文件,这里面有机器人的动作,策略等一系列的信息. <br />
+由此可见,<code class="highlighter-rouge">agentspark</code>的参数分别为<code class="highlighter-rouge">host</code>(默认为localhost),<code class="highlighter-rouge">port</code>(默认为3100),<code class="highlighter-rouge">team</code>(队伍名字),<code class="highlighter-rouge">paramsfile_args</code>(机器人参数文件),<code class="highlighter-rouge">mhost</code>(默认localhost),<code class="highlighter-rouge">i</code>(即队员的编号).</p>
 </blockquote>
 
 

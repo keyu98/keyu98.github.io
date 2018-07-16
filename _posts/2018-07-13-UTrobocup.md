@@ -15,7 +15,7 @@ tag: 源码
 ======
 {% highlight ruby %}
 
-int main(int argc, char* argv[])//main传入的两个参数可以在start.sh文件中找到
+int main(int argc, char* argv[]) //main传入的参数可以在start.sh文件中找到
 {
     // registering the handler, catching SIGINT signals
     signal(SIGINT, handler);
@@ -64,98 +64,7 @@ argc, argv,env是在main( )函数之前被赋值的，编译器生成的可执�
 
 ---
 
-载入参数
-========
-源码如下
-
-{% highlight ruby %}
-
-/*
- * Read in parameters from inputsFile, which should be formatted
- * with a set of parameters as key value pairs from strings to
- * floats.  The parameter name should be separated from its value
- * with a tab and parameters should be separated from each other
- * with a single newline.  Parameters will be loaded into the
- * namedParams map.
- */
-map<string, string> namedParams;//声明map类型用来存储函数
-void LoadParams(const string& inputsFile) {
-    istream *input;
-    ifstream infile;
-    istringstream inString;
-
-    infile.open(inputsFile.c_str(), ifstream::in);//打开文件
-
-    if(!infile) {
-        cerr << "Could not open parameter file " << inputsFile << endl;
-        exit(1);
-    }
-
-    input = &(infile);
-
-    string name;
-    bool fBlockComment = false;
-    while(!input->eof())
-    {
-
-        // Skip comments and empty lines
-        //这段代码用于过滤信息
-        std::string str;
-        std::getline(*input, str);//这一段用于读取整行的文本,并将文本存储在str中
-        if (str.length() >= 2 && str.substr(0,2) == "/*") {
-            fBlockComment = true;//当长度大于二,且前2个字符为"/*"时,fBlockComment置为true
-        } else if (str == "*/") {
-            fBlockComment = false;//当字符串为"*/",fBlockComment置为false
-        }
-        if(fBlockComment || str == "" || str[0] == '#' ) {
-            continue;//当fBlockComment为true或者字符串为空,或者第一个字符为'#'时,跳转,过滤消息.
-        }
-
-        // otherwise parse strings
-        //当遇到我们想要的字符时
-        stringstream s(str);
-        std::string key;
-        std::string value;
-        std::getline(s, key, '\t');      //读取key值,遇到'\t'跳转
-        std::getline(s, value);          //r读取value值
-        if(value.empty()) {
-            continue;//当value为空时,转到下一行
-        }
-        namedParams[key] = value;//将参数存进map容器
-    }
-
-    infile.close();//关闭文件
-}
-
-{% endhighlight %}
-
-`infile.open(inputsFile.c_str(), ifstream::in);//打开文件` 
-
->这一段读取时候,open的参数不是文件名,而是文件名.c_str 原因在于如果一个文件名被申明为“string”，那么就必须使用 “c_str”，然而，当你申明一个文件名为字符数组型，就没有必要使用，比如:
-
-```
-char filename[20]; 
-in.open(finename) 
-
-otherwise 
-
-string filename; 
-in.open(filename.c_str)
-```
-c_str是string类的一个函数，可以把string类型变量转换成char*变量
-open()要求的是一个char*字符串
-
----
-`std::getline(*input, str);//这一段用于读取整行的文本,并将文本存储在str中.`
->getline()函数详解:
-`istream& getline ( istream &is , string &str , char delim );`
-其中 istream &is 表示一个输入流，譬如cin；
-string&str表示把从输入流读入的字符串存放在这个字符串中（可以自己随便命名，str什么的都可以）；
-char delim表示遇到这个字符停止读入，在不设置的情况下系统默认该字符为'\n'，也就是回车换行符（遇到回车停止读入）。
-
----
-
-读取设置
+读取主函数参数
 =========
 
 {% highlight ruby %}
@@ -279,6 +188,9 @@ void ReadOptions(int argc, char* argv[])
 
 {% endhighlight %}
 
+此段大概用来检查参数是否准确,以及将在`start.sh`中传入的参数用变量名表示.  
+在3d仿真比赛中主要用的是`nao`机器人
+
 ---
 `string rsg("rsg/agent/nao/nao.rsg");` 
 >这个位置在Linux安装robocup环境时的rcsserver3d-0.6.10/data里面.这里主要时nao机器人的躯体类型信息
@@ -371,9 +283,241 @@ bool Init()
 
 {% endhighlight %}
 
+此段为服务器编程,主要用于和服务器交互信息
+
 ---
 
-运行函数
+PutMessage()
+=============
+
+```
+void PutMessage(const string& msg)
+{
+    if (msg.empty())
+    {
+        return;
+    }
+
+    // prefix the message with its payload length
+    unsigned int len = htonl(msg.size());
+    string prefix((const char*)&len,sizeof(unsigned int));
+    string str = prefix + msg;
+    if ( static_cast<ssize_t>(str.size()) != write(gSocket.getFD(), str.data(), str.size())) {
+        LOG_STR("could not put entire message: " + msg);
+    }
+}
+```
+`此段用于机器人向服务器传递信息`
+
+PutMonMessage()
+=================
+
+```
+void PutMonMessage(const string& msg)
+{
+    if (msg.empty())
+    {
+        return;
+    }
+
+    // prefix the message with its payload length
+    unsigned int len = htonl(msg.size());
+    string prefix((const char*)&len,sizeof(unsigned int));
+    string str = prefix + msg;
+    if ( static_cast<ssize_t>(str.size()) != write(mSocket.getFD(), str.data(), str.size())) {
+        LOG_STR("could not put entire monitor message: " + msg);
+    }
+}
+```
+`此段用于传递监控信息`
+
+
+GetMessage()
+=============
+
+```
+bool GetMessage(string& msg)
+{
+    static char buffer[16 * 1024];
+
+    unsigned int bytesRead = 0;
+    while(bytesRead < sizeof(unsigned int))
+    {
+        SelectInput();
+        int readResult = read(gSocket.getFD(), buffer + bytesRead, sizeof(unsigned int) - bytesRead);
+        if(readResult < 0)
+            continue;
+        if (readResult == 0) {
+            // [patmac] Kill ourselves if we disconnect from the server
+            // for instance when the server is killed.  This helps to
+            // prevent runaway agents.
+            cerr << "Lost connection to server" << endl;
+            Done();
+            exit(1);
+        }
+        bytesRead += readResult;
+    }
+
+    //cerr << "buffer = |" << string(buffer+1) << "|\n";
+    //cerr << "bytesRead = |" << bytesRead << "|\n";
+    //cerr << "Size of buffer = |" << sizeof(buffer) << "|\n";
+    //cerr << "buffer = |" << buffer << "|\n";
+    //cerr << "buffer[5] = |" << buffer[5] << "|\n";
+    //printf ("xxx-%s\n", buffer+5);
+
+    // msg is prefixed with it's total length
+    union int_char_t {
+        char *c;
+        unsigned int *i;
+    };
+    int_char_t size;
+    size.c = buffer;
+    unsigned int msgLen = ntohl(*(size.i));
+    // cerr << "GM 6 / " << msgLen << " (bytesRead " << bytesRead << ")\n";
+    if(sizeof(unsigned int) + msgLen > sizeof(buffer)) {
+        cerr << "too long message; aborting" << endl;
+        abort();
+    }
+
+    // read remaining message segments
+    unsigned int msgRead = bytesRead - sizeof(unsigned int);
+
+    //cerr << "msgRead = |" << msgRead << "|\n";
+
+    char *offset = buffer + bytesRead;
+
+    while (msgRead < msgLen)
+    {
+        if (! SelectInput())
+        {
+            return false;
+        }
+
+        unsigned readLen = sizeof(buffer) - msgRead;
+        if(readLen > msgLen - msgRead)
+            readLen = msgLen - msgRead;
+
+        int readResult = read(gSocket.getFD(), offset, readLen);
+        if(readResult < 0)
+            continue;
+        msgRead += readResult;
+        offset += readResult;
+        //cerr << "msgRead = |" << msgRead << "|\n";
+    }
+
+    // zero terminate received data
+    (*offset) = 0;
+
+    msg = string(buffer+sizeof(unsigned int));
+
+    // DEBUG
+    //cout << msg << endl;
+
+    static string lastMsg = "";
+    if (msg.compare(lastMsg) == 0) {
+        cerr << "Duplicate message received from server -- has the server killed us?\n";
+        Done();
+        exit(1);
+    }
+    lastMsg = msg;
+
+    return true;
+}
+```
+`此段用于获取服务器信息`
+
+载入机器人参数
+========
+源码如下
+
+{% highlight ruby %}
+
+/*
+ * Read in parameters from inputsFile, which should be formatted
+ * with a set of parameters as key value pairs from strings to
+ * floats.  The parameter name should be separated from its value
+ * with a tab and parameters should be separated from each other
+ * with a single newline.  Parameters will be loaded into the
+ * namedParams map.
+ */
+map<string, string> namedParams;//声明map类型用来存储函数
+void LoadParams(const string& inputsFile) {
+    istream *input;
+    ifstream infile;
+    istringstream inString;
+
+    infile.open(inputsFile.c_str(), ifstream::in);//打开文件
+
+    if(!infile) {
+        cerr << "Could not open parameter file " << inputsFile << endl;
+        exit(1);
+    }
+
+    input = &(infile);
+
+    string name;
+    bool fBlockComment = false;
+    while(!input->eof())
+    {
+
+        // Skip comments and empty lines
+        //这段代码用于过滤信息
+        std::string str;
+        std::getline(*input, str);//这一段用于读取整行的文本,并将文本存储在str中
+        if (str.length() >= 2 && str.substr(0,2) == "/*") {
+            fBlockComment = true;//当长度大于二,且前2个字符为"/*"时,fBlockComment置为true
+        } else if (str == "*/") {
+            fBlockComment = false;//当字符串为"*/",fBlockComment置为false
+        }
+        if(fBlockComment || str == "" || str[0] == '#' ) {
+            continue;//当fBlockComment为true或者字符串为空,或者第一个字符为'#'时,跳转,过滤消息.
+        }
+
+        // otherwise parse strings
+        //当遇到我们想要的字符时
+        stringstream s(str);
+        std::string key;
+        std::string value;
+        std::getline(s, key, '\t');      //读取key值,遇到'\t'跳转
+        std::getline(s, value);          //r读取value值
+        if(value.empty()) {
+            continue;//当value为空时,转到下一行
+        }
+        namedParams[key] = value;//将参数存进map容器
+    }
+
+    infile.close();//关闭文件
+}
+
+{% endhighlight %}
+
+`infile.open(inputsFile.c_str(), ifstream::in);//打开文件` 
+
+>这一段读取时候,open的参数不是文件名,而是文件名.c_str 原因在于如果一个文件名被申明为“string”，那么就必须使用 “c_str”，然而，当你申明一个文件名为字符数组型，就没有必要使用，比如:
+
+```
+char filename[20]; 
+in.open(finename) 
+
+otherwise 
+
+string filename; 
+in.open(filename.c_str)
+```
+c_str是string类的一个函数，可以把string类型变量转换成char*变量
+open()要求的是一个char*字符串
+
+---
+`std::getline(*input, str);//这一段用于读取整行的文本,并将文本存储在str中.`
+>getline()函数详解:
+`istream& getline ( istream &is , string &str , char delim );`
+其中 istream &is 表示一个输入流，譬如cin；
+string&str表示把从输入流读入的字符串存放在这个字符串中（可以自己随便命名，str什么的都可以）；
+char delim表示遇到这个字符停止读入，在不设置的情况下系统默认该字符为'\n'，也就是回车换行符（遇到回车停止读入）。
+
+---
+
+运行
 ========
 {% highlight ruby %}
 void Run()
@@ -427,7 +571,28 @@ void Run()
         }
     }
 }
+
 {% endhighlight %}
+
+以下为机器人运行的主要循环  
+机器人不断从服务器获取信息`GetMessage(msg);`   
+机器人进行思考和运动`msgToServer.append("(syn)");`  
+机器人向服务器传递信息`PutMessage(msgToServer);`
+
+```
+while (gLoop)
+    {
+        GetMessage(msg);
+        string msgToServer = behavior->Think(msg);
+        // To support agent sync mode
+        msgToServer.append("(syn)");
+        PutMessage(msgToServer);
+        if (mPort != -1) {
+            PutMonMessage(behavior->getMonMessage());
+        }
+    }
+```
+
 
 ---
 
@@ -469,6 +634,7 @@ bool SelectInput()
 }
 {% endhighlight %}
 
+`这里主要是一些结束时,断开服务器的操作`
 
 start.sh文件
 ============
@@ -613,5 +779,7 @@ done
 {% endhighlight %}
 
 `"$BINARY_DIR/$AGENT_BINARY" $opt --unum $i --type 0 --paramsfile paramfiles/defaultParams_t0.txt &#> /dev/null &`调用1或者2编号的机器人时的语句
->其中`"$BINARY_DIR/$AGENT_BINARY"`指的是生成的agentspark二进制文件,这里面有机器人的动作,策略等一系列的信息.
+>其中`"$BINARY_DIR/$AGENT_BINARY"`指的是生成的`agentspark`二进制文件,这里面有机器人的动作,策略等一系列的信息.   
+由此可见,`agentspark`的参数分别为`host`(默认为localhost),`port`(默认为3100),`team`(队伍名字),`paramsfile_args`(机器人参数文件),`mhost`(默认localhost),`i`(即队员的编号).
+
 

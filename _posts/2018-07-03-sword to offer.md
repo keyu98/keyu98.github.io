@@ -95,31 +95,8 @@ public:
 >输入一个链表，从尾到头打印链表每个节点的值。
 
 #解题思路#
-
->递归
-
-{% highlight ruby %}
-class Solution {
-public:
-    vector<int> printListFromTailToHead(struct ListNode* head) {
-        vector<int> value;
-        if(head != NULL)
-        {
-            value.insert(value.begin(),head->val);
-            if(head->next != NULL)
-            {
-                vector<int> tempVec = printListFromTailToHead(head->next);
-                if(tempVec.size()>0)
-                value.insert(value.begin(),tempVec.begin(),tempVec.end());  
-            }         
-             
-        }
-        return value;
-    }
-};
-{% endhighlight %}
-
->递归
+>在拿到问题时,我们在不改变链表的结构的情况下,自然想到的是如果能用到`栈`的数据结构就好了,后进先出,这样的话刚好就可以满足题目的要求.既然想到了用栈来实现这个函数,而递归在本质上就是一个栈结构.  
+  我们每访问一个节点的时候,`先递归输出它后面的节点,再输出该节点本身`,最后链表的输出就自然反过来了.
 
 {% highlight ruby %}
 class Solution {
@@ -137,7 +114,8 @@ class Solution {
 };
 {% endhighlight %}
 
->反向迭代器
+>反向迭代器  
+运用vector容器的反向迭代器,有点投机取巧了.
 
 {% highlight ruby %}
 class Solution {
@@ -156,27 +134,7 @@ public:
 };
 {% endhighlight %}
 
->用reverse
 
-{% highlight ruby %}
-class Solution {
-public:
-    vector<int> printListFromTailToHead(struct ListNode* head) {
-        vector<int> value;
-        if(head != NULL)
-        {
-            value.insert(value.begin(),head->val);
-            while(head->next != NULL)
-            {
-                value.insert(value.begin(),head->next->val);
-                head = head->next;
-            }         
-             
-        }
-        return value;
-    }
-};
-{% endhighlight %}
 ----
 更新中...
 

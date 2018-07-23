@@ -240,32 +240,9 @@
 </blockquote>
 
 <p>#解题思路#</p>
-
 <blockquote>
-  <p>递归</p>
-</blockquote>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="ss">public:
-    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">printListFromTailToHead</span><span class="p">(</span><span class="n">struct</span> <span class="no">ListNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">value</span><span class="p">;</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">head</span> <span class="o">!=</span> <span class="no">NULL</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">value</span><span class="p">.</span><span class="nf">insert</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
-            <span class="k">if</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span> <span class="o">!=</span> <span class="no">NULL</span><span class="p">)</span>
-            <span class="p">{</span>
-                <span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">tempVec</span> <span class="o">=</span> <span class="n">printListFromTailToHead</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span><span class="p">);</span>
-                <span class="k">if</span><span class="p">(</span><span class="n">tempVec</span><span class="p">.</span><span class="nf">size</span><span class="p">()</span><span class="o">&gt;</span><span class="mi">0</span><span class="p">)</span>
-                <span class="n">value</span><span class="p">.</span><span class="nf">insert</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span><span class="n">tempVec</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span><span class="n">tempVec</span><span class="p">.</span><span class="nf">end</span><span class="p">());</span>  
-            <span class="p">}</span>         
-             
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">value</span><span class="p">;</span>
-    <span class="p">}</span>
-<span class="p">};</span></code></pre></figure>
-
-<blockquote>
-  <p>递归</p>
+  <p>在拿到问题时,我们在不改变链表的结构的情况下,自然想到的是如果能用到<code class="highlighter-rouge">栈</code>的数据结构就好了,后进先出,这样的话刚好就可以满足题目的要求.既然想到了用栈来实现这个函数,而递归在本质上就是一个栈结构.<br />
+  我们每访问一个节点的时候,<code class="highlighter-rouge">先递归输出它后面的节点,再输出该节点本身</code>,最后链表的输出就自然反过来了.</p>
 </blockquote>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
@@ -283,7 +260,8 @@
 <span class="p">};</span></code></pre></figure>
 
 <blockquote>
-  <p>反向迭代器</p>
+  <p>反向迭代器<br />
+运用vector容器的反向迭代器,有点投机取巧了.</p>
 </blockquote>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
@@ -298,28 +276,6 @@
         <span class="p">}</span>
         <span class="sr">//</span><span class="err">反向迭代器创建临时对象</span>
         <span class="k">return</span> <span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span><span class="p">(</span><span class="n">v</span><span class="p">.</span><span class="nf">rbegin</span><span class="p">(),</span> <span class="n">v</span><span class="p">.</span><span class="nf">rend</span><span class="p">());</span>
-    <span class="p">}</span>
-<span class="p">};</span></code></pre></figure>
-
-<blockquote>
-  <p>用reverse</p>
-</blockquote>
-
-<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Solution</span> <span class="p">{</span>
-<span class="ss">public:
-    </span><span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">printListFromTailToHead</span><span class="p">(</span><span class="n">struct</span> <span class="no">ListNode</span><span class="o">*</span> <span class="n">head</span><span class="p">)</span> <span class="p">{</span>
-        <span class="n">vector</span><span class="o">&lt;</span><span class="n">int</span><span class="o">&gt;</span> <span class="n">value</span><span class="p">;</span>
-        <span class="k">if</span><span class="p">(</span><span class="n">head</span> <span class="o">!=</span> <span class="no">NULL</span><span class="p">)</span>
-        <span class="p">{</span>
-            <span class="n">value</span><span class="p">.</span><span class="nf">insert</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span><span class="n">head</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
-            <span class="k">while</span><span class="p">(</span><span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span> <span class="o">!=</span> <span class="no">NULL</span><span class="p">)</span>
-            <span class="p">{</span>
-                <span class="n">value</span><span class="p">.</span><span class="nf">insert</span><span class="p">(</span><span class="n">value</span><span class="p">.</span><span class="nf">begin</span><span class="p">(),</span><span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span><span class="o">-&gt;</span><span class="n">val</span><span class="p">);</span>
-                <span class="n">head</span> <span class="o">=</span> <span class="n">head</span><span class="o">-&gt;</span><span class="k">next</span><span class="p">;</span>
-            <span class="p">}</span>         
-             
-        <span class="p">}</span>
-        <span class="k">return</span> <span class="n">value</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">};</span></code></pre></figure>
 

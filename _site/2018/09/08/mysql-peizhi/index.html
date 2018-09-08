@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title><数据库课程设计1>mysql数据库和MySQLdb环境配置 - 七条鱼</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
+	<link rel="icon" href="/styles/images/favicon.jpg">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2018/09/08/mysql-peizhi/">
+	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
+	
+	<meta name="keywords" content="<数据库课程设计1>mysql数据库和MySQLdb环境配置, 七条鱼, 个人博客;">
+	<meta name="description" content="个人博客;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  	<![endif]-->
+  	<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?94be4b0f9fc5d94cc0d0415ea6761ae9";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+  	<style type="text/css">
+	  	.docs-content{
+	  		margin-bottom: 10px;
+	  	}
+  	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg">
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">    
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/categories/">大分组</a>
+        </li>
+        <li>
+          <a href="/tag">细小分组</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a rel="nofollow" target="_blank" href="https://github.com/goldofzky/">Github</a></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/Goldofzky/goldofzky.github.io/">博客源码</a></li>
+            <li class="divider"></li>
+            <li><a rel="nofollow" target="_blank" >My email:</a></li>
+            <li><a rel="nofollow" target="_blank" >347560833@qq.com</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+ 
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1><数据库课程设计1>mysql数据库和MySQLdb环境配置</h1>
+		    <p>Post on Sep 08, 2018 by <a href="/about">Keyu Zhao</a></p>
+		-->
+		    <h1>Learn what I like,do what I want.</h1>
+    
+  </div>
+</div>
+    
+      
+<div class="banner">
+  <div class="container">
+  	
+    	<a href="/categories/#数据库课程设计-ref">数据库课程设计</a>	/
+    	<a href="/tag/#环境配置-ref">环境配置</a>
+    
+  </div>
+</div>
+
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0ekgc3a3o3w&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async">
+    </script>
+  </div>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title"><数据库课程设计1>mysql数据库和MySQLdb环境配置</h1>
+              <!--
+                <p class="post-meta">Sep 8, 2018</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Sep 08, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <ul id="markdown-toc">
+  <li><a href="#安装mysql" id="markdown-toc-安装mysql">安装Mysql</a></li>
+  <li><a href="#为python增加mysqldb模块" id="markdown-toc-为python增加mysqldb模块">为python增加MySQLdb模块</a></li>
+  <li><a href="#python操作mysql" id="markdown-toc-python操作mysql">python操作mysql</a></li>
+</ul>
+
+<h1 id="安装mysql">安装Mysql</h1>
+
+<p>Windows环境下安装数据库,<br />
+网址:https://dev.mysql.com/downloads/installer/<br />
+选取MSI Installer</p>
+
+<p><img src="/styles/images/mysql安装包.png" alt="mysql安装包" /></p>
+
+<p>这个安装包文件傻瓜式,主要在安装过程中记住自己设置的权限密码就行了.</p>
+
+<p>安装完毕后,配置环境变量.</p>
+
+<blockquote>
+  <p>在win10系统下,步骤如下<br />
+1.找到此电脑,右键属性<br />
+2.点击高级系统设置<br />
+3.点击环境变量<br />
+4.在系统的path下编辑,新添<code class="highlighter-rouge">mysql serve主目录下的bin文件夹地址即可</code></p>
+</blockquote>
+
+<p>最后打开cmd命令,输入
+<code class="highlighter-rouge">mysql -u root -p</code><br />
+mysql启动成功</p>
+
+<h1 id="为python增加mysqldb模块">为python增加MySQLdb模块</h1>
+
+<p>打开python,输入</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt;import MySQLdb
+Traceback (most recent call last):
+  File "&lt;stdin&gt;", line 1, in &lt;module&gt;
+ImportError: No module named MySQLdb
+&gt;&gt;&gt;
+</code></pre></div></div>
+
+<p>说明还没有安装
+官网下载安装包,<br />
+网址:https://pypi.org/project/MySQL-python/1.2.5/</p>
+
+<p>选择合适的版本,不然安装包识别不到python,直接安装即可.</p>
+
+<p>安装完毕后,打开python,输入</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&gt;&gt;&gt;import MySQLdb
+&gt;&gt;&gt;
+</code></pre></div></div>
+
+<p>这时没有报错,模块安装成功</p>
+
+<h1 id="python操作mysql">python操作mysql</h1>
+<p>事先记得打开mysql serve,<br />
+编辑testdb.py文件</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1"># -*- coding:utf-8 -*-</span>
+<span class="n">import</span> <span class="no">MySQLdb</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
+    <span class="nb">test</span><span class="o">=</span> <span class="no">MySQLdb</span><span class="p">.</span><span class="nf">connect</span><span class="p">(</span><span class="s2">"localhost"</span><span class="p">,</span><span class="s2">"root"</span><span class="p">,</span><span class="s2">"root"</span><span class="p">,</span><span class="s2">"mysql"</span> <span class="p">)</span>
+    <span class="n">cur</span> <span class="o">=</span> <span class="nb">test</span><span class="p">.</span><span class="nf">cursor</span><span class="p">()</span>
+    <span class="n">cur</span><span class="p">.</span><span class="nf">execute</span><span class="p">(</span><span class="s1">'show tables;'</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">data</span> <span class="k">in</span> <span class="n">cur</span><span class="p">.</span><span class="nf">fetchall</span><span class="p">():</span>
+        <span class="nb">print</span> <span class="n">data</span></code></pre></figure>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>python testdb.py 
+</code></pre></div></div>
+<p>报错:
+<code class="highlighter-rouge">[ERROR]1251--Client does not support authentication protocol requested by server</code></p>
+
+<p>查找原因:</p>
+<blockquote>
+  <p>mysql服务器要求的认证插件版本与客户端不一致造成的。 <br />
+打开mysql命令行输入如下命令查看，系统用户对应的认证插件：<br />
+可以看到root用户使用的plugin是caching_sha2_password，mysql官方网站有如下说明：<br />
+意思是说caching_sha2_password是8.0默认的认证插件，必须使用支持此插件的客户端版本。</p>
+</blockquote>
+
+<p>解决办法:</p>
+<blockquote>
+  <p>用管理员身份打开cmd
+mysql -uroot -p（输入密码）            进入mysql执行下面三个命令<br />
+use mysql；<br />
+ALTER USER ‘root’@’localhost’ IDENTIFIED WITH mysql_native_password BY ‘你的密码’;<br />
+FLUSH PRIVILEGES;</p>
+</blockquote>
+
+<p>解决后,再次执行testdb.py文件
+<img src="/styles/images/连接mysql成功.PNG" alt="成功" /></p>
+
+<p>环境配置成功,已经可以用python来操作mysql数据库</p>
+
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2018-2018 <a href=""><code>Keyu Zhao</code></a>.</p>
+		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, themed from <a href="http://lesscss.cn/">Less</a>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  </body>
+</html>

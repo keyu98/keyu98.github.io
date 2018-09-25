@@ -1,8 +1,8 @@
 ---
 layout: post
-title: <数据库课程设计1>mysql数据库和MySQLdb环境配置
+title: mysql数据库和MySQLdb环境配置
 date:   2018-09-08 07:00:38 +0800
-categories: 数据库课程设计
+categories: 数据库
 tag: 环境配置
 ---
 

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: <学习GUI> 按钮实现页面切换wxpython
+title: GUI学习笔记1> 按钮实现页面切换wxpython
 date:   2018-10-12 9:00:38 +0800
 categories: 思路
 tag: GUI

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>GUI学习笔记2> java中Jbutton的方法 - 七条鱼</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
+	<link rel="icon" href="/styles/images/favicon.jpg">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2018/10/12/Jbuttonlearning/">
+	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
+	
+	<meta name="keywords" content="GUI学习笔记2> java中Jbutton的方法, 七条鱼, 个人博客;">
+	<meta name="description" content="个人博客;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  	<![endif]-->
+  	<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?94be4b0f9fc5d94cc0d0415ea6761ae9";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+  	<style type="text/css">
+	  	.docs-content{
+	  		margin-bottom: 10px;
+	  	}
+  	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg">
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">    
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/categories/">大分组</a>
+        </li>
+        <li>
+          <a href="/tag">细小分组</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a rel="nofollow" target="_blank" href="https://github.com/goldofzky/">Github</a></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/Goldofzky/goldofzky.github.io/">博客源码</a></li>
+            <li class="divider"></li>
+            <li><a rel="nofollow" target="_blank" >My email:</a></li>
+            <li><a rel="nofollow" target="_blank" >347560833@qq.com</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+ 
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>GUI学习笔记2> java中Jbutton的方法</h1>
+		    <p>Post on Oct 12, 2018 by <a href="/about">Keyu Zhao</a></p>
+		-->
+		    <h1>Learn what I like,do what I want.</h1>
+    
+  </div>
+</div>
+    
+      
+<div class="banner">
+  <div class="container">
+  	
+    	<a href="/categories/#思路-ref">思路</a>	/
+    	<a href="/tag/#GUI-ref">GUI</a>
+    
+  </div>
+</div>
+
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0ekgc3a3o3w&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async">
+    </script>
+  </div>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">GUI学习笔记2> java中Jbutton的方法</h1>
+              <!--
+                <p class="post-meta">Oct 12, 2018</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Oct 12, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <p>JButton 实现了普通的三态外加选中、禁用状态，有很多方法可以设置。</p>
+
+<p>很多时候没有必要去写鼠标监听器。</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="c1">#-*- coding:utf-8 -*-</span>
+ 
+<span class="n">setBorderPainted</span><span class="p">(</span><span class="n">boolean</span> <span class="n">b</span><span class="p">)</span> 
+<span class="sr">//</span><span class="err">是否画边框，如果用自定义图片做按钮背景可以设为</span> <span class="kp">false</span><span class="err">。</span>
+
+<span class="n">setContentAreaFilled</span><span class="p">(</span><span class="n">boolean</span> <span class="n">b</span><span class="p">)</span>
+ <span class="sr">//</span><span class="err">是否填充，如果你的自定义图片不是矩形或存在空白边距，可以设为</span> <span class="kp">false</span> <span class="err">使按钮看起来透明。</span>
+
+<span class="n">setFocusPainted</span><span class="p">(</span><span class="n">boolean</span> <span class="n">b</span><span class="p">)</span>
+ <span class="sr">//</span><span class="err">是否绘制焦点</span><span class="p">(</span><span class="err">例如浅色虚线框或者加粗的边框表明按钮当前有焦点</span><span class="p">)</span><span class="err">。</span>
+
+<span class="n">setMargin</span><span class="p">(</span><span class="no">Insets</span> <span class="n">m</span><span class="p">)</span> 
+<span class="sr">//</span><span class="err">改变边距，如果</span> <span class="n">borderPainted</span> <span class="err">和</span> <span class="n">contentAreaFilled</span> <span class="err">都设成了</span> <span class="kp">false</span><span class="err">，建议把边距都调为</span> <span class="mi">0</span><span class="ss">:new</span> <span class="no">Insets</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span><span class="err">。</span>
+
+<span class="n">setIcon</span><span class="p">(</span><span class="no">Icon</span> <span class="n">defaultIcon</span><span class="p">)</span>
+ <span class="sr">//</span><span class="err">注意了这是改的默认图标。三态中的默认，即鼠标未在其上的时候。</span>
+
+<span class="n">setPressedIcon</span><span class="p">(</span><span class="no">Icon</span> <span class="n">pressedIcon</span><span class="p">)</span> 
+<span class="sr">//</span><span class="err">按下时的图标。</span>
+
+<span class="n">setRolloverIcon</span><span class="p">(</span><span class="no">Icon</span> <span class="n">rolloverIcon</span><span class="p">)</span> 
+<span class="sr">//</span><span class="err">鼠标经过时的图标。</span>
+
+<span class="n">setRolloverSelectedIcon</span><span class="p">(</span><span class="no">Icon</span> <span class="n">rolloverSelectedIcon</span><span class="p">)</span>
+ <span class="sr">//</span><span class="err">鼠标经过时且被选中状态的图标。</span>
+
+<span class="n">setSelectedIcon</span><span class="p">(</span><span class="no">Icon</span> <span class="n">selectedIcon</span><span class="p">)</span>
+ <span class="sr">//</span><span class="err">选中时的图标。</span>
+
+<span class="n">setDisabledIcon</span><span class="p">(</span><span class="no">Icon</span> <span class="n">disabledIcon</span><span class="p">)</span> 
+<span class="sr">//</span><span class="err">禁用时显示的图标。例如可以换一张灰度图片。</span>
+
+<span class="n">setDisabledSelectedIcon</span><span class="p">(</span><span class="no">Icon</span> <span class="n">disabledSelectedIcon</span><span class="p">)</span> <span class="o">/</span>
+<span class="sr">/禁用且被选中状态的图标。</span></code></pre></figure>
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2018-2018 <a href=""><code>Keyu Zhao</code></a>.</p>
+		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, themed from <a href="http://lesscss.cn/">Less</a>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  </body>
+</html>

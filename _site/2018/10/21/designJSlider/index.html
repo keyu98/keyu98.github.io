@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>GUI学习笔记3> JSlider的美化重写 - 七条鱼</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
+	<link rel="icon" href="/styles/images/favicon.jpg">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2018/10/21/designJSlider/">
+	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
+	
+	<meta name="keywords" content="GUI学习笔记3> JSlider的美化重写, 七条鱼, 个人博客;">
+	<meta name="description" content="个人博客;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  	<![endif]-->
+  	<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?94be4b0f9fc5d94cc0d0415ea6761ae9";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+  	<style type="text/css">
+	  	.docs-content{
+	  		margin-bottom: 10px;
+	  	}
+  	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg">
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">    
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/categories/">大分组</a>
+        </li>
+        <li>
+          <a href="/tag">细小分组</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a rel="nofollow" target="_blank" href="https://github.com/goldofzky/">Github</a></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/Goldofzky/goldofzky.github.io/">博客源码</a></li>
+            <li class="divider"></li>
+            <li><a rel="nofollow" target="_blank" >My email:</a></li>
+            <li><a rel="nofollow" target="_blank" >347560833@qq.com</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+ 
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>GUI学习笔记3> JSlider的美化重写</h1>
+		    <p>Post on Oct 21, 2018 by <a href="/about">Keyu Zhao</a></p>
+		-->
+		    <h1>Learn what I like,do what I want.</h1>
+    
+  </div>
+</div>
+    
+      
+<div class="banner">
+  <div class="container">
+  	
+    	<a href="/categories/#编程语言-ref">编程语言</a>	/
+    	<a href="/tag/#GUI-ref">GUI</a>
+    
+  </div>
+</div>
+
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0ekgc3a3o3w&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async">
+    </script>
+  </div>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">GUI学习笔记3> JSlider的美化重写</h1>
+              <!--
+                <p class="post-meta">Oct 21, 2018</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Oct 21, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <ul id="markdown-toc">
+  <li><a href="#运用look-and-feel" id="markdown-toc-运用look-and-feel">运用look and feel</a></li>
+  <li><a href="#重写jslider-ui" id="markdown-toc-重写jslider-ui">重写JSlider UI</a></li>
+</ul>
+
+<p>Swing本来提供的滑块JSlider丑的实在不忍直视,所以很有必要进行优化重写<br />
+提供有两种方法进行JSlider的美化</p>
+
+<h1 id="运用look-and-feel">运用look and feel</h1>
+
+<blockquote>
+  <p>那什么是 LookAndFeel 呢？<br />
+通俗的说，这就是皮肤；<br />
+从功能上说。这是一种批量管理 Swing 控件外观的机制；<br />
+从根源来说，这是 Swing 的核心。</p>
+</blockquote>
+
+<p>在Swing中只需一行代码就可以改变皮肤    <br />
+<code class="highlighter-rouge">UIManager.setLookAndFeel(new LookAndFeel());</code><br />
+比如:  <br />
+   <code class="highlighter-rouge">UIManager.setLookAndFeel(new QuaquaLookAndFeel());</code><br />
+我们还可以通过<br />
+   <code class="highlighter-rouge">UIManager.setLookAndFeel(String s);</code><br />
+来改变外观,其中,s是表示该外观的路径,比如<br />
+   <code class="highlighter-rouge">UIManager.setLookAndFeel("org.fife.plaf.OfficeXP.OfficeXPLookAndFeel");</code></p>
+
+<p>以下是一些java自带的look and feel,当然还可以去网上下载其他的.</p>
+<blockquote>
+  <p>UIManager.setLookAndFeel(com.sun.java.swing.plaf.windows.WindowsLookAndFeel.class.getName());//还可以，只能在windows系统中用，也就是这句代码不跨平台<br />
+UIManager.setLookAndFeel(javax.swing.plaf.nimbus.NimbusLookAndFeel.class.getName());//还可以<br />
+UIManager.setLookAndFeel(javax.swing.plaf.basic.BasicLookAndFeel.class.getName());//swing默认的丑皮肤<br />
+UIManager.setLookAndFeel(javax.swing.plaf.metal.MetalLookAndFeel.class.getName());//swing默认的丑皮肤<br />
+UIManager.setLookAndFeel(com.sun.java.swing.plaf.motif.MotifLookAndFeel.class.getName());//丑<br />
+UIManager.setLookAndFeel(com.sun.java.swing.plaf.gtk.GTKLookAndFeel.class.getName());//还可以</p>
+</blockquote>
+
+<h1 id="重写jslider-ui">重写JSlider UI</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="no">JSlider</span> <span class="n">playTime</span> <span class="o">=</span> <span class="n">new</span> <span class="no">JSlider</span><span class="p">();</span>
+
+<span class="n">playTime</span><span class="p">.</span><span class="nf">setUI</span><span class="p">(</span><span class="n">new</span>  <span class="n">javax</span><span class="p">.</span><span class="nf">swing</span><span class="p">.</span><span class="nf">plaf</span><span class="p">.</span><span class="nf">metal</span><span class="o">.</span><span class="no">MetalSliderUI</span><span class="p">(){</span>
+	    	<span class="vi">@Override</span>
+	    	<span class="kp">public</span> <span class="n">void</span> <span class="n">paintThumb</span><span class="p">(</span><span class="no">Graphics</span> <span class="n">g</span><span class="p">)</span> <span class="p">{</span>
+                <span class="sr">//</span><span class="err">绘制指示物</span>
+	    		<span class="no">Graphics2D</span> <span class="n">g2d</span> <span class="o">=</span> <span class="p">(</span><span class="no">Graphics2D</span><span class="p">)</span> <span class="n">g</span><span class="p">;</span>
+	    		<span class="n">g2d</span><span class="p">.</span><span class="nf">setColor</span><span class="p">(</span><span class="no">Color</span><span class="p">.</span><span class="nf">white</span><span class="p">);</span>
+	    		<span class="n">g2d</span><span class="p">.</span><span class="nf">setRenderingHint</span><span class="p">(</span><span class="no">RenderingHints</span><span class="o">.</span><span class="no">KEY_ANTIALIASING</span><span class="p">,</span> <span class="no">RenderingHints</span><span class="o">.</span><span class="no">VALUE_ANTIALIAS_ON</span><span class="p">);</span>
+	    		<span class="n">g2d</span><span class="p">.</span><span class="nf">fillOval</span><span class="p">(</span><span class="n">thumbRect</span><span class="p">.</span><span class="nf">x</span><span class="p">,</span> <span class="n">thumbRect</span><span class="p">.</span><span class="nf">y</span><span class="p">,</span> <span class="n">thumbRect</span><span class="p">.</span><span class="nf">width</span><span class="p">,</span>
+                        <span class="n">thumbRect</span><span class="p">.</span><span class="nf">height</span><span class="p">);</span><span class="sr">//</span><span class="err">修改为圆形</span>
+                <span class="sr">//</span><span class="err">也可以帖图</span><span class="p">(</span><span class="err">利用鼠标事件转换</span><span class="n">image</span><span class="err">即可体现不同状态</span><span class="p">)</span>
+                <span class="sr">//</span><span class="n">g2d</span><span class="p">.</span><span class="nf">drawImage</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">thumbRect</span><span class="p">.</span><span class="nf">x</span><span class="p">,</span> <span class="n">thumbRect</span><span class="p">.</span><span class="nf">y</span><span class="p">,</span> <span class="n">thumbRect</span><span class="p">.</span><span class="nf">width</span><span class="p">,</span><span class="n">thumbRect</span><span class="p">.</span><span class="nf">height</span><span class="p">,</span><span class="n">null</span><span class="p">);</span>
+
+	    	<span class="p">}</span>
+	    	<span class="kp">public</span> <span class="n">void</span> <span class="n">paintTrack</span><span class="p">(</span><span class="no">Graphics</span> <span class="n">g</span><span class="p">)</span> <span class="p">{</span>
+                <span class="sr">//</span><span class="err">绘制刻度的轨迹</span>
+	    		<span class="n">int</span> <span class="n">cy</span><span class="p">,</span><span class="n">cw</span><span class="p">;</span>
+	    		<span class="no">Rectangle</span> <span class="n">trackBounds</span> <span class="o">=</span> <span class="n">trackRect</span><span class="p">;</span>
+	    		<span class="k">if</span> <span class="p">(</span><span class="n">slider</span><span class="p">.</span><span class="nf">getOrientation</span><span class="p">()</span> <span class="o">==</span> <span class="no">JSlider</span><span class="o">.</span><span class="no">HORIZONTAL</span><span class="p">)</span> <span class="p">{</span>
+	    			<span class="no">Graphics2D</span> <span class="n">g2</span> <span class="o">=</span> <span class="p">(</span><span class="no">Graphics2D</span><span class="p">)</span> <span class="n">g</span><span class="p">;</span>
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">setPaint</span><span class="p">(</span><span class="no">Color</span><span class="p">.</span><span class="nf">black</span><span class="p">);</span><span class="sr">//</span><span class="err">将背景设为黑色</span>
+	    			<span class="n">cy</span> <span class="o">=</span> <span class="p">(</span><span class="n">trackBounds</span><span class="p">.</span><span class="nf">height</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span>
+	    			<span class="n">cw</span> <span class="o">=</span> <span class="n">trackBounds</span><span class="p">.</span><span class="nf">width</span><span class="p">;</span>
+	    			
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">setRenderingHint</span><span class="p">(</span><span class="no">RenderingHints</span><span class="o">.</span><span class="no">KEY_ANTIALIASING</span><span class="p">,</span>
+	    					<span class="no">RenderingHints</span><span class="o">.</span><span class="no">VALUE_ANTIALIAS_ON</span><span class="p">);</span>
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">translate</span><span class="p">(</span><span class="n">trackBounds</span><span class="p">.</span><span class="nf">x</span><span class="p">,</span> <span class="n">trackBounds</span><span class="p">.</span><span class="nf">y</span> <span class="o">+</span> <span class="n">cy</span><span class="p">);</span>
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">fillRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">cy</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="n">cw</span><span class="p">,</span> <span class="n">cy</span><span class="p">);</span>
+	    			
+	    			<span class="n">int</span> <span class="n">trackLeft</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	    			<span class="n">int</span> <span class="n">trackRight</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	    			<span class="n">trackRight</span> <span class="o">=</span> <span class="n">trackRect</span><span class="p">.</span><span class="nf">width</span> <span class="o">-</span> <span class="mi">1</span><span class="p">;</span>
+
+	    			<span class="n">int</span> <span class="n">middleOfThumb</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	    			<span class="n">int</span> <span class="n">fillLeft</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	    			<span class="n">int</span> <span class="n">fillRight</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+	    			<span class="sr">//</span><span class="err">换算坐标</span>
+	    			<span class="n">middleOfThumb</span> <span class="o">=</span> <span class="n">thumbRect</span><span class="p">.</span><span class="nf">x</span> <span class="o">+</span> <span class="p">(</span><span class="n">thumbRect</span><span class="p">.</span><span class="nf">width</span> <span class="o">/</span> <span class="mi">2</span><span class="p">);</span>
+	    			<span class="n">middleOfThumb</span> <span class="o">-=</span> <span class="n">trackRect</span><span class="p">.</span><span class="nf">x</span><span class="p">;</span>
+	    			
+	    			<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">drawInverted</span><span class="p">())</span> <span class="p">{</span>
+	    				<span class="n">fillLeft</span> <span class="o">=</span> <span class="o">!</span><span class="n">slider</span><span class="p">.</span><span class="nf">isEnabled</span><span class="p">()</span> <span class="p">?</span> <span class="n">trackLeft</span> <span class="p">:</span> <span class="n">trackLeft</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+	    				<span class="n">fillRight</span> <span class="o">=</span> <span class="n">middleOfThumb</span><span class="p">;</span>
+	    				<span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+	    				<span class="n">fillLeft</span> <span class="o">=</span> <span class="n">middleOfThumb</span><span class="p">;</span>
+	    				<span class="n">fillRight</span> <span class="o">=</span> <span class="o">!</span><span class="n">slider</span><span class="p">.</span><span class="nf">isEnabled</span><span class="p">()</span> <span class="p">?</span> <span class="n">trackRight</span> <span class="o">-</span> <span class="mi">1</span>
+	    				<span class="p">:</span> <span class="n">trackRight</span> <span class="o">-</span> <span class="mi">2</span><span class="p">;</span>
+	    				<span class="p">}</span>
+	    			<span class="sr">//</span><span class="err">设定渐变</span><span class="p">,</span><span class="err">在这里从红色变为红色</span><span class="p">,</span><span class="err">则没有渐变</span><span class="p">,</span><span class="err">滑块划过的地方自动变成红色</span>
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">setPaint</span><span class="p">(</span><span class="n">new</span> <span class="no">GradientPaint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="no">Color</span><span class="p">.</span><span class="nf">red</span><span class="p">,</span> <span class="n">cw</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span>
+	    					<span class="no">Color</span><span class="p">.</span><span class="nf">red</span><span class="p">,</span> <span class="kp">true</span><span class="p">));</span>
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">fillRect</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="o">-</span><span class="n">cy</span> <span class="o">+</span> <span class="mi">5</span><span class="p">,</span> <span class="n">fillRight</span> <span class="o">-</span> <span class="n">fillLeft</span><span class="p">,</span> <span class="n">cy</span><span class="p">);</span>
+	    					
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">setPaint</span><span class="p">(</span><span class="n">slider</span><span class="p">.</span><span class="nf">getBackground</span><span class="p">());</span>
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">fillRect</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">cw</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">setPaint</span><span class="p">(</span><span class="no">Color</span><span class="o">.</span><span class="no">WHITE</span><span class="p">);</span>
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">drawLine</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">cy</span><span class="p">,</span> <span class="n">cw</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">cy</span><span class="p">);</span>
+
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">setRenderingHint</span><span class="p">(</span><span class="no">RenderingHints</span><span class="o">.</span><span class="no">KEY_ANTIALIASING</span><span class="p">,</span>
+	    			<span class="no">RenderingHints</span><span class="o">.</span><span class="no">VALUE_ANTIALIAS_OFF</span><span class="p">);</span>
+	    			<span class="n">g2</span><span class="p">.</span><span class="nf">translate</span><span class="p">(</span><span class="o">-</span><span class="n">trackBounds</span><span class="p">.</span><span class="nf">x</span><span class="p">,</span> <span class="o">-</span><span class="p">(</span><span class="n">trackBounds</span><span class="p">.</span><span class="nf">y</span> <span class="o">+</span> <span class="n">cy</span><span class="p">));</span>   					
+	    		<span class="p">}</span>
+	    		<span class="k">else</span> <span class="p">{</span>
+    				<span class="k">super</span><span class="p">.</span><span class="nf">paintTrack</span><span class="p">(</span><span class="n">g</span><span class="p">);</span>
+    				<span class="p">}</span>
+	    	<span class="p">}</span>
+	    
+<span class="p">});</span></code></pre></figure>
+
+<p>效果图<br />
+<img src="/styles/images/JSlider.PNG" alt="JSlider" /></p>
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2018-2018 <a href=""><code>Keyu Zhao</code></a>.</p>
+		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, themed from <a href="http://lesscss.cn/">Less</a>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  </body>
+</html>

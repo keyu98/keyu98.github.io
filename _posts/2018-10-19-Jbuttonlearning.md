@@ -2,7 +2,7 @@
 layout: post
 title: GUI学习笔记2> java中Jbutton的方法
 date:   2018-10-19 20:00:38 +0800
-categories: 思路
+categories: 编程语言
 tag: GUI
 ---
 

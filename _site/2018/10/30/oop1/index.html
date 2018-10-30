@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>OOP思想> IS-A，IS-LIKE-A,HAS-A的区别 - 七条鱼</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
+	<link rel="icon" href="/styles/images/favicon.jpg">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2018/10/30/oop1/">
+	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
+	
+	<meta name="keywords" content="OOP思想> IS-A，IS-LIKE-A,HAS-A的区别, 七条鱼, 个人博客;">
+	<meta name="description" content="个人博客;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  	<![endif]-->
+  	<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?94be4b0f9fc5d94cc0d0415ea6761ae9";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+  	<style type="text/css">
+	  	.docs-content{
+	  		margin-bottom: 10px;
+	  	}
+  	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg">
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">    
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/categories/">大分组</a>
+        </li>
+        <li>
+          <a href="/tag">细小分组</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+            <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a rel="nofollow" target="_blank" href="https://github.com/goldofzky/">Github</a></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/Goldofzky/goldofzky.github.io/">博客源码</a></li>
+            <li class="divider"></li>
+            <li><a rel="nofollow" target="_blank" >My email:</a></li>
+            <li><a rel="nofollow" target="_blank" >347560833@qq.com</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+ 
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>OOP思想> IS-A，IS-LIKE-A,HAS-A的区别</h1>
+		    <p>Post on Oct 30, 2018 by <a href="/about">Keyu Zhao</a></p>
+		-->
+		    <h1>Learn what I like,do what I want.</h1>
+    
+  </div>
+</div>
+    
+      
+<div class="banner">
+  <div class="container">
+  	
+    	<a href="/categories/#思路-ref">思路</a>	/
+    	<a href="/tag/#面对对象编程-ref">面对对象编程</a>
+    
+  </div>
+</div>
+
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0ekgc3a3o3w&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async">
+    </script>
+  </div>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">OOP思想> IS-A，IS-LIKE-A,HAS-A的区别</h1>
+              <!--
+                <p class="post-meta">Oct 30, 2018</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Oct 30, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <ul id="markdown-toc">
+  <li><a href="#is-a" id="markdown-toc-is-a">IS-A</a></li>
+  <li><a href="#has-a" id="markdown-toc-has-a">HAS-A</a></li>
+  <li><a href="#is-like-a" id="markdown-toc-is-like-a">IS-LIKE-A</a></li>
+  <li><a href="#应用" id="markdown-toc-应用">应用</a></li>
+</ul>
+
+<h1 id="is-a">IS-A</h1>
+<p><code class="highlighter-rouge">代表类与类之间的继承关系</code></p>
+<blockquote>
+  <p>在知识表示、面向对象程序设计与<a href="https://baike.so.com/doc/1756761-1857635.html">面向对象设计</a>的领域里，<strong>is-a</strong>英语，包含架构)指的是类的父子继承关系，例如类<em>D</em>是另一个类<em>B</em>的子类(类<em>B</em>是类<em>D</em>的父类)。
+换句话说，通常”<em>D</em><strong><em>is a</em></strong><em>B</em>”(<em>B</em>把<em>D</em>包含在内，或是<em>D</em>被包含在<em>B</em>内)指的是，概念体<em>D</em>物是概念体<em>B</em>物的特殊化，而概念体<em>B</em>物是概念体<em>D</em>物的一般化。举例来说，水果是苹果、橘子、芒果与其他水果的一般化。</p>
+</blockquote>
+
+<blockquote>
+  <p>“is a”代表的是类之间的继承关系，比如PC机是计算机，工作站也是计算机。PC机和工作站是两种不同类型的计算机，但都继承了计算机的共同特性。因此在用 Java语言实现时，应该将PC机和工作站定义成两种类，均继承计算机类</p>
+</blockquote>
+
+<h1 id="has-a">HAS-A</h1>
+<p><code class="highlighter-rouge">代表的是对象和它的成员的从属关系</code></p>
+<blockquote>
+  <p>同一种类的对象，通过它们的属性的不同值来区别。比如一台PC机的操作系统是Windows，另一台PC机的操作系统是Linux。操作系统是PC机的一个成员变量，根据这一成员变量的不同值，可以区分不同的PC机对象。</p>
+</blockquote>
+
+<h1 id="is-like-a">IS-LIKE-A</h1>
+<p><code class="highlighter-rouge">代表类与类之间的组合关系</code></p>
+
+<blockquote>
+  <p>假设A like a B，那么B就是A的接口。<br />
+新类型有老类型的接口，但还包括其它函数，所以不能说它们全然同样。 <br />
+比如一台手机能够说是一个微型计算机，可是手机的通讯功能显然不是计算机具备的行为，所以手机继承了计算机的特性，同一时候须要实现通讯功能。而通讯功能须要作为单独接口。而不是计算机的行为。</p>
+</blockquote>
+
+<h1 id="应用">应用</h1>
+<ul>
+  <li>假设你确定两件对象之间是is-a的关系，那么此时你应该使用继承。比方菱形、圆形和方形都是形状的一种。那么他们都应该从形状类继承。</li>
+  <li>假设你确定两件对象之间是has-a的关系，那么此时你应该使用聚合。比方电脑是由显示器、CPU、硬盘等组成的。那么你应该把显示器、CPU、硬盘这些类聚合成电脑类。</li>
+  <li>假设你确定两件对象之间是like-a的关系，那么此时你应该使用组合。比方空调继承于制冷机，但它同一时候有加热功能。那么你应该把让空调继承制冷机类，并实现加热接口。</li>
+</ul>
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2018-2018 <a href=""><code>Keyu Zhao</code></a>.</p>
+		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, themed from <a href="http://lesscss.cn/">Less</a>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  </body>
+</html>

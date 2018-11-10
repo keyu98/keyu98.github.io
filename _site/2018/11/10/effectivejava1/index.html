@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JAVA笔记1>创建及销毁对象 - 七条鱼</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
+	<link rel="icon" href="/styles/images/favicon.jpg">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2018/11/10/effectivejava1/">
+	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
+	
+	<meta name="keywords" content="JAVA笔记1>创建及销毁对象, 七条鱼, 个人博客;">
+	<meta name="description" content="个人博客;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  	<![endif]-->
+  	<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?94be4b0f9fc5d94cc0d0415ea6761ae9";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+  	<style type="text/css">
+	  	.docs-content{
+	  		margin-bottom: 10px;
+	  	}
+  	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg">
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">    
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/categories/">大分组</a>
+        </li>
+        <li>
+          <a href="/tag">细小分组</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+              <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a rel="nofollow" target="_blank" href="https://github.com/goldofzky/">Github</a></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/Goldofzky/goldofzky.github.io/">博客源码</a></li>
+            <li class="divider"></li>
+            <li><a rel="nofollow" target="_blank" >My email:</a></li>
+            <li><a rel="nofollow" target="_blank" >347560833@qq.com</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+ 
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>JAVA笔记1>创建及销毁对象</h1>
+		    <p>Post on Nov 10, 2018 by <a href="/about">Keyu Zhao</a></p>
+		-->
+		    <h1>Learn what I like,do what I want.</h1>
+    
+  </div>
+</div>
+    
+      
+<div class="banner">
+  <div class="container">
+  	
+    	<a href="/categories/#编程语言-ref">编程语言</a>	/
+    	<a href="/tag/#JAVA笔记-ref">JAVA笔记</a>
+    
+  </div>
+</div>
+
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0ekgc3a3o3w&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async">
+    </script>
+  </div>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">JAVA笔记1>创建及销毁对象</h1>
+              <!--
+                <p class="post-meta">Nov 10, 2018</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Nov 10, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <ul id="markdown-toc">
+  <li><a href="#静态工厂方法" id="markdown-toc-静态工厂方法">静态工厂方法</a></li>
+  <li><a href="#当构造器参数太多时考虑使用构建器" id="markdown-toc-当构造器参数太多时考虑使用构建器">当构造器参数太多时，考虑使用构建器</a></li>
+  <li><a href="#singleton的创造" id="markdown-toc-singleton的创造">Singleton的创造</a></li>
+</ul>
+
+<h1 id="静态工厂方法">静态工厂方法</h1>
+<p>示例：</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span><span class="err">类中提供公有的静态方法，用于返回类的实例</span>
+<span class="kp">public</span> <span class="n">static</span> <span class="no">Boolean</span> <span class="n">valueOf</span><span class="p">(</span><span class="n">boolean</span> <span class="n">b</span><span class="p">){</span>
+    <span class="k">return</span> <span class="n">b?</span><span class="no">Boolean</span><span class="o">.</span><span class="no">True</span> <span class="p">:</span> <span class="no">Boolean</span><span class="o">.</span><span class="no">False</span><span class="p">;</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>类可以通过静态工厂方法来提供它的客户端，而不一定都是通过构造器，这样做有一定的好处。</p>
+
+<p>优点：</p>
+<ul>
+  <li>静态工厂方法创造对象时，因为静态方法有名称，所以更好分辨。</li>
+  <li>不必每次都调用它们的时候都创建一个新的对象。（若每次返回已经建好的实例，或是将实例缓存起来）</li>
+  <li>它们可以返回原返回类型的任何子类型的对象。</li>
+  <li>在创建参数化型实例时，它们使代码更加简洁。</li>
+</ul>
+
+<p>当然也有一定的缺点：</p>
+<ul>
+  <li>类如果不含有公有的或者受保护的构造器，就不能被子类化。</li>
+  <li>它们与其他静态方法实际上没有任何区别</li>
+</ul>
+
+<h1 id="当构造器参数太多时考虑使用构建器">当构造器参数太多时，考虑使用构建器</h1>
+
+<p>当构造器有多个构造器参数，其中又有好几个可选参数时。<br />
+我们有几个方法可以达到目的。</p>
+
+<p>（1）<code class="highlighter-rouge">重叠构造器</code><br />
+运用多态的特性，写多个构造器达到目的，不过随着参数的增加，代码变得难以编写，并且难以阅读。</p>
+
+<p>（2）<code class="highlighter-rouge">JavaBeans 模式</code><br />
+创建多个setXX()方法来对每个参数进行赋值。但是因为在构造过程中被分到多个调用中，在构造过程中JavaBean可能处于不一致的状态，将会导致失败。并且阻止了类变成了不可变的可能，需要付出更多的努力来保证线程安全。</p>
+
+<p>（3）<code class="highlighter-rouge">Builder模式</code><br />
+幸运的是，还有第三种替代方法，既能保证像重叠构造器模式那样的安全性，也能保证像JavaBeans模式那么好的可读性。这就是Builder模式的一种形式，不直接生成想要的对象，而是让客户端利用所有必要的参数调用构造器（或者静态工厂），得到一个builder对象。然后客户端在builder对象上调用类似于setter的方法，来设置每个相关的可选参数。最后，客户端调用无参的builder方法来生成不可变的对象。这个builder是它构建类的静态成员类。下面就是它的示例：</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/**
+ * 使用Builder模式
+ */</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">Person</span> <span class="p">{</span>
+    <span class="sr">//</span><span class="err">必要参数</span>
+    <span class="kp">private</span> <span class="n">final</span> <span class="n">int</span> <span class="nb">id</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">final</span> <span class="no">String</span> <span class="nb">name</span><span class="p">;</span>
+    <span class="sr">//</span><span class="err">可选参数</span>
+    <span class="kp">private</span> <span class="n">final</span> <span class="n">int</span> <span class="n">age</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">final</span> <span class="no">String</span> <span class="n">sex</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">final</span> <span class="no">String</span> <span class="n">phone</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">final</span> <span class="no">String</span> <span class="n">address</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">final</span> <span class="no">String</span> <span class="n">desc</span><span class="p">;</span>
+
+    <span class="kp">private</span> <span class="no">Person</span><span class="p">(</span><span class="no">Builder</span> <span class="n">builder</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">this</span><span class="p">.</span><span class="nf">id</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="nf">id</span><span class="p">;</span>
+        <span class="n">this</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="nf">name</span><span class="p">;</span>
+        <span class="n">this</span><span class="p">.</span><span class="nf">age</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="nf">age</span><span class="p">;</span>
+        <span class="n">this</span><span class="p">.</span><span class="nf">sex</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="nf">sex</span><span class="p">;</span>
+        <span class="n">this</span><span class="p">.</span><span class="nf">phone</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="nf">phone</span><span class="p">;</span>
+        <span class="n">this</span><span class="p">.</span><span class="nf">address</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="nf">address</span><span class="p">;</span>
+        <span class="n">this</span><span class="p">.</span><span class="nf">desc</span> <span class="o">=</span> <span class="n">builder</span><span class="p">.</span><span class="nf">desc</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">static</span> <span class="k">class</span> <span class="nc">Builder</span> <span class="p">{</span>
+        <span class="sr">//</span><span class="err">必要参数</span>
+        <span class="kp">private</span> <span class="n">final</span> <span class="n">int</span> <span class="nb">id</span><span class="p">;</span>
+        <span class="kp">private</span> <span class="n">final</span> <span class="no">String</span> <span class="nb">name</span><span class="p">;</span>
+        <span class="sr">//</span><span class="err">可选参数</span>
+        <span class="kp">private</span> <span class="n">int</span> <span class="n">age</span><span class="p">;</span>
+        <span class="kp">private</span> <span class="no">String</span> <span class="n">sex</span><span class="p">;</span>
+        <span class="kp">private</span> <span class="no">String</span> <span class="n">phone</span><span class="p">;</span>
+        <span class="kp">private</span> <span class="no">String</span> <span class="n">address</span><span class="p">;</span>
+        <span class="kp">private</span> <span class="no">String</span> <span class="n">desc</span><span class="p">;</span>
+
+        <span class="kp">public</span> <span class="no">Builder</span><span class="p">(</span><span class="n">int</span> <span class="nb">id</span><span class="p">,</span> <span class="no">String</span> <span class="nb">name</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">this</span><span class="p">.</span><span class="nf">id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">;</span>
+            <span class="n">this</span><span class="p">.</span><span class="nf">name</span> <span class="o">=</span> <span class="nb">name</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kp">public</span> <span class="no">Builder</span> <span class="n">age</span><span class="p">(</span><span class="n">int</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">this</span><span class="p">.</span><span class="nf">age</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+            <span class="k">return</span> <span class="n">this</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kp">public</span> <span class="no">Builder</span> <span class="n">sex</span><span class="p">(</span><span class="no">String</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">this</span><span class="p">.</span><span class="nf">sex</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+            <span class="k">return</span> <span class="n">this</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kp">public</span> <span class="no">Builder</span> <span class="n">phone</span><span class="p">(</span><span class="no">String</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">this</span><span class="p">.</span><span class="nf">phone</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+            <span class="k">return</span> <span class="n">this</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kp">public</span> <span class="no">Builder</span> <span class="n">address</span><span class="p">(</span><span class="no">String</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">this</span><span class="p">.</span><span class="nf">address</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+            <span class="k">return</span> <span class="n">this</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kp">public</span> <span class="no">Builder</span> <span class="n">desc</span><span class="p">(</span><span class="no">String</span> <span class="n">val</span><span class="p">)</span> <span class="p">{</span>
+            <span class="n">this</span><span class="p">.</span><span class="nf">desc</span> <span class="o">=</span> <span class="n">val</span><span class="p">;</span>
+            <span class="k">return</span> <span class="n">this</span><span class="p">;</span>
+        <span class="p">}</span>
+
+        <span class="kp">public</span> <span class="no">Person</span> <span class="n">build</span><span class="p">()</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="n">new</span> <span class="no">Person</span><span class="p">(</span><span class="n">this</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>当要调用的时候</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/**
+ * 测试使用
+ */</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">Test</span> <span class="p">{</span>
+
+    <span class="kp">public</span> <span class="n">static</span> <span class="n">void</span> <span class="n">main</span><span class="p">(</span><span class="no">String</span><span class="p">[]</span> <span class="n">args</span><span class="p">)</span> <span class="p">{</span>
+        <span class="no">Person</span> <span class="n">person</span> <span class="o">=</span> <span class="n">new</span> <span class="no">Person</span><span class="o">.</span><span class="no">Builder</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="s2">"张三"</span><span class="p">)</span>
+                <span class="p">.</span><span class="nf">age</span><span class="p">(</span><span class="mi">18</span><span class="p">).</span><span class="nf">sex</span><span class="p">(</span><span class="s2">"男"</span><span class="p">).</span><span class="nf">desc</span><span class="p">(</span><span class="s2">"测试使用builder模式"</span><span class="p">).</span><span class="nf">build</span><span class="p">();</span>
+        <span class="no">System</span><span class="p">.</span><span class="nf">out</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="n">person</span><span class="p">.</span><span class="nf">toString</span><span class="p">());</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<h1 id="singleton的创造">Singleton的创造</h1>
+<p>所谓Singleton，即<code class="highlighter-rouge">仅被实例化一次的类</code></p>
+
+<p>在Java1.5发布前有两个方法<br />
+(1)创造公有的实例成员，然后将构造器私有，通过公有成员调用<br />
+(2)创造私有的实例成员，然后将构造器私有，采用静态工厂调用</p>
+
+<p>不过以上方法可能通过复杂的<code class="highlighter-rouge">序列化</code>攻击或者<code class="highlighter-rouge">反射</code>攻击来改变他的唯一性。</p>
+
+<p>本次介绍最佳的方法，即<code class="highlighter-rouge">单元素枚举类型</code>，能够绝对的防止多次实例化。</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">enum</span> <span class="no">Elvis</span><span class="p">{</span>
+    <span class="no">INSTANCE</span><span class="p">;</span>
+
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">leaveTheBuilding</span><span class="p">(){</span><span class="o">...</span><span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2018-2018 <a href=""><code>Keyu Zhao</code></a>.</p>
+		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, themed from <a href="http://lesscss.cn/">Less</a>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  </body>
+</html>

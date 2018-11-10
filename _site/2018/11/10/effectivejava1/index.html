@@ -139,12 +139,14 @@
             </header>
             <article class="post-content">
               <ul id="markdown-toc">
-  <li><a href="#静态工厂方法" id="markdown-toc-静态工厂方法">静态工厂方法</a></li>
-  <li><a href="#当构造器参数太多时考虑使用构建器" id="markdown-toc-当构造器参数太多时考虑使用构建器">当构造器参数太多时，考虑使用构建器</a></li>
-  <li><a href="#singleton的创造" id="markdown-toc-singleton的创造">Singleton的创造</a></li>
+  <li><a href="#1静态工厂方法" id="markdown-toc-1静态工厂方法">1.静态工厂方法</a></li>
+  <li><a href="#2当构造器参数太多时考虑使用构建器" id="markdown-toc-2当构造器参数太多时考虑使用构建器">2.当构造器参数太多时，考虑使用构建器</a></li>
+  <li><a href="#3singleton的创造" id="markdown-toc-3singleton的创造">3.Singleton的创造</a></li>
+  <li><a href="#4通过私有构造器来强化不可实例化的能力" id="markdown-toc-4通过私有构造器来强化不可实例化的能力">4.通过私有构造器来强化不可实例化的能力</a></li>
+  <li><a href="#5消除过期对象引用" id="markdown-toc-5消除过期对象引用">5.消除过期对象引用</a></li>
 </ul>
 
-<h1 id="静态工厂方法">静态工厂方法</h1>
+<h1 id="1静态工厂方法">1.静态工厂方法</h1>
 <p>示例：</p>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">//</span><span class="err">类中提供公有的静态方法，用于返回类的实例</span>
@@ -168,7 +170,7 @@
   <li>它们与其他静态方法实际上没有任何区别</li>
 </ul>
 
-<h1 id="当构造器参数太多时考虑使用构建器">当构造器参数太多时，考虑使用构建器</h1>
+<h1 id="2当构造器参数太多时考虑使用构建器">2.当构造器参数太多时，考虑使用构建器</h1>
 
 <p>当构造器有多个构造器参数，其中又有好几个可选参数时。<br />
 我们有几个方法可以达到目的。</p>
@@ -267,7 +269,7 @@
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
 
-<h1 id="singleton的创造">Singleton的创造</h1>
+<h1 id="3singleton的创造">3.Singleton的创造</h1>
 <p>所谓Singleton，即<code class="highlighter-rouge">仅被实例化一次的类</code></p>
 
 <p>在Java1.5发布前有两个方法<br />
@@ -283,6 +285,28 @@
 
     <span class="kp">public</span> <span class="n">void</span> <span class="n">leaveTheBuilding</span><span class="p">(){</span><span class="o">...</span><span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
+
+<h1 id="4通过私有构造器来强化不可实例化的能力">4.通过私有构造器来强化不可实例化的能力</h1>
+
+<p>有的时候，或许会编写一个只包含静态方法和静态域的类，对于这些类来说，我们没有必要将类实例化，只需要直接调用类的静态方法即可。</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">UtilityClass</span><span class="p">{</span>
+    <span class="sr">//</span><span class="err">不可实例化</span>
+    <span class="kp">private</span> <span class="no">UtilityClass</span><span class="p">(){</span>
+        <span class="kp">throw</span> <span class="n">new</span> <span class="no">AssertionError</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="o">...</span>
+<span class="p">}</span></code></pre></figure>
+
+<h1 id="5消除过期对象引用">5.消除过期对象引用</h1>
+<p>虽然java具有垃圾回收功能，但是对于有些情况则不然。</p>
+
+<ul>
+  <li>栈是实现的<code class="highlighter-rouge">过期引用</code></li>
+  <li><code class="highlighter-rouge">缓存</code></li>
+  <li><code class="highlighter-rouge">监听器</code>和其他<code class="highlighter-rouge">回调</code></li>
+</ul>
 
 
             </article>

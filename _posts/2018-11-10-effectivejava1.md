@@ -9,7 +9,7 @@ tag: JAVA笔记
 * content
 {:toc}
 
-静态工厂方法
+1.静态工厂方法
 ===========
 示例：
 {% highlight ruby %}
@@ -31,7 +31,7 @@ public static Boolean valueOf(boolean b){
 * 类如果不含有公有的或者受保护的构造器，就不能被子类化。
 * 它们与其他静态方法实际上没有任何区别  
 
-当构造器参数太多时，考虑使用构建器
+2.当构造器参数太多时，考虑使用构建器
 ================================
 
 当构造器有多个构造器参数，其中又有好几个可选参数时。  
@@ -134,7 +134,7 @@ public class Test {
 }
 {% endhighlight %}  
 
-Singleton的创造
+3.Singleton的创造
 ==============
 所谓Singleton，即`仅被实例化一次的类`  
 
@@ -153,4 +153,27 @@ public enum Elvis{
     public void leaveTheBuilding(){...}
 }
 {% endhighlight %}  
+
+4.通过私有构造器来强化不可实例化的能力
+==================================
+
+有的时候，或许会编写一个只包含静态方法和静态域的类，对于这些类来说，我们没有必要将类实例化，只需要直接调用类的静态方法即可。  
+{% highlight ruby %}
+public class UtilityClass{
+    //不可实例化
+    private UtilityClass(){
+        throw new AssertionError();
+    }
+
+    ...
+}
+{% endhighlight %}  
+
+5.消除过期对象引用
+=================
+虽然java具有垃圾回收功能，但是对于有些情况则不然。
+
+* 栈是实现的`过期引用`
+* `缓存`
+* `监听器`和其他`回调`
 

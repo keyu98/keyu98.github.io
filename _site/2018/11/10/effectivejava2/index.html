@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JAVA笔记2>Object通用方法 - 七条鱼</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
+	<link rel="icon" href="/styles/images/favicon.jpg">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2018/11/10/effectivejava2/">
+	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
+	
+	<meta name="keywords" content="JAVA笔记2>Object通用方法, 七条鱼, 个人博客;">
+	<meta name="description" content="个人博客;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  	<![endif]-->
+  	<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?94be4b0f9fc5d94cc0d0415ea6761ae9";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+  	<style type="text/css">
+	  	.docs-content{
+	  		margin-bottom: 10px;
+	  	}
+  	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg">
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">    
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/categories/">大分组</a>
+        </li>
+        <li>
+          <a href="/tag">细小分组</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+              <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a rel="nofollow" target="_blank" href="https://github.com/goldofzky/">Github</a></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/Goldofzky/goldofzky.github.io/">博客源码</a></li>
+            <li class="divider"></li>
+            <li><a rel="nofollow" target="_blank" >My email:</a></li>
+            <li><a rel="nofollow" target="_blank" >347560833@qq.com</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+ 
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>JAVA笔记2>Object通用方法</h1>
+		    <p>Post on Nov 10, 2018 by <a href="/about">Keyu Zhao</a></p>
+		-->
+		    <h1>Learn what I like,do what I want.</h1>
+    
+  </div>
+</div>
+    
+      
+<div class="banner">
+  <div class="container">
+  	
+    	<a href="/categories/#编程语言-ref">编程语言</a>	/
+    	<a href="/tag/#JAVA笔记-ref">JAVA笔记</a>
+    
+  </div>
+</div>
+
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0ekgc3a3o3w&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async">
+    </script>
+  </div>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">JAVA笔记2>Object通用方法</h1>
+              <!--
+                <p class="post-meta">Nov 10, 2018</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Nov 10, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <ul id="markdown-toc">
+  <li><a href="#概览" id="markdown-toc-概览">概览</a></li>
+  <li><a href="#1equals" id="markdown-toc-1equals">1.equals()</a></li>
+</ul>
+
+<h1 id="概览">概览</h1>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="n">native</span> <span class="n">int</span> <span class="n">hashCode</span><span class="p">()</span>
+
+<span class="kp">public</span> <span class="n">boolean</span> <span class="n">equals</span><span class="p">(</span><span class="no">Object</span> <span class="n">obj</span><span class="p">)</span>
+
+<span class="kp">protected</span> <span class="n">native</span> <span class="no">Object</span> <span class="nb">clone</span><span class="p">()</span> <span class="n">throws</span> <span class="no">CloneNotSupportedException</span>
+
+<span class="kp">public</span> <span class="no">String</span> <span class="n">toString</span><span class="p">()</span>
+
+<span class="kp">public</span> <span class="n">final</span> <span class="n">native</span> <span class="no">Class</span><span class="o">&lt;</span><span class="sc">?&gt;</span> <span class="n">getClass</span><span class="p">()</span>
+
+<span class="kp">protected</span> <span class="n">void</span> <span class="n">finalize</span><span class="p">()</span> <span class="n">throws</span> <span class="no">Throwable</span> <span class="p">{}</span>
+
+<span class="kp">public</span> <span class="n">final</span> <span class="n">native</span> <span class="n">void</span> <span class="n">notify</span><span class="p">()</span>
+
+<span class="kp">public</span> <span class="n">final</span> <span class="n">native</span> <span class="n">void</span> <span class="n">notifyAll</span><span class="p">()</span>
+
+<span class="kp">public</span> <span class="n">final</span> <span class="n">native</span> <span class="n">void</span> <span class="n">wait</span><span class="p">(</span><span class="n">long</span> <span class="n">timeout</span><span class="p">)</span> <span class="n">throws</span> <span class="no">InterruptedException</span>
+
+<span class="kp">public</span> <span class="n">final</span> <span class="n">void</span> <span class="n">wait</span><span class="p">(</span><span class="n">long</span> <span class="n">timeout</span><span class="p">,</span> <span class="n">int</span> <span class="n">nanos</span><span class="p">)</span> <span class="n">throws</span> <span class="no">InterruptedException</span>
+
+<span class="kp">public</span> <span class="n">final</span> <span class="n">void</span> <span class="n">wait</span><span class="p">()</span> <span class="n">throws</span> <span class="no">InterruptedException</span></code></pre></figure>
+
+<h1 id="1equals">1.equals()</h1>
+
+<p>覆盖equals方法看起来简单，实际上很容易导致错误，而且后果非常的严重，应该尽量避免覆盖该方法，在这种情况下，类的每一个实例都<code class="highlighter-rouge">只和自身相等</code>。</p>
+
+<p>那么，什么时候应该覆盖<code class="highlighter-rouge">Object.equals</code>呢？如果类具有自己特有的“逻辑相等”概念，并且超类（即父类）还没有覆盖equals以实现期望的行为，这个时候，我们就需要覆盖equals方法。</p>
+
+<p>equals方法实现了<code class="highlighter-rouge">等价关系</code>:</p>
+<ul>
+  <li><code class="highlighter-rouge">自反性</code>
+    <blockquote>
+      <p>x.equals(x); // true</p>
+    </blockquote>
+  </li>
+  <li><code class="highlighter-rouge">对称性</code></li>
+</ul>
+
+<blockquote>
+  <p>x.equals(y) == y.equals(x); // true</p>
+</blockquote>
+
+<ul>
+  <li><code class="highlighter-rouge">传递性</code></li>
+</ul>
+
+<blockquote>
+  <p>if (x.equals(y) &amp;&amp; y.equals(z))<br />
+   x.equals(z); // true;</p>
+</blockquote>
+
+<ul>
+  <li><code class="highlighter-rouge">一致性</code></li>
+</ul>
+
+<p>多次调用 equals() 方法结果不变</p>
+
+<blockquote>
+  <p>x.equals(y) == x.equals(y); // true</p>
+</blockquote>
+
+<ul>
+  <li><code class="highlighter-rouge">与 null 的比较</code></li>
+</ul>
+
+<p>对任何不是 null 的对象 x 调用 x.equals(null) 结果都为 false</p>
+
+<blockquote>
+  <p>x.equals(null); // false;</p>
+</blockquote>
+
+<p>以下为一系列高质量equals方法诀窍：</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>1. 使用==操作符检查“参数是否为这个对象引用”
+2. 使用instanceof操作符检查“参数是否为正确类型”
+3. 把参数转换成正确的类型
+4. 对于该类中的每个“关键”域，检查参数中的域是否与该对象中对应的域相匹配
+5. 确定对称、传递、一致性
+</code></pre></div></div>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">EqualExample</span> <span class="p">{</span>
+
+    <span class="kp">private</span> <span class="n">int</span> <span class="n">x</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">int</span> <span class="n">y</span><span class="p">;</span>
+    <span class="kp">private</span> <span class="n">int</span> <span class="n">z</span><span class="p">;</span>
+
+    <span class="kp">public</span> <span class="no">EqualExample</span><span class="p">(</span><span class="n">int</span> <span class="n">x</span><span class="p">,</span> <span class="n">int</span> <span class="n">y</span><span class="p">,</span> <span class="n">int</span> <span class="n">z</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">this</span><span class="p">.</span><span class="nf">x</span> <span class="o">=</span> <span class="n">x</span><span class="p">;</span>
+        <span class="n">this</span><span class="p">.</span><span class="nf">y</span> <span class="o">=</span> <span class="n">y</span><span class="p">;</span>
+        <span class="n">this</span><span class="p">.</span><span class="nf">z</span> <span class="o">=</span> <span class="n">z</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">equals</span><span class="p">(</span><span class="no">Object</span> <span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">this</span> <span class="o">==</span> <span class="n">o</span><span class="p">)</span> <span class="k">return</span> <span class="kp">true</span><span class="p">;</span> <span class="sr">//</span><span class="err">检查对象是否是否为同一对象引用</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">o</span> <span class="o">==</span> <span class="n">null</span> <span class="o">||</span> <span class="o">!</span><span class="p">(</span><span class="n">o</span> <span class="n">instanceof</span> <span class="n">getClass</span><span class="p">()))</span> <span class="k">return</span> <span class="kp">false</span><span class="p">;</span><span class="sr">//</span><span class="err">检查是否为正确类型</span>
+
+        <span class="no">EqualExample</span> <span class="n">that</span> <span class="o">=</span> <span class="p">(</span><span class="no">EqualExample</span><span class="p">)</span> <span class="n">o</span><span class="p">;</span><span class="sr">//</span><span class="err">转换为正确的类型</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">x</span> <span class="o">!=</span> <span class="n">that</span><span class="p">.</span><span class="nf">x</span><span class="p">)</span> <span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">y</span> <span class="o">!=</span> <span class="n">that</span><span class="p">.</span><span class="nf">y</span><span class="p">)</span> <span class="k">return</span> <span class="kp">false</span><span class="p">;</span>
+        <span class="k">return</span> <span class="n">z</span> <span class="o">==</span> <span class="n">that</span><span class="p">.</span><span class="nf">z</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2018-2018 <a href=""><code>Keyu Zhao</code></a>.</p>
+		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, themed from <a href="http://lesscss.cn/">Less</a>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  </body>
+</html>

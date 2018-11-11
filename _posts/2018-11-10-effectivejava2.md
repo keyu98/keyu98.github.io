@@ -102,3 +102,97 @@ public class EqualExample {
     }
 }
 {% endhighlight %} 
+
+2.hascode()
+===========
+此方法用于返回`散列值`，而在equals中时用来判断对象是否等价。若两个对象散列值相同，他们不一定等价，但如果两个对象等价，那么他们的散列值必然相同。  
+
+而在我们覆盖`equals（）`时，一定要注意覆盖`hascode（）`方法，保证两者散列值也相等，不然会出现错误。  
+
+{% highlight ruby%}
+/*当我们企图将没有覆盖hascode（）的类
+与HashMap一起使用时       */
+Map<PhoneNumber,String> m
+   = new HashMap<PhoneNumber,String>();
+m.put(new PhoneNumber(707,867,5309),"Jenny");
+m.get(new PhoneNumber(707,867,5309));//null
+{% endhighlight %}  
+
+若get本来应当返回“Jenny”，但是却返回null，原因在于两个对象有着不同的散列值。    
+
+理想的散列函数应当具有均匀性，即不相等的对象应当均匀分布到所有可能的散列值上。这就要求了散列函数要把所有域的值都考虑进来。可以将每个域都当成 R 进制的某一位，然后组成一个 R 进制的整数。R 一般取 31，因为它是一个奇素数，如果是偶数的话，当出现乘法溢出，信息就会丢失，因为与 2 相乘相当于向左移一位。  
+
+一个数与 31 相乘可以转换成移位和减法：31*x == (x<<5)-x，编译器会自动进行这个优化。    
+
+
+{% highlight ruby%}
+@Override
+public int hashCode() {
+    int result = 17;
+    result = 31 * result + x;
+    result = 31 * result + y;
+    result = 31 * result + z;
+    return result;
+}
+{% endhighlight %}  
+
+3.toString()
+============
+默认返回 ToStringExample@4554617c 这种形式，其中 @ 后面的数值为散列码的无符号十六进制表示。    
+当对象传递给println，printf，字符串联操作符（+）以及assert或者调试器打印出来时，toString方法会被`自动调用`。
+{% highlight ruby%}
+public class ToStringExample {
+
+    private int number;
+
+    public ToStringExample(int number) {
+        this.number = number;
+    }
+}
+ToStringExample example = new ToStringExample(123);
+System.out.println(example.toString());//返回ToStringExample@4554617c
+{% endhighlight %}  
+
+记得始终要`覆盖`toString()，提供好的toString可以使类使用起来更加舒适。 
+
+在实际运用中，toString方法应当返回对象中包含的所以值得关注的信息。  
+
+4.clone()
+=========
+clone() 是 Object 的 `protected `方法，它不是 public，一个类不显式去重写 clone()，其它类就不能直接去调用该类实例的 clone() 方法。  
+
+重写 clone() 得到以下实现：  
+{% highlight ruby%}
+public class CloneExample {
+    private int a;
+    private int b;
+
+    @Override
+    public CloneExample clone() throws CloneNotSupportedException {
+        return (CloneExample)super.clone();
+    }
+}
+CloneExample e1 = new CloneExample();
+try {
+    CloneExample e2 = e1.clone();
+} catch (CloneNotSupportedException e) {
+    e.printStackTrace();
+}
+//最后抛出异常，java.lang.CloneNotSupportedException: CloneExample
+{% endhighlight %} 
+
+以上抛出了 CloneNotSupportedException，这是因为 CloneExample 没有实现 `Cloneable 接口`。  
+
+应该注意的是，clone() 方法并不是 Cloneable 接口的方法，而是 Object 的一个 protected 方法。Cloneable 接口只是规定，如果一个类没有实现 Cloneable 接口又调用了 clone() 方法，就会抛出 CloneNotSupportedException。  
+
+{% highlight ruby%}
+public class CloneExample implements Cloneable {//这里实现Cloneable接口
+    private int a;
+    private int b;
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        return super.clone();
+    }
+}
+{% endhighlight %} 

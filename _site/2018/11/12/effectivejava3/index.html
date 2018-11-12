@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>JAVA笔记3>类与接口 - 七条鱼</title>
+
+	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
+	<link rel="icon" href="/styles/images/favicon.jpg">
+
+	<link rel="stylesheet" href="/styles/css/index.css">
+	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/styles/css/syntax.css">
+	<link rel="canonical" href="/2018/11/12/effectivejava3/">
+	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
+	
+	<meta name="keywords" content="JAVA笔记3>类与接口, 七条鱼, 个人博客;">
+	<meta name="description" content="个人博客;">
+
+	<script src="/styles/js/jquery.min.js"></script>
+	<!--[if lt IE 9]>
+    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+  	<![endif]-->
+  	<script>
+		var _hmt = _hmt || [];
+		(function() {
+		  var hm = document.createElement("script");
+		  hm.src = "//hm.baidu.com/hm.js?94be4b0f9fc5d94cc0d0415ea6761ae9";
+		  var s = document.getElementsByTagName("script")[0]; 
+		  s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+  	<style type="text/css">
+	  	.docs-content{
+	  		margin-bottom: 10px;
+	  	}
+  	</style>
+</head>
+
+  <body class="index">
+
+    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
+  <div class="container">
+    <div class="navbar-header">
+      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a href="/" class="navbar-brand">
+        <img src="/styles/images/logo.jpg">
+      </a>
+    </div>
+    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
+      <ul class="nav navbar-nav">    
+        <li>
+          <a href="/">Home</a>
+        </li>
+        <li>
+          <a href="/categories/">大分组</a>
+        </li>
+        <li>
+          <a href="/tag">细小分组</a>
+        </li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+              <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
+        </li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
+          <ul class="dropdown-menu">
+            <li><a rel="nofollow" target="_blank" href="https://github.com/goldofzky/">Github</a></li>
+            <li><a rel="nofollow" target="_blank" href="https://github.com/Goldofzky/goldofzky.github.io/">博客源码</a></li>
+            <li class="divider"></li>
+            <li><a rel="nofollow" target="_blank" >My email:</a></li>
+            <li><a rel="nofollow" target="_blank" >347560833@qq.com</a></li>
+          </ul>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</header>
+ 
+
+    <div class="docs-header" id="content">
+  <div class="container">
+  	
+  		<!--
+		    <h1>JAVA笔记3>类与接口</h1>
+		    <p>Post on Nov 12, 2018 by <a href="/about">Keyu Zhao</a></p>
+		-->
+		    <h1>Learn what I like,do what I want.</h1>
+    
+  </div>
+</div>
+    
+      
+<div class="banner">
+  <div class="container">
+  	
+    	<a href="/categories/#编程语言-ref">编程语言</a>	/
+    	<a href="/tag/#JAVA笔记-ref">JAVA笔记</a>
+    
+  </div>
+</div>
+
+    
+
+    <div class="container docs-container">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="sidebar hidden-print" role="complementary">
+        <div id="navigation">
+  <h1>目录</h1>
+  <ul class="nav sidenav">
+  </ul>
+  <div style="height: 200px;width: 200px;">
+    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0ekgc3a3o3w&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async">
+    </script>
+  </div>
+</div>
+
+ 
+      </div>
+    </div>
+    <div class="col-md-9" role="main">
+      <div class="panel docs-content">
+        <div class="wrapper">
+            <header class="post-header">
+              <h1 class="post-title">JAVA笔记3>类与接口</h1>
+              <!--
+                <p class="post-meta">Nov 12, 2018</p>
+              -->
+              <div class="meta">Posted on <span class="postdate">Nov 12, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
+              <br />
+            </header>
+            <article class="post-content">
+              <ul id="markdown-toc">
+  <li><a href="#1使类和成员的可访问性最小化" id="markdown-toc-1使类和成员的可访问性最小化">1.使类和成员的可访问性最小化</a></li>
+  <li><a href="#2使可变性最小化" id="markdown-toc-2使可变性最小化">2.使可变性最小化</a></li>
+</ul>
+
+<h1 id="1使类和成员的可访问性最小化">1.使类和成员的可访问性最小化</h1>
+
+<p>模块设计的好坏与它是否<code class="highlighter-rouge">隐藏</code>其内部数据和其他实现细节有很大的关系。设计良好的模块会隐藏所有的实现细节，把他的<code class="highlighter-rouge">API</code>和它的实现清晰地隔离开来。最后使模块之间只能通过他们的API进行通信，一个模块不需要知道其他模块的内部工作情况。</p>
+
+<p>这个概念被称为<code class="highlighter-rouge">信息隐藏</code>或者<code class="highlighter-rouge">封装</code>,是软件设计的基本原则之一。</p>
+
+<p>这样做的好处在于：</p>
+<ul>
+  <li>
+    <p>它可以有效地接触组成系统的各模块之间的耦合关系，使得这些模块可以独立地开发、测试、优化、使用、理解和修改。</p>
+  </li>
+  <li>
+    <p>加快开发速度，使之可以<code class="highlighter-rouge">并行开发</code>。</p>
+  </li>
+  <li>
+    <p>减轻维护负担，更好理解模块，并且调试时不会影响其他的模块。</p>
+  </li>
+  <li>
+    <p>虽然不论是对内还是对外都不会带来更好的性能但是却可以更好的<code class="highlighter-rouge">调节性能</code>。在完成大型系统的时候，它的优点有更好的体现，即使整个系统不可用，但是这些独立的模块有些却是有用的，当我们对其中一个模块进行优化时，也不会影响到其他模块的正确性。</p>
+  </li>
+</ul>
+
+<p><strong>公有类不应该直接暴露数据域。</strong><br />
+可以使用包含私有域和共有访问方法（getter）和包含私有域和公有设值方法（setter）的类代替</p>
+
+<h1 id="2使可变性最小化">2.使可变性最小化</h1>
+
+<p>不可变类只是其<em>实例不可被修改</em>的类。每个实例包含的所有信息都必须在创建该实例的时候就提供，并在对象的整个生命周期内不可变。  java中有许多不可变的类，其中就包括String，基本类型的包装类，BigInteger和BigDecimal。</p>
+
+<p>好处在于：<strong>不可变的类比可变的类更加易于设计、实现和使用。他们不容易出错，且更加安全。</strong></p>
+
+<p>为了使类变得不可变，需要遵循以下五条规则：</p>
+<ol>
+  <li>
+    <p><strong>不要提供任何会修改对象的方法</strong></p>
+  </li>
+  <li>
+    <p><strong>保证类不会被扩展。</strong>这样是为了粗心和恶意子类改变原本的不可变性。通常方法是将类设为<code class="highlighter-rouge">final</code>的。</p>
+  </li>
+  <li>
+    <p><strong>使所有的域都是final的。</strong>通过系统的强制方式，更加清楚表明意图。</p>
+  </li>
+  <li>
+    <p><strong>是所有的域都成为私有的。</strong>为了防止客户端获得访问被域引用的可变对象的权限，从而直接修改这些对象。</p>
+  </li>
+  <li>
+    <p><strong>确保对于可变组件的互斥访问。</strong>如果类里有指向可变对象的域，那么就要确保该类的客户端无法获得这些可变对象的引用。</p>
+  </li>
+</ol>
+
+            </article>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+    <footer class="footer" role="contentinfo">
+	<div class="container">
+		<p class="copyright">Copyright &copy; 2018-2018 <a href=""><code>Keyu Zhao</code></a>.</p>
+		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, themed from <a href="http://lesscss.cn/">Less</a>
+	</div>
+</footer>
+
+<script src="/styles/js/jquery.min.js"></script>
+<script src="/styles/js/bootstrap.min.js"></script>
+<script src="/styles/js/holder.min.js"></script>
+<script src="/styles/js/lessismore.js"></script>
+<script src="/styles/js/application.js"></script>
+<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+  </body>
+</html>

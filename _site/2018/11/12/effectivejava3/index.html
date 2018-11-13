@@ -211,6 +211,135 @@
 
 <p>然而，对于普通的具体类进行<code class="highlighter-rouge">跨越包边界</code>的继承，则是非常危险的！</p>
 
+<p><strong>复合(composition):</strong>不扩展现有的类，而是在新的类中增加一个私有域，引用现有类的一个实例。</p>
+
+<p><strong>转发(fowarding):</strong>新类中的每个实例方法都可以调用被包含的现有类实例中对应的方法，并返回结果。</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">FowardSet</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">implements</span> <span class="no">Set</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="p">{</span>   <span class="c1">#转发类，被装饰类</span>
+
+    <span class="sr">//</span><span class="err">引用现有类的实例，增加私有域</span>
+    <span class="kp">private</span> <span class="n">final</span> <span class="no">Set</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">set</span><span class="p">;</span>
+
+    <span class="kp">public</span> <span class="no">FowardSet</span><span class="p">(</span><span class="no">Set</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">set</span><span class="p">){</span>
+        <span class="n">this</span><span class="p">.</span><span class="nf">set</span> <span class="o">=</span> <span class="n">set</span><span class="p">;</span>
+    <span class="p">}</span>
+
+
+    <span class="sr">/*
+     *转发方法
+     */</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">int</span> <span class="n">size</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">size</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">isEmpty</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">isEmpty</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">contains</span><span class="p">(</span><span class="no">Object</span> <span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">contains</span><span class="p">(</span><span class="n">o</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@NotNull</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="no">Iterator</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">iterator</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">iterator</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="vi">@NotNull</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="no">Object</span><span class="p">[]</span> <span class="n">toArray</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">toArray</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="vi">@NotNull</span>
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="o">&lt;</span><span class="no">T</span><span class="o">&gt;</span> <span class="no">T</span><span class="p">[]</span> <span class="n">toArray</span><span class="p">(</span><span class="no">T</span><span class="p">[]</span> <span class="n">a</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">toArray</span><span class="p">(</span><span class="n">a</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">add</span><span class="p">(</span><span class="no">E</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">remove</span><span class="p">(</span><span class="no">Object</span> <span class="n">o</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">remove</span><span class="p">(</span><span class="n">o</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">containsAll</span><span class="p">(</span><span class="no">Collection</span><span class="o">&lt;</span><span class="sc">?&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">containsAll</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">addAll</span><span class="p">(</span><span class="no">Collection</span><span class="o">&lt;</span><span class="p">?</span> <span class="n">extends</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">addAll</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">retainAll</span><span class="p">(</span><span class="no">Collection</span><span class="o">&lt;</span><span class="sc">?&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">retainAll</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">removeAll</span><span class="p">(</span><span class="no">Collection</span><span class="o">&lt;</span><span class="sc">?&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">removeAll</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">void</span> <span class="n">clear</span><span class="p">()</span> <span class="p">{</span>
+        <span class="n">set</span><span class="p">.</span><span class="nf">clear</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">equals</span><span class="p">(</span><span class="no">Object</span> <span class="n">obj</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">equals</span><span class="p">(</span><span class="n">obj</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="no">String</span> <span class="n">toString</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">toString</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">int</span> <span class="n">hashCode</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">set</span><span class="p">.</span><span class="nf">hashCode</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+
+<span class="sr">/*
+ * 包装类(wrapper class),采用装饰者模式
+ */</span>
+<span class="kp">public</span> <span class="k">class</span> <span class="nc">InstrumentedSet</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">extends</span> <span class="no">FowardSet</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="p">{</span>
+    <span class="kp">private</span> <span class="n">int</span> <span class="n">addCount</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span>
+
+    <span class="kp">public</span> <span class="no">InstrumentedSet</span><span class="p">(</span><span class="no">Set</span><span class="o">&lt;</span><span class="no">E</span><span class="o">&gt;</span> <span class="n">set</span><span class="p">)</span> <span class="p">{</span>
+        <span class="k">super</span><span class="p">(</span><span class="n">set</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">add</span><span class="p">(</span><span class="no">E</span> <span class="n">e</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">addCount</span><span class="o">++</span><span class="p">;</span>
+        <span class="k">return</span> <span class="k">super</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="n">e</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="vi">@Override</span>
+    <span class="kp">public</span> <span class="n">boolean</span> <span class="n">addAll</span><span class="p">(</span><span class="no">Collection</span><span class="o">&lt;</span><span class="p">?</span> <span class="n">extends</span> <span class="no">E</span><span class="o">&gt;</span> <span class="n">c</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">addCount</span><span class="o">+=</span><span class="n">c</span><span class="p">.</span><span class="nf">size</span><span class="p">();</span>
+        <span class="k">return</span> <span class="k">super</span><span class="p">.</span><span class="nf">addAll</span><span class="p">(</span><span class="n">c</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="kp">public</span> <span class="n">int</span> <span class="n">getAddCount</span><span class="p">()</span> <span class="p">{</span>
+        <span class="k">return</span> <span class="n">addCount</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+
             </article>
         </div>
       </div>

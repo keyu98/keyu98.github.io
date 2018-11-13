@@ -58,3 +58,133 @@ tag: JAVA笔记
 2. 对于专门为了继承而设计、并且有很好的文档说明的类。   
 
 然而，对于普通的具体类进行`跨越包边界`的继承，则是非常危险的！  
+
+**复合(composition):**不扩展现有的类，而是在新的类中增加一个私有域，引用现有类的一个实例。  
+
+**转发(fowarding):**新类中的每个实例方法都可以调用被包含的现有类实例中对应的方法，并返回结果。  
+
+{% highlight ruby%}
+public class FowardSet<E> implements Set<E> {   #转发类，被装饰类
+
+    //引用现有类的实例，增加私有域
+    private final Set<E> set;
+
+    public FowardSet(Set<E> set){
+        this.set = set;
+    }
+
+
+    /*
+     *转发方法
+     */
+    @Override
+    public int size() {
+        return set.size();
+    }
+
+    @Override
+    public boolean isEmpty() {
+        return set.isEmpty();
+    }
+
+    @Override
+    public boolean contains(Object o) {
+        return set.contains(o);
+    }
+
+    @NotNull
+    @Override
+    public Iterator<E> iterator() {
+        return set.iterator();
+    }
+
+    @NotNull
+    @Override
+    public Object[] toArray() {
+        return set.toArray();
+    }
+
+    @NotNull
+    @Override
+    public <T> T[] toArray(T[] a) {
+        return set.toArray(a);
+    }
+
+    @Override
+    public boolean add(E e) {
+        return set.add(e);
+    }
+
+    @Override
+    public boolean remove(Object o) {
+        return set.remove(o);
+    }
+
+    @Override
+    public boolean containsAll(Collection<?> c) {
+        return set.containsAll(c);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        return set.addAll(c);
+    }
+
+    @Override
+    public boolean retainAll(Collection<?> c) {
+        return set.retainAll(c);
+    }
+
+    @Override
+    public boolean removeAll(Collection<?> c) {
+        return set.removeAll(c);
+    }
+
+    @Override
+    public void clear() {
+        set.clear();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return set.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return set.toString();
+    }
+
+    @Override
+    public int hashCode() {
+        return set.hashCode();
+    }
+}
+
+/*
+ * 包装类(wrapper class),采用装饰者模式
+ */
+public class InstrumentedSet<E> extends FowardSet<E> {
+    private int addCount=0;
+
+    public InstrumentedSet(Set<E> set) {
+        super(set);
+    }
+
+    @Override
+    public boolean add(E e) {
+        addCount++;
+        return super.add(e);
+    }
+
+    @Override
+    public boolean addAll(Collection<? extends E> c) {
+        addCount+=c.size();
+        return super.addAll(c);
+    }
+
+    public int getAddCount() {
+        return addCount;
+    }
+}
+{% endhighlight %} 

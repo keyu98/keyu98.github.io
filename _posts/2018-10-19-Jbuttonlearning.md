@@ -1,9 +1,8 @@
 ---
 layout: post
-title: GUI学习笔记2> java中Jbutton的方法
-date:   2018-10-19 20:00:38 +0800
-categories: 编程语言
-tag: GUI
+title: "GUI学习笔记2> java中Jbutton的方法"
+tag: 
+    - GUI
 ---
 
 JButton 实现了普通的三态外加选中、禁用状态，有很多方法可以设置。

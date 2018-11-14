@@ -1,9 +1,8 @@
 ---
 layout: post
-title:  JAVA笔记1>创建及销毁对象
-date:   2018-11-10 09:52:53 +0800
-categories: 编程语言
-tag: JAVA笔记
+title:  "JAVA笔记1>创建及销毁对象"
+tag:    
+    - JAVA笔记
 ---
 
 * content

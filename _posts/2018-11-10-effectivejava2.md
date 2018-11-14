@@ -1,9 +1,8 @@
 ---
 layout: post
-title:  JAVA笔记2>Object通用方法
-date:   2018-11-10 15:20:53 +0800
-categories: 编程语言
-tag: JAVA笔记
+title:  "JAVA笔记2>Object通用方法"
+tag: 
+    - JAVA笔记
 ---
 
 * content

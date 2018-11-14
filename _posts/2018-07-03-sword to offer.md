@@ -1,9 +1,12 @@
 ---
 layout: post
-title:  剑指offer解题代码及思路
-date:   2018-07-03 20:52:53 +0800
-categories: offer相关
-tag: 题库
+title: "剑指offer解题代码及思路"
+subtitle: "Sword to offer"
+author: "KeYu"
+header-img: "img/post-bg-halting.jpg"
+header-mask: 0.3
+tags:
+  - 题库
 ---
 
 * content

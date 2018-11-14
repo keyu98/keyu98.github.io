@@ -1,15 +1,14 @@
 ---
 layout: post
-title: <机器人足球>UT代码框架
-date:   2018-07-09 22:52:53 +0800
-categories: robocup
-tag: 源码
+title: "<机器人足球>UT代码框架"
+tag: 
+    - 源码
 ---
 
 * content
 {:toc}
 
-![框架图](/styles/images/robocup框架.png)
+![框架图](\img\in-post\robocup.PNG)
 
 主函数
 ======

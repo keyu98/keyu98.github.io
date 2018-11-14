@@ -1,9 +1,8 @@
 ---
 layout: post
-title: <机器人足球>Think函数
-date:   2018-11-04 14:52:53 +0800
-categories: robocup
-tag: 源码
+title: "<机器人足球>Think函数"
+tag: 
+    - 源码
 ---
 
 * content
@@ -139,7 +138,7 @@ composeAction函数包含了绝大部分机器人思考做出的行动信息以�
 * `(rle7 RToePitch参数)`
 
 * 对应了NAO机器人的所有关节信息
-![NAO关节结构](/styles/images/nao.PNG)
+![NAO关节结构](\img\in-post\nao.PNG)
 
 say
 ====

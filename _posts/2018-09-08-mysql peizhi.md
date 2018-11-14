@@ -1,9 +1,8 @@
 ---
 layout: post
-title: mysql数据库和MySQLdb环境配置
-date:   2018-09-08 07:00:38 +0800
-categories: 数据库
-tag: 环境配置
+title: "mysql数据库和MySQLdb环境配置"
+tag: 
+  - 环境配置
 ---
 
 
@@ -17,7 +16,7 @@ Windows环境下安装数据库,
 网址:https://dev.mysql.com/downloads/installer/  
 选取MSI Installer  
 
-![mysql安装包](/styles/images/mysql安装包.png)  
+![mysql安装包](\img\in-post\MSQL1.png)  
 
 这个安装包文件傻瓜式,主要在安装过程中记住自己设置的权限密码就行了.
 
@@ -95,7 +94,7 @@ ALTER USER 'root'@'localhost' IDENTIFIED WITH mysql_native_password BY '你的�
 FLUSH PRIVILEGES;  
 
 解决后,再次执行testdb.py文件
-![成功](/styles/images/连接mysql成功.PNG)  
+![成功](\img\in-post\MSQL2.PNG)  
 
 环境配置成功,已经可以用python来操作mysql数据库
 

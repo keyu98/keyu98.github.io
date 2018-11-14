@@ -1,144 +1,245 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
-  <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title><机器学习笔记1>什么是深度学习 - 七条鱼</title>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="description" content="正在准备秋招的鶸">
+    <meta name="keywords"  content="博客, 个人网站, 互联网, 后端，学生">
+    <meta name="theme-color" content="#000000">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="<机器学习笔记1>什么是深度学习 - 博客 | KeYu Blog">
+    
+    <meta property="og:type" content="article">
+    <meta property="og:description" content="
+">
+    
+    <meta property="article:published_time" content="2018-07-30T00:00:00Z">
+    
+    
+    
+    <meta property="article:tag" content="深度学习">
+    
+    
+    <meta property="og:image" content="http://localhost:4000/img/me.jpg">
+    <meta property="og:url" content="http://localhost:4000/2018/07/30/deeplearning/">
+    <meta property="og:site_name" content="博客 | KeYu Blog">
+    
+    <title><机器学习笔记1>什么是深度学习 - 博客 | KeYu Blog</title>
 
-	<link rel="shortcut icon" href="/styles/images/favicon.jpg">
-	<link rel="icon" href="/styles/images/favicon.jpg">
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
 
-	<link rel="stylesheet" href="/styles/css/index.css">
-	<link rel="stylesheet" href="/styles/css/fontawesome/css/font-awesome.min.css">
-	<link rel="stylesheet" href="/styles/css/syntax.css">
-	<link rel="canonical" href="/2018/07/30/deeplearning/">
-	<link rel="alternate" type="application/rss+xml" title="七条鱼" href="/feed.xml">
-	
-	<meta name="keywords" content="<机器学习笔记1>什么是深度学习, 七条鱼, 个人博客;">
-	<meta name="description" content="个人博客;">
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+    
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2018/07/30/deeplearning/">
 
-	<script src="/styles/js/jquery.min.js"></script>
-	<!--[if lt IE 9]>
-    	<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
-  	<![endif]-->
-  	<script>
-		var _hmt = _hmt || [];
-		(function() {
-		  var hm = document.createElement("script");
-		  hm.src = "//hm.baidu.com/hm.js?94be4b0f9fc5d94cc0d0415ea6761ae9";
-		  var s = document.getElementsByTagName("script")[0]; 
-		  s.parentNode.insertBefore(hm, s);
-		})();
-	</script>
-  	<style type="text/css">
-	  	.docs-content{
-	  		margin-bottom: 10px;
-	  	}
-  	</style>
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
 </head>
 
-  <body class="index">
 
-    <header class="navbar navbar-inverse navbar-fixed-top docs-nav" role="banner">
-  <div class="container">
-    <div class="navbar-header">
-      <button class="navbar-toggle" type="button" data-toggle="collapse" data-target=".bs-navbar-collapse">
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a href="/" class="navbar-brand">
-        <img src="/styles/images/logo.jpg">
-      </a>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">KeYu Blog</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    <li>
+                        <a href="/about/">About</a>
+                    </li>
+                    
+                    
+                    
+                    <li>
+                        <a href="/archive/">Archive</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    <li>
+                        <a href="/portfolio/">Portfolio</a>
+                    </li>
+                    
+                    
+                    
+                    
+                    
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
     </div>
-    <nav class="collapse navbar-collapse bs-navbar-collapse" role="navigation">
-      <ul class="nav navbar-nav">    
-        <li>
-          <a href="/">Home</a>
-        </li>
-        <li>
-          <a href="/categories/">大分组</a>
-        </li>
-        <li>
-          <a href="/tag">细小分组</a>
-        </li>
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li>
-              <a><span id="busuanzi_container_site_pv">本站总访问量<span id="busuanzi_value_site_pv"></span>次</span></a>
-        </li>
-        <li class="dropdown">
-          <a href="#" class="dropdown-toggle" data-toggle="dropdown">关于<b class="caret"></b></a>
-          <ul class="dropdown-menu">
-            <li><a rel="nofollow" target="_blank" href="https://github.com/goldofzky/">Github</a></li>
-            <li><a rel="nofollow" target="_blank" href="https://github.com/Goldofzky/goldofzky.github.io/">博客源码</a></li>
-            <li class="divider"></li>
-            <li><a rel="nofollow" target="_blank" >My email:</a></li>
-            <li><a rel="nofollow" target="_blank" >347560833@qq.com</a></li>
-          </ul>
-        </li>
-      </ul>
-    </nav>
-  </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from 
+     * $toggle/$collapse will break global delegation.
+     * 
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.  
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Image to hack wechat -->
+<!-- <img src="/img/icon_wechat.png" width="0" height="0"> -->
+<!-- <img src="/img/homepage.jpg" width="0" height="0"> -->
+
+<!-- Post Header -->
+
+
+
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/homepage.jpg');
+        background: ;
+    }
+
+    
+</style>
+
+<header class="intro-header" >
+
+    <div class="header-mask"></div>
+    
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/archive/?tag=%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0" title="深度学习">深度学习</a>
+                        
+                    </div>
+                    <h1><机器学习笔记1>什么是深度学习</h1>
+                    
+                    <h2 class="subheading"></h2>
+                    <span class="meta">Posted by KeYu Blog on July 30, 2018</span>
+                </div>
+            </div>
+        </div>
+    </div>
 </header>
- 
 
-    <div class="docs-header" id="content">
-  <div class="container">
-  	
-  		<!--
-		    <h1><机器学习笔记1>什么是深度学习</h1>
-		    <p>Post on Jul 30, 2018 by <a href="/about">Keyu Zhao</a></p>
-		-->
-		    <h1>Learn what I like,do what I want.</h1>
-    
-  </div>
-</div>
-    
-      
-<div class="banner">
-  <div class="container">
-  	
-    	<a href="/categories/#机器学习-ref">机器学习</a>	/
-    	<a href="/tag/#深度学习-ref">深度学习</a>
-    
-  </div>
-</div>
 
-    
 
-    <div class="container docs-container">
-  <div class="row">
-    <div class="col-md-3">
-      <div class="sidebar hidden-print" role="complementary">
-        <div id="navigation">
-  <h1>目录</h1>
-  <ul class="nav sidenav">
-  </ul>
-  <div style="height: 200px;width: 200px;">
-    <script type="text/javascript" src="//ra.revolvermaps.com/0/0/6.js?i=0ekgc3a3o3w&amp;m=7&amp;c=e63100&amp;cr1=ffffff&amp;f=arial&amp;l=0&amp;bv=90&amp;lx=-420&amp;ly=420&amp;hi=20&amp;he=7&amp;hc=a8ddff&amp;rs=80" async="async">
-    </script>
-  </div>
-</div>
 
- 
-      </div>
-    </div>
-    <div class="col-md-9" role="main">
-      <div class="panel docs-content">
-        <div class="wrapper">
-            <header class="post-header">
-              <h1 class="post-title"><机器学习笔记1>什么是深度学习</h1>
-              <!--
-                <p class="post-meta">Jul 30, 2018</p>
-              -->
-              <div class="meta">Posted on <span class="postdate">Jul 30, 2018</span> By <a target="_blank" href="http://localhost:4000">Keyu Zhao</a></div>
-              <br />
-            </header>
-            <article class="post-content">
-              <ul id="markdown-toc">
+
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+                <!-- Multi-Lingual -->
+                
+
+				<ul id="markdown-toc">
   <li><a href="#神经元" id="markdown-toc-神经元">神经元</a></li>
   <li><a href="#loss函数" id="markdown-toc-loss函数">Loss函数</a></li>
   <li><a href="#神经网络" id="markdown-toc-神经网络">神经网络</a></li>
@@ -149,7 +250,7 @@
 
 <h1 id="神经元">神经元</h1>
 <p>在了解神经网络前,先了解它的基本组成单元–神经元.
-<img src="/styles/images/神经元.jpeg" alt="神经元" /></p>
+<img src="\img\in-post\DL2.jpeg" alt="神经元" /></p>
 
 <p>上图就算是一个简单的神经元了,它有3个输入,分别是a1,a2,a3.<br />
 我们所使用的神经元通常由两个部分组成.一个是<code class="highlighter-rouge">线性模型</code>,另一个是<code class="highlighter-rouge">激励函数</code>.</p>
@@ -161,7 +262,20 @@
 这种方式也是神经元最核心部分对a所做的线性处理,其中a时一种1<em>n的矩阵,而w是一个n</em>1的<code class="highlighter-rouge">权重矩阵</code>,b是<code class="highlighter-rouge">偏执项</code>.</p>
 </blockquote>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>举个例子,有一个房地产商用于对客户质量所用的评价函数,所用的假如a矩阵元素分别为  
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="rouge-code"><pre>举个例子,有一个房地产商用于对客户质量所用的评价函数,所用的假如a矩阵元素分别为  
 34,20,1.  
 分别代表  
 年龄,年收入,性别.  
@@ -174,7 +288,7 @@
 f(x)=34*0.8+20*2.4+1*10=85.2  
 
 这种评价体式下这位客户获得的评分为85.2分.这样,在对一系列的客户进行评分后就可以进行进一步的工作了.
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>以上便是神经元工作时的简单场景.但是这些权重又是如何得到的呢?<br />
 大多时候是又<code class="highlighter-rouge">逆向</code>的方法得到的.我们首先要有庞大的客户样本,然后通过数据对权重的训练最后得到最合适的值.</p>
@@ -195,14 +309,16 @@ f(x)=34*0.8+20*2.4+1*10=85.2
 <p>以这种方式的损失函数为例:<br />
 <code class="highlighter-rouge">Loss=∑|w*xi+b-yi|</code></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>继续按照上面的客户评分举例.
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+2
+</pre></td><td class="rouge-code"><pre>继续按照上面的客户评分举例.
 w是权重矩阵,xi为第i个客户的数据向量,假设有n个客户的数据用于测试,y为实际的观测值.取绝对值的含义在于不论比实际观测值小或者大,都是一样的差距.Loss的值为每个数据映射后的值与实际观测值的差的和.理论上来说,当Loss值为0时,w就是理想权重,但是这种状况太理想化了,在实际的生活中几乎见不到.但有一点可以肯定,Loss越小就说明,映射关系越准确.我们在训练过程中,根据实际要求,设置不同的精度,达到精度范围内那便可以算作合格了.
-</code></pre></div></div>
+</pre></td></tr></tbody></table></code></pre></div></div>
 
 <h1 id="神经网络">神经网络</h1>
 
 <p>一旦多个神经元首位链接形成了一个类似网络结构来协同工作的时候,那便可以被称作<code class="highlighter-rouge">神经网络</code>了.神经网络没有规定有多少层,也没有规定每一层有多少个神经元,全是在各个场景下,通过测试,最后得到的一个适用于当前场景的网络设计.
-<img src="/styles/images/神经网络.gif" alt="神经网络" /></p>
+<img src="\img\in-post\/DL1.gif" alt="神经网络" /></p>
 
 <blockquote>
   <p>一个神经网络通常分为这样几层:<code class="highlighter-rouge">输入层</code>(input layer),<code class="highlighter-rouge">隐藏层</code>(hidden layer).<code class="highlighter-rouge">输出层</code>(output layer).<br />
@@ -215,27 +331,261 @@ w是权重矩阵,xi为第i个客户的数据向量,假设有n个客户的数据�
 <h1 id="深度学习">深度学习</h1>
 <p>所谓<code class="highlighter-rouge">深度学习</code>(Deep Learning),指的便是基于深度神经网络的学习,这个Deep指的时神经网络的深度,即层数多.</p>
 
-            </article>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
 
+                <hr style="visibility: hidden;">
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/07/13/UTrobocup/" data-toggle="tooltip" data-placement="top" title="<机器人足球>UT代码框架">
+                        Previous<br>
+                        <span><机器人足球>UT代码框架</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/09/08/mysql-peizhi/" data-toggle="tooltip" data-placement="top" title="mysql数据库和MySQLdb环境配置">
+                        Next<br>
+                        <span>mysql数据库和MySQLdb环境配置</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+                <hr style="visibility: hidden;">
+
+                
+
+                
+            </div>  
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+
+<section>
     
-    <footer class="footer" role="contentinfo">
-	<div class="container">
-		<p class="copyright">Copyright &copy; 2018-2018 <a href=""><code>Keyu Zhao</code></a>.</p>
-		<p>Powered by <a href="http://jekyllrb.com">Jekyll</a>, themed from <a href="http://lesscss.cn/">Less</a>
-	</div>
+        <hr class="hidden-sm hidden-xs">
+    
+    <h5><a href="/archive/">FEATURED TAGS</a></h5>
+    <div class="tags">
+        
+        
+        
+        </a>
+        
+        
+                <a data-sort="0012" 
+                    href="/archive/?tag=%E6%BA%90%E7%A0%81"
+                    title="源码"
+                    rel="2">源码</a>
+        
+                <a data-sort="0011" 
+                    href="/archive/?tag=GUI"
+                    title="GUI"
+                    rel="3">GUI</a>
+        
+                <a data-sort="0011" 
+                    href="/archive/?tag=JAVA%E7%AC%94%E8%AE%B0"
+                    title="JAVA笔记"
+                    rel="3">JAVA笔记
+    </div>
+</section>
+
+
+                <!-- Friends Blog -->
+                
+<hr>
+<h5>FRIENDS</h5>
+<ul class="list-inline">
+  
+</ul>
+
+            </div>
+        </div>
+    </div>
+</article>
+
+<!-- add support for mathjax by voleking-->
+
+
+
+
+
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <!-- SNS Link -->
+                
+
+
+<ul class="list-inline text-center">
+
+
+  
+  
+  
+  
+  
+  
+  <li>
+    <a target="_blank" href="https://github.com/goldofzky">
+      <span class="fa-stack fa-lg">
+        <i class="fa fa-circle fa-stack-2x"></i>
+        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+      </span>
+    </a>
+  </li>
+  
+  
+</ul>
+
+                <p class="copyright text-muted">
+                    Copyright &copy; KeYu Blog 2018
+                    <br>
+                    Powered by <a href="http://huangxuan.me">Hux Blog</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=huxpro&repo=huxpro.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
 </footer>
 
-<script src="/styles/js/jquery.min.js"></script>
-<script src="/styles/js/bootstrap.min.js"></script>
-<script src="/styles/js/holder.min.js"></script>
-<script src="/styles/js/lessismore.js"></script>
-<script src="/styles/js/application.js"></script>
-<script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
 
-  </body>
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+
+
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+<!-- Side Catalog -->
+
+
+
+<!-- Multi-Lingual -->
+
+
+
+
+<!-- Image to hack wechat -->
+<img src="/img/icon_wechat.png" width="0" height="0" />
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
 </html>

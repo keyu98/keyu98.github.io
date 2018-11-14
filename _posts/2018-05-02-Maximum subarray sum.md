@@ -1,9 +1,12 @@
 ---
 layout: post
-title:  Maximum subarray sum（求最大的子数组求和）
-date:   2018-05-02 22:01:49 +0800
-categories: 算法
-tag: 数组
+title: "求最大的子数组求和"
+subtitle: "Maximum subarray sum"
+author: "KeYu"
+header-style: text
+tags:
+  - 算法
+  - 数组
 ---
 求最大的子数组之和
 给一串数组，求出它元素之和最大的子数组

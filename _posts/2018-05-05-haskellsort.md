@@ -6,7 +6,8 @@ author: "KeYu"
 header-style: text
 tags:
   - 算法
-  - haskell
+---
+
 ---
 
 插入排序

@@ -243,6 +243,7 @@
   <li><a href="#1使类和成员的可访问性最小化" id="markdown-toc-1使类和成员的可访问性最小化">1.使类和成员的可访问性最小化</a></li>
   <li><a href="#2使可变性最小化" id="markdown-toc-2使可变性最小化">2.使可变性最小化</a></li>
   <li><a href="#3复合优先与继承" id="markdown-toc-3复合优先与继承">3.复合优先与继承</a></li>
+  <li><a href="#4要么为继承而设计并提供文档说明要么就禁止继承" id="markdown-toc-4要么为继承而设计并提供文档说明要么就禁止继承">4.要么为继承而设计，并提供文档说明，要么就禁止继承</a></li>
 </ul>
 
 <h1 id="1使类和成员的可访问性最小化">1.使类和成员的可访问性最小化</h1>
@@ -439,6 +440,23 @@
         <span class="k">return</span> <span class="n">addCount</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span></code></pre></figure>
+
+<h1 id="4要么为继承而设计并提供文档说明要么就禁止继承">4.要么为继承而设计，并提供文档说明，要么就禁止继承</h1>
+
+<p>专门为继承而设计的类，很有必要提供文档说明，不仅仅要描述作用，其重要的实现细节也是必不可少的。</p>
+
+<p>为了允许继承，类还必须遵守一些其他的<strong>约束</strong>：</p>
+<ol>
+  <li>
+    <p><code class="highlighter-rouge">构造器</code>绝不能调用可被覆盖的方法。</p>
+  </li>
+  <li>
+    <p>在决定实现Cloneable或者Serializable接口时，不论是<code class="highlighter-rouge">clone</code>还是<code class="highlighter-rouge">readObject</code>都不允许调用可被覆盖的方法。</p>
+  </li>
+  <li>
+    <p>在决定实现Serializable，并且该类有<code class="highlighter-rouge">readResolve</code>或者<code class="highlighter-rouge">writeReplace</code>方法，就必须使这两种方法<strong>成为受保护的方法而不是私有的方法</strong>。</p>
+  </li>
+</ol>
 
 
 

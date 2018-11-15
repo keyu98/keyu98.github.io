@@ -189,3 +189,16 @@ public class InstrumentedSet<E> extends FowardSet<E> {
     }
 }
 {% endhighlight %} 
+
+4.要么为继承而设计，并提供文档说明，要么就禁止继承
+================================================
+
+专门为继承而设计的类，很有必要提供文档说明，不仅仅要描述作用，其重要的实现细节也是必不可少的。   
+
+为了允许继承，类还必须遵守一些其他的**约束**：
+1. `构造器`绝不能调用可被覆盖的方法。
+
+2. 在决定实现Cloneable或者Serializable接口时，不论是`clone`还是`readObject`都不允许调用可被覆盖的方法。
+
+3. 在决定实现Serializable，并且该类有`readResolve`或者`writeReplace`方法，就必须使这两种方法**成为受保护的方法而不是私有的方法**。
+

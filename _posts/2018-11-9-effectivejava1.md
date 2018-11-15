@@ -1,6 +1,8 @@
 ---
 layout: post
-title:  "JAVA笔记1>创建及销毁对象"
+title:  "创建及销毁对象"
+subtitle: "JAVA笔记1"
+header-img: "img/java-note2.jpg"
 tag:    
     - JAVA笔记
 ---

@@ -1,6 +1,8 @@
 ---
 layout: post
-title:  "JAVA笔记2>Object通用方法"
+title:  "Object通用方法"
+subtitle: "JAVA笔记2"
+header-img: "img/java-note2.jpg"
 tag: 
     - JAVA笔记
 ---

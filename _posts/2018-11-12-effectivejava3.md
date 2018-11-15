@@ -1,6 +1,8 @@
 ---
 layout: post
-title:  "JAVA笔记3>类与接口"
+title:  "类与接口"
+subtitle: "JAVA笔记3"
+header-img: "img/java-note2.jpg"
 tag: 
     - JAVA笔记
 ---

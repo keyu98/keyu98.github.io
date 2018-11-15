@@ -8,7 +8,7 @@ tag:
 * content
 {:toc}
 
-![框架图](\img\in-post\robocup.PNG)
+![框架图](\img\in-post\robocup.png)
 
 主函数
 ======

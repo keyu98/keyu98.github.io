@@ -244,6 +244,11 @@
   <li><a href="#2使可变性最小化" id="markdown-toc-2使可变性最小化">2.使可变性最小化</a></li>
   <li><a href="#3复合优先与继承" id="markdown-toc-3复合优先与继承">3.复合优先与继承</a></li>
   <li><a href="#4要么为继承而设计并提供文档说明要么就禁止继承" id="markdown-toc-4要么为继承而设计并提供文档说明要么就禁止继承">4.要么为继承而设计，并提供文档说明，要么就禁止继承</a></li>
+  <li><a href="#5接口总体看来优于抽象类" id="markdown-toc-5接口总体看来优于抽象类">5.接口总体看来优于抽象类</a></li>
+  <li><a href="#6接口只用于定义类型" id="markdown-toc-6接口只用于定义类型">6.接口只用于定义类型。</a></li>
+  <li><a href="#7类层次优于标签类" id="markdown-toc-7类层次优于标签类">7.类层次优于标签类</a></li>
+  <li><a href="#8用函数对象表示策略" id="markdown-toc-8用函数对象表示策略">8.用函数对象表示策略。</a></li>
+  <li><a href="#9优先考虑静态成员类" id="markdown-toc-9优先考虑静态成员类">9.优先考虑静态成员类。</a></li>
 </ul>
 
 <h1 id="1使类和成员的可访问性最小化">1.使类和成员的可访问性最小化</h1>
@@ -458,6 +463,71 @@
   </li>
 </ol>
 
+<h1 id="5接口总体看来优于抽象类">5.接口总体看来优于抽象类</h1>
+
+<ol>
+  <li>
+    <p><strong>现有的类可以很容易被更新，以实现新的接口</strong>。但是若要实现由抽象类定义的类型，类就必须成为抽象类的一个子类。</p>
+  </li>
+  <li>
+    <p><strong>接口是定义mixin(混合类型)的理想选择。</strong>接口允许类来添加任选的功能，将之合并到其基本的类型中。但抽象类不行，类不可能有一个以上的父亲，类层次结构中也没有适当的地方来插入mixin。</p>
+  </li>
+  <li>
+    <p><strong>接口允许我们构造非层次结构的类型框架。</strong>比如我们有一个接口表示歌唱家，另一个表示作曲家，在现实生活中存在一个有音乐天赋的人，他既是歌唱家又是作曲家，同时实现这两个接口是完全允许的，我们甚至可以添加更多这样类似的接口。若没有接口，另一种做法则是编写一个臃肿的类层次，每一个属性都包含一个单独的类，如果整个系统中有n个属性，那么就必须支持2^n种可能的组合。这种现象称为<em>组合爆炸</em>。</p>
+  </li>
+  <li>
+    <p><strong>抽象类的演变比接口的演变要容易的多。</strong>抽象类中添加新的方法，始终可以增加具体方法，它包含合理的默认实现。但对于接口，这样行不通。因此设计公有的接口要十分的谨慎。<em>接口一旦被公开发行，并且被广泛实现，再想改变这个接口几乎是不可能的。</em>我们必须保证接口在初次设计时就是正确的。</p>
+  </li>
+</ol>
+
+<h1 id="6接口只用于定义类型">6.接口只用于定义类型。</h1>
+<p>当类实现接口时，接口就充当这个类的实例的类型。<strong>因此，类实现了该接口，就表明客户端可以对这个类的的实例进行某些动作。</strong>如果出于其他的目的来定义接口是<code class="highlighter-rouge">不恰当</code>的。</p>
+
+<p>有一种接口类型，它不包含方法，只有静态的final域，每一个域都导出一个常量，这样的接口被称为<strong>常量接口</strong>。这种接口模式实际上是对接口的不良使用。实现常量接口会把实现细节泄露出到该类导出的api中，类实现常量接口对用户来讲，本身也没什么价值，这样反而会让他们更加糊涂。更糟糕的是，在将来发行的版本中，这个类被修改了，它不再需要使用这些常量了，但是依然必须实现这个接口，以保证二进制兼容性。</p>
+
+<p>在java平台库中有几个常量接口，例如<code class="highlighter-rouge">java.io.ObjectStreamConstants</code>，这些应当被看作反面教材。正常情况下应当采用<strong>枚举类型</strong>或者<strong>不可实例化的工具类</strong>来导出这些常量。</p>
+
+<h1 id="7类层次优于标签类">7.类层次优于标签类</h1>
+<p>有时候我们可能会遇到含有两种或者多种风格的类，并且包含表示实例风格的标签（tag）域。例如一个Figure类，它可以同时表示圆形或者矩形，可以将它的构造函数分为两种，一种只有一个参数为圆形，一种有两个参数为矩形来区分，并给标签赋值。</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">Figure</span><span class="p">{</span>
+    <span class="n">enum</span> <span class="no">Shape</span> <span class="p">{</span><span class="no">RECTANGLE</span><span class="p">,</span><span class="no">CIRCLE</span><span class="p">};</span>
+    <span class="n">final</span> <span class="no">Shape</span> <span class="n">shape</span><span class="p">;</span><span class="sr">//</span><span class="err">标签</span>
+    <span class="n">double</span> <span class="n">r</span><span class="p">;</span>
+    <span class="n">double</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">;</span>
+    <span class="no">Figure</span><span class="p">(</span><span class="n">double</span> <span class="n">a</span><span class="p">){</span>
+        <span class="n">r</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="no">Shape</span><span class="o">.</span><span class="no">CIRCLE</span><span class="p">;</span><span class="sr">//</span><span class="err">标签赋值</span>
+    <span class="p">}</span>
+    <span class="no">Figure</span><span class="p">(</span><span class="n">double</span> <span class="n">a</span><span class="p">,</span><span class="n">double</span> <span class="n">b</span><span class="p">){</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">a</span><span class="p">;</span>
+        <span class="n">y</span> <span class="o">=</span> <span class="n">b</span><span class="p">;</span>
+        <span class="n">shape</span> <span class="o">=</span> <span class="no">Shape</span><span class="o">.</span><span class="no">RECTANGLE</span><span class="p">;</span><span class="sr">//</span><span class="err">标签赋值</span>
+    <span class="p">}</span>
+
+    <span class="sr">//</span><span class="o">.....</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>实际上，这种方法并不好，可读性差，且内存占用增加。</p>
+
+<p>我们应当<strong>先编写他们的父类，具有他们公共的信息，然后分别继承</strong>（这个很容易理解，就不举例说明了）。这样<code class="highlighter-rouge">层次型</code>的类，简单而且清楚，并且不包含在原来版本中所见到的样板代码，没有受到不相关的数据域的拖累，还可以反应类型之间本质的层次关系，有助于增强灵活性，更好在编译时进行类型检查。</p>
+
+<h1 id="8用函数对象表示策略">8.用函数对象表示策略。</h1>
+<p>java没有提供<strong>函数指针</strong>,但是我们可以用对象引用来实现同样的功能。我们可以定义一个对象，它的方法执行其他对象上的操作。如果一个类仅仅导出这样一个方法，它的实例实际上就等同于一个指向该方法的指针，这样的实例被称为<code class="highlighter-rouge">函数对象</code>。</p>
+
+<p>例如</p>
+
+<figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">class</span> <span class="nc">StringLengthComparator</span><span class="p">{</span><span class="sr">//</span><span class="err">该类用于比较两个</span><span class="no">String</span><span class="err">长度</span>
+    <span class="kp">public</span> <span class="n">int</span> <span class="n">compare</span><span class="p">(</span><span class="no">String</span> <span class="n">s1</span><span class="p">,</span><span class="no">String</span> <span class="n">s2</span><span class="p">){</span>
+        <span class="k">return</span> <span class="n">s1</span><span class="p">.</span><span class="nf">length</span><span class="p">()</span> <span class="o">-</span> <span class="n">s2</span><span class="p">.</span><span class="nf">length</span><span class="p">()</span>
+    <span class="p">}</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>我们也可以将之优化，把这个类作为一个<strong>Singleton</strong>可以说是非常合适的。</p>
+
+<h1 id="9优先考虑静态成员类">9.优先考虑静态成员类。</h1>
+
+<p><strong>如果成员类不要求访问外围实例，就要始终把static修饰符放在他的声明中，使它作为静态成员类，而不是非静态成员类。</strong>如果省略了static修饰符，那么每个实例都包含一个额外的指向外围对象的引用，保留这份引用需要消耗时间和空间，并且会导致我外围实例在符合垃圾回收时依然得以保留。</p>
 
 
                 <hr style="visibility: hidden;">

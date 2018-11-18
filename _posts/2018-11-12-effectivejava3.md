@@ -267,4 +267,20 @@ class StringLengthComparator{//该类用于比较两个String长度
 9.优先考虑静态成员类。
 =================
 
-**如果成员类不要求访问外围实例，就要始终把static修饰符放在他的声明中，使它作为静态成员类，而不是非静态成员类。**如果省略了static修饰符，那么每个实例都包含一个额外的指向外围对象的引用，保留这份引用需要消耗时间和空间，并且会导致我外围实例在符合垃圾回收时依然得以保留。
+**如果成员类不要求访问外围实例，就要始终把static修饰符放在他的声明中，使它作为静态成员类，而不是非静态成员类。**如果省略了static修饰符，那么每个实例都包含一个额外的指向外围对象的引用，保留这份引用需要消耗时间和空间，并且会导致我外围实例在符合垃圾回收时依然得以保留。 
+
+10.类文字(class literal)
+=========
+From the Java tutorial:
+>Finally, there's also a special kind of literal called a class literal, formed by taking a type name and appending ".class"; for example, String.class. This refers to the object (of type Class) that represents the type itself.
+
+那么怎么理解类文字是什么呢？
+
+A class literal is an expression consisting of the name of a class, interface, array, or primitive type followed by a . and the token class. The type of a class literal is Class. It evaluates to the Class object for the named type (or for void) as defined by the defining class loader of the class of the current instance.
+
+类文字是一个表达式，由一个类的名称，接口，数组，primitive类型后面跟一个".class"组成。它也是一个类，例如String.class是Class类的一个实例。 
+采用类文字可以得到它的`java.lang.Class`对象。 
+
+{%highlight ruby%}
+String.class == new String().getClass();//true
+{%endhighlight%}

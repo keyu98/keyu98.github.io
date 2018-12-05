@@ -224,20 +224,30 @@
         
         <div class="post-content-preview">
             
-                运行时数据区域
+                目录
+
+  运行时数据区域    
+      程序计数器
+      虚拟机栈
+      本地方法栈
+      堆
+      方法区
+      直接内存
+    
+  
+  对象的内存布局    
+      对象头
+    
+  
+
+
+运行时数据区域
 JAVA虚拟机在执行Java程序的过程中会把它所管理的内存划分为若干个不同的数据区域。
 
 
 程序计数器
 
-  一块较小的内存空间，可以看作当前线程所执行的字节码的行号指示器。
-  通过改变这个计数器的值来选取下一条需要执行的字节码指令。
-  每条线程都需要一个独立的程序计数器各条线程之间互不影响，独立存储，我们称这类内存区域为线程私有的内存。
-
-
-虚拟机栈
-
-  也是线程私有...
+  一块较小的内存空间，...
             
         </div>
     </a>
@@ -316,7 +326,8 @@ JAVA虚拟机在执行Java程序的过程中会把它所管理的内存划分为
         
         <div class="post-content-preview">
             
-                
+                目录
+
   IP
   运输层的多路复用和多路分解    
       多路复用
@@ -332,7 +343,7 @@ JAVA虚拟机在执行Java程序的过程中会把它所管理的内存划分为
   
   TCP协议    
       TCP首部格式
-      T...
+    ...
             
         </div>
     </a>
@@ -354,12 +365,13 @@ JAVA虚拟机在执行Java程序的过程中会把它所管理的内存划分为
         
         <div class="post-content-preview">
             
-                
+                目录
+
   1.不要在新代码中使用原生态类型
 
 
 
-  声明中具有一个或者多个类型参数(type parameter)的类或者接口，就是泛型(generic)类或者接口。例如，从Java1.5发行版本起，List接口就只有单个类型参数E，表示列表的元素类型。从技术的角度来看，这个接口的名称应该是指现在的List(读作“E的列表”)，但是人们经常把它简称为List。泛型类和接口统称为泛型(genri...
+  声明中具有一个或者多个类型参数(type parameter)的类或者接口，就是泛型(generic)类或者接口。例如，从Java1.5发行版本起，List接口就只有单个类型参数E，表示列表的元素类型。从技术的角度来看，这个接口的名称应该是指现在的List(读作“E的列表”)，但是人们经常把它简称为List。泛型类和接口统称为泛型(ge...
             
         </div>
     </a>
@@ -443,7 +455,8 @@ JAVA虚拟机在执行Java程序的过程中会把它所管理的内存划分为
         
         <div class="post-content-preview">
             
-                
+                目录
+
   1.使类和成员的可访问性最小化
   2.使可变性最小化
   3.复合优先与继承
@@ -458,7 +471,7 @@ JAVA虚拟机在执行Java程序的过程中会把它所管理的内存划分为
 
 1.使类和成员的可访问性最小化
 
-模块设计的好坏与...
+模块设计的...
             
         </div>
     </a>
@@ -480,7 +493,8 @@ JAVA虚拟机在执行Java程序的过程中会把它所管理的内存划分为
         
         <div class="post-content-preview">
             
-                
+                目录
+
   概览
   1.equals()
   2.hascode()
@@ -494,8 +508,7 @@ public native int hashCode()
 
 public boolean equals(Object obj)
 
-protected native Object clone() throws CloneNotSupportedException
-...
+protected native Object clone() throws CloneNotSupportedExcepti...
             
         </div>
     </a>
@@ -517,7 +530,8 @@ protected native Object clone() throws CloneNotSupportedException
         
         <div class="post-content-preview">
             
-                
+                目录
+
   1.静态工厂方法
   2.当构造器参数太多时，考虑使用构建器
   3.Singleton的创造
@@ -530,7 +544,7 @@ protected native Object clone() throws CloneNotSupportedException
 
 //类中提供公有的静态方法，用于返回类的实例
 public static Boolean valueOf(boolean b){
-    return b?Boolean.True : B...
+    return b?Boolean.True ...
             
         </div>
     </a>

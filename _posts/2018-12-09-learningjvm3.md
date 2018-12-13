@@ -137,7 +137,125 @@ tag:
 4. 该方法不是必须的。
 5. 接口中不能使用静态语句块，但仍然由变量初始化操作，因此也有`<clinit>()`方法。只有当父接口中定义的变量被使用时，父接口才会被初始化。
 
+## 类加载器
+* 虚拟机团队把类加载阶段中的**通过一个类的全限定名来获取描述此类的为二进制字节流**这个动作放到Java虚拟机外部去实现，以便让应用程序自己决定如何去获取所需要的类。实现这个动作的代码模块被称为`类加载器`。
 
-*** 
-**填坑中...**
+### 类与类加载器
+* 对于任意一个类，都需要由加载它的类加载器和这个类本身一同确立其在Java虚拟机的`唯一性`。只有两个类时由同一个类加载器加载的前提下才有意义，否则，即使两个类来源于同一个Class文件，只要加载它们的类加载器不同，那么这两个类就必定不相等。
+
+### 双亲委派模型
+* 在Java虚拟机的角度上，只存在两种不同的类加载器：一种是`启动类加载器`（Bootstrap ClassLoader），这类加载器使用C++语言实现，是虚拟机自身的一部分；另一种就是其他的类加载器，这些类加载器都由Java语言实现，独立于虚拟机外部，并且全部`继承`自抽象类java.lang.ClassLoader。
+
+* 若分的更细致一些，绝大部分Java程序都会使用到以下三种系统提供的类加载器：  
+1. **启动类加载器（Bootstrap ClassLoader）**:这个类加载器负责将存放在<JAVA_HOME>\lib目录中的，或者被-Xbootclasspath参数所指定的路径中的，并且是虚拟机识别的(仅按照文件名识别，如rt,jar，名字不符合的类库即使放在lib目录也不会被加载)类库加载到虚拟机内存中，启动类加载器无法被Java程序直接引用。
+2. **扩展类加载器（Extension ClassLoader）**：这个加载器由sun.misc.Launcher&ExtClassLoader实现，它负责加载<JAVA_HOME>\lib\ext目录中的，或者被java.ext.dirs系统变量所指定的路径中的所有类库，开发者可以直接使用扩展类加载器。
+3. **应用程序类加载器（Application ClassLoader）**：这个类加载器由sun.misc.Launcher$AppClassLoader来实现。由于这个类加载器是ClassLoader中的getSystemClassLoader()方法的返回值，所以一般也称为系统类加载器。它负责加载用户类路径(ClassPath)上所指定的类库，开发者可以直接使用这个类加载器，如果应用程序没有自定义过自己的类加载器，一般情况下这个就是程序中的默认类加载器。
+
+* 类加载器之间的关系如图所示：  
+![](\img\in-post\L-JVM\JVM3-5.PNG)  
+这种层次关系被称为`类的双亲委派模型`（Parents Delegation Model）。
+
+* 双亲委派模型除了顶层的启动类加载器外，其余的类加载器都应当有自己的父类加载器。这里类加载器之间的父子关系一般不会以继承的关系来实现，而是使用`组合`关系来复用父加载器的代码。
+
+* **工作过程：**如果一个类加载器收到了类加载的请求，它首先不会自己去尝试加载这个类，而是把这个请求委派给父类加载器去完成，每一个层次的类加载器都是如此，因此所有的加载器最终都应该传送到顶层的启动类加载器中，只有当父类加载器反馈自己无法完成这个加载请求（它的搜索范围中没有找到所需的类）时，子加载器才会尝试自己去加载。
+
+* `优点`：具备一种带有优先级的层次关系。例如java.lang.Object，它存放在rt.jar中，无论哪一个类加载器要加载这个类，最终都是委派给启动类加载器进行加载，因此Object类在各种类加载器环境中都是同一个类。相反，如果使用双亲委派模型，由各个类加载器自行去加载的话，如果用户自己写了一个名为java.lang.Object的类，并放在程序的ClassPath中，那系统中将会出现多个不同的Object类，Java类型体系中最基础的行为都无从保证，应用将会变得一片混乱。
+
+* 实现：  
+{% highlight ruby %}
+public abstract class ClassLoader {
+    // The parent class loader for delegation
+    private final ClassLoader parent;
+
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+        return loadClass(name, false);
+    }
+
+    protected Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+        synchronized (getClassLoadingLock(name)) {
+            // First, check if the class has already been loaded
+            Class<?> c = findLoadedClass(name);
+            if (c == null) {
+                try {
+                    if (parent != null) {
+                        c = parent.loadClass(name, false);
+                    } else {
+                        c = findBootstrapClassOrNull(name);
+                    }
+                } catch (ClassNotFoundException e) {
+                    // ClassNotFoundException thrown if class not found
+                    // from the non-null parent class loader
+                }
+
+                if (c == null) {
+                    // If still not found, then invoke findClass in order
+                    // to find the class.
+                    c = findClass(name);
+                }
+            }
+            if (resolve) {
+                resolveClass(c);
+            }
+            return c;
+        }
+    }
+
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+        throw new ClassNotFoundException(name);
+    }
+}
+{% endhighlight %}
+
+### 自定义类加载器实现
+* FileSystemClassLoader 是自定义类加载器，继承自 java.lang.ClassLoader，用于加载文件系统上的类。它首先根据类的全名在文件系统上查找类的字节代码文件（.class 文件），然后读取该文件内容，最后通过 defineClass() 方法来把这些字节代码转换成 java.lang.Class 类的实例。
+
+* java.lang.ClassLoader 的 loadClass() 实现了双亲委派模型的逻辑，因此自定义类加载器一般不去重写它，但是需要重写 findClass() 方法。
+
+{% highlight ruby%}
+public class FileSystemClassLoader extends ClassLoader {
+
+    private String rootDir;
+
+    public FileSystemClassLoader(String rootDir) {
+        this.rootDir = rootDir;
+    }
+
+    protected Class<?> findClass(String name) throws ClassNotFoundException {
+        byte[] classData = getClassData(name);
+        if (classData == null) {
+            throw new ClassNotFoundException();
+        } else {
+            return defineClass(name, classData, 0, classData.length);
+        }
+    }
+
+    private byte[] getClassData(String className) {
+        String path = classNameToPath(className);
+        try {
+            InputStream ins = new FileInputStream(path);
+            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            int bufferSize = 4096;
+            byte[] buffer = new byte[bufferSize];
+            int bytesNumRead;
+            while ((bytesNumRead = ins.read(buffer)) != -1) {
+                baos.write(buffer, 0, bytesNumRead);
+            }
+            return baos.toByteArray();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private String classNameToPath(String className) {
+        return rootDir + File.separatorChar
+                + className.replace('.', File.separatorChar) + ".class";
+    }
+}
+{% endhighlight %}
+
+
+
+
+
 

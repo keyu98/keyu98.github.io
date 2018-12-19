@@ -46,4 +46,58 @@ tag:
 ## 解析
 * 方法在程序真正运行之前就有一个可确定的调用版本，并且这个方法的调用版本在运行期是不可改变的。这类方法的调用称为`解析`(Resolution)。
 * 满足以上条件的方法主要有`静态方法`和`私有方法`两大类。前者与类型直接关联，后者在外部不可被方法。它们都不可能通过继承或别的方式重写出其他版本。
-* 
+* 只要能被invokestatic和invokespecial指令调用的方法，都能在解析阶段确定唯一的调用版本，符合这个条件的有静态方法、私有方法、实例构造器和父类方法四类。这些方法被称为`非虚方法`。其他方法被称为`虚方法`（除去final方法）。在Java语言规范中明确说明final方法也是一种非虚方法。
+* 解析调用一定是一个`静态的过程`，在编译期间就完全确定，在类装载的解析阶段就会把涉及的符号引用全部转变为可确定的直接引用，不会延迟到运行期才去完成。
+
+## 分派
+* 分派调用可能是静态也可能是动态的，根据分派的宗量数可分为单分派和多分派。综合分为四种分派情况。
+### 静态分派
+* 所有依赖静态类型来定位方法执行版本的分派动作，都被称为`静态分派`。最典型的应用便是方法重载。
+
+{% highlight ruby %}
+
+/**
+ *Woman和Man是继承Human的子类
+ */
+puclic class Test{
+    public void sayHello(Human guy){
+        System.out.println("Hello,guy!");
+    }
+    public void sayHello(Woman guy){
+        System.out.println("Hello,woman!");
+    }
+    public void sayHello(Man guy){
+        System.out.println("Hello,man!");
+    }
+    Human man = new Man();
+    Human women = new Women();
+
+    public static void main(String args){
+        Test sr;
+        sr.sayHello(man);
+        sr.sayHello(woman);
+    }
+    
+
+}
+
+{% endhighlight %}
+实际输出结果为：  
+hello,guy!  
+hello,guy!  
+* `Human man = new Man();`  
+我们把以上代码“Human”称为变量的**静态类型**(Static Type)或者**外观类型**(Apparent Type)，后面的Man为**实际类型**(Actual Type)。静态类型仅仅在使用时才可以变化，变量本身的静态类型不会被改变，并且最终的静态类型是在编译期可知的。而实际类型变量的结果在运行期才可以确定，编译器在编译程序时并不知道一个对象的实际类型时什么。如以下代码：
+{% highlight ruby %}
+
+//实际类型变化
+Human man = new Man();
+man = new Women();
+
+//静态类型变化
+sr.sayHello((Man) man)
+sr.sayHello((Women) man)
+
+{% endhighlight %}
+* 在方法确认是对象“sr”的前提下，使用哪个重载版本，完全取决于传入参数的数量和数据类型。编译器在重载是通过参数的`静态类型`而不是实际类型作为判断依据。原因在于静态类型在编译器可知。
+
+### 动态分派

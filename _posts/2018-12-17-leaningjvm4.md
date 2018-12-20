@@ -101,3 +101,75 @@ sr.sayHello((Women) man)
 * 在方法确认是对象“sr”的前提下，使用哪个重载版本，完全取决于传入参数的数量和数据类型。编译器在重载是通过参数的`静态类型`而不是实际类型作为判断依据。原因在于静态类型在编译器可知。
 
 ### 动态分派
+* 我们把在运行期根据实际类型确定方法执行版本的分派过程称为`动态分派`。
+{% highlight ruby %}
+
+/**
+ *动态分派演示
+ */
+puclic class Test{
+
+    static abstract class Human{
+        protected abstract void sayHello();
+    }    
+
+    static class Man extends Human{
+        @Override
+        protected void sayHello(){
+            System.out.println("man say hello");
+        }
+    }
+
+    static class Women extends Human{
+        @Override
+        protected void sayHello(){
+            System.out.println("women say hello");
+        }
+    }
+
+    public static void main(String args){
+        Human man = new Man();
+        Human women = new Women();
+        man.sayHello(man);
+        women.sayHello(woman);
+        man = new Women();
+        man.sayHello();
+    }   
+}
+{% endhighlight %}
+运行结果:  
+man say hello  
+women say hello  
+women say hello 
+* 在这里不是通过静态类型来决定的，导致这个现象的原因在于两个变量的`实际类型`不同。
+* Java虚拟机根据实际类型来分派的方法，单从字节码的角度来看，都是用`invokevirtual`指令，步骤如下：  
+1. 找到操作数栈顶的第一个元素所指向的对象的实际类型，记作C。
+2. 如果在类型C中找到与常量中的描述符和简单名称都相符的方法，则进行访问权限校验（比如是否为private），如果通过则返回这个方法的直接引用，查找过程结束；不通过则返回java.lang.IllegalAccessError异常。
+3. 否则，按照继承关系从下往上依次对C的各个父类进行第2步的搜索和验证。
+4. 如果始终没有找到合适的方法，则抛出java.lang.AbractMethodError异常。
+* 由于invokevirtual执行的第一步就是在运行期确定接收者的实际类型，所以在上面的代码演示中，解析到了不同的直接引用上，这个过程就是Java语言中`方法重写`的实质。
+
+### 单分派与多分派
+* 方法的接收者与方法的参数统称为`方法的宗量`。`单分派`是根据一个宗量对目标进行选择，`多分派`则是根据多于一个的宗量对目标方法进行选择。
+* 今天的Java语言是一门`静态多分派、动态单分派`的语言。
+
+## 虚拟机动态分派的实现
+* 虚拟机的实际实现中基于性能的考虑，大部分实现都不会进行繁琐的搜索。最常用的方法是为类在方法区中建立一个`虚方法表`。
+![](\img\in-post\L-JVM\JVM4-2.PNG)  
+* 虚方法表中存放着各个方法的实际入口地址。如果某个没有被重写，则子类的虚方法表里面的地址入口和父类相同方法的地址入口一致，如果子类重写了这个方法，那么子类方法表的地址将会被替换为指向子类实现版本的入口地址。  
+* 除了方法表这种“稳定优化”手段，还会使用内联缓存(Inline Cache)和基于类型继承关系分析(Class Hiserachy Analysis,CHA)技术的守护内联(Guarded Inlining)两种非稳定的“激进优化”手段来获取更高的性能。  
+
+# 基于栈的字节码解释执行引擎
+* 基于栈的指令集最主要的优点就是可移植性，寄存器由硬件直接提供，程序直接依赖这些硬件寄存器则不可避免地受到硬件地约束。使代码相对更紧凑，编译器实现更加简单等。主要缺点是执行速度相对来说稍慢一些。
+* 基于栈的指令集和基于寄存器的指令集的不同，以计算“1+1”为例：  
+`基于栈的指令集`：  
+inconst_1  
+inconst_1  
+iadd  
+istore_0  
+连续将1压入栈，取出栈顶两个值出栈并相加，然后将结果放回栈顶。  
+`基于寄存器的指令集`：  
+mov eax,1
+add eax,1  
+将寄存器的值设为1，然后再把这个值加1，结果就保存在EAX寄存器里面。
+

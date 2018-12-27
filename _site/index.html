@@ -216,6 +216,118 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2018/12/27/volatile/">
+        <h2 class="post-title">
+            volatile原理
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Principle of Volatile
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                实现原理
+1
+2
+//instance是volatile变量
+instance = new Singleton();
+
+转换为汇编代码：
+1
+2
+0x01a3de1d: movb $0×0,0×1104800(%esi);
+0x01a3de24: lock add1 $0×0,(%esp)
+
+在有volatile变量修饰的共享变量进行写操作时会多出第二行代码。
+lock前缀的指令在多核处理器...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by KeYu Blog on December 27, 2018
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2018/12/27/synchronized/">
+        <h2 class="post-title">
+            synchronized原理
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Principle of Synchronized
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                锁的释放和获取的内存语义
+
+
+  
+    当线程释放锁时，JMM会把线程对应的本地内存中的共享变量刷新到主内存中。
+  
+  
+    当线程获取锁时，JMM会把该线程对应的本地内存置为无效。从而可以使得被监视器保护的临界区代码必须从主内存中读取共享变量。
+  
+
+
+
+
+
+  线程A释放了一个锁，实际上是线程A向接下来获取这个锁的某个线程发出了(线程A对共享变量所做出修改的)信息。
+  线...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by KeYu Blog on December 27, 2018
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2018/12/25/javaconcurrency/">
+        <h2 class="post-title">
+            java多线程基础
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Java Concurrency Programming
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                目录
+
+  多线程特性
+  线程和进程概念
+  同步和异步概念
+  多线程创建方式    
+      继承Thread类（不推荐）
+      实现runnable接口，重写run方法
+      使用匿名内部类
+    
+  
+  多线程的运行状态
+  守护线程、非守护线程
+  join方法()
+  优先级
+  线程安全
+  同步方式    
+      同步代码块：
+      同步方...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by KeYu Blog on December 25, 2018
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2018/12/24/redispersistence/">
         <h2 class="post-title">
             Redis的持久化
@@ -494,106 +606,6 @@ STRING
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2018/12/04/learningjvm1/">
-        <h2 class="post-title">
-            Java内存区域与内存溢出异常
-        </h2>
-        
-        <h3 class="post-subtitle">
-            JVM笔记1
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                目录
-
-  运行时数据区域    
-      程序计数器
-      虚拟机栈
-      本地方法栈
-      堆
-      方法区
-      直接内存
-    
-  
-  对象的内存布局    
-      对象头
-      实例数据
-      对齐填充
-    
-  
-  对象的访问定位
-
-
-运行时数据区域
-JAVA虚拟机在执行Java程序的过程中会把它所管理的内存划分为若...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by KeYu Blog on December 4, 2018
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2018/12/03/javabean/">
-        <h2 class="post-title">
-            Spring中bean的生命周期
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Life of bean in Spring
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                满足以下的条件的Java类被称为bean：
-
-  1、所有属性为private
-2、提供默认构造方法
-3、提供getter和setter
-4、实现serializable接口(允许序列化，便于框架等使用)
-
-
-在传统的Java应用中，bean的生命周期很简单。使用Java关键字new进行bean实例化，然后bean就可以用了。一旦该bean不再被使用，则由Java自动进行垃圾回收。
-
-以下是...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by KeYu Blog on December 3, 2018
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2018/11/21/effectivejava5/">
-        <h2 class="post-title">
-            枚举和注解
-        </h2>
-        
-        <h3 class="post-subtitle">
-            JAVA笔记6
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                
-  Java中的枚举类型背后的基本想法很简单：它们就是通过公有的静态final域为每个枚举常量导出实例的类。因为没有可以访问的构造器，枚举类型是真正的final。因为客户端既不能创建枚举类型的实例，也不能对它进行扩展，因此很可能没有实例，而只有声明过的枚举常量。换句话说，枚举类型是实例可控的。它们是单例的泛型化，本质上是单元素的枚举。
-
-
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by KeYu Blog on November 21, 2018
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -630,42 +642,47 @@ JAVA虚拟机在执行Java程序的过程中会把它所管理的内存划分为
         </a>
         
         
-                <a data-sort="0028" 
+                <a data-sort="0031" 
                     href="/archive/?tag=%E7%AE%97%E6%B3%95"
                     title="算法"
                     rel="3">算法</a>
         
-                <a data-sort="0024" 
+                <a data-sort="0027" 
                     href="/archive/?tag=JAVA%E7%AC%94%E8%AE%B0"
                     title="JAVA笔记"
                     rel="7">JAVA笔记</a>
         
-                <a data-sort="0027" 
+                <a data-sort="0030" 
                     href="/archive/?tag=JVM%E7%AC%94%E8%AE%B0"
                     title="JVM笔记"
                     rel="4">JVM笔记</a>
         
-                <a data-sort="0028" 
+                <a data-sort="0031" 
                     href="/archive/?tag=GUI"
                     title="GUI"
                     rel="3">GUI</a>
         
-                <a data-sort="0029" 
+                <a data-sort="0031" 
+                    href="/archive/?tag=Java%E5%B9%B6%E5%8F%91"
+                    title="Java并发"
+                    rel="3">Java并发</a>
+        
+                <a data-sort="0032" 
                     href="/archive/?tag=%E6%BA%90%E7%A0%81"
                     title="源码"
                     rel="2">源码</a>
         
-                <a data-sort="0029" 
+                <a data-sort="0032" 
                     href="/archive/?tag=%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B"
                     title="面对对象编程"
                     rel="2">面对对象编程</a>
         
-                <a data-sort="0029" 
+                <a data-sort="0032" 
                     href="/archive/?tag=Redis"
                     title="Redis"
                     rel="2">Redis</a>
         
-                <a data-sort="0029" 
+                <a data-sort="0032" 
                     href="/archive/?tag=STL"
                     title="STL"
                     rel="2">STL

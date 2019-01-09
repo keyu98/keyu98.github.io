@@ -1,6 +1,6 @@
 > Do my best
 
-Tag:**Folk/Back-end programmer/Guitar/Student**
+Tag:**Folk/Back-end programmer/Student**
 
 to be a cat-like programmer 
 

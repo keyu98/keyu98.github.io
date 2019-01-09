@@ -8,7 +8,7 @@ tag:
 ---
 
 ReentrantLock的实现依赖于Java同步器框架AQS。  
-AQS使用一个整型的votalie变量(命名为state)来维护同步状态。
+AQS使用一个整型的volatile变量(命名为state)来维护同步状态。
 
 * ReentrantLock分为公平锁和非公平锁
 # 公平锁

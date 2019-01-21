@@ -115,6 +115,8 @@
                     
                     
                     
+                    
+                    
                 </ul>
             </div>
         </div>
@@ -215,6 +217,51 @@
                 postlist-container
             ">
     			
+<div class="post-preview">
+    <a href="/2019/01/21/eventqueue/">
+        <h2 class="post-title">
+            异步队列
+        </h2>
+        
+        <h3 class="post-subtitle">
+            项目实战:Redis实现的异步队列缓解压力
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                场景
+介绍
+
+  点到点的的消息传送：
+    
+      管理员为用户发送站内信
+      用户和用户发送站内信
+      系统给用户发送站内信通知。
+    
+  
+  点到面的消息传送：
+    
+      管理员指定一个群体群发消息
+    
+  
+
+
+难点
+
+  在很多情况都会发送站内信，频繁的站内信通知会涉及到对数据库的多次重复插入，大大增加了数据库压力。
+
+
+异步队列
+...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by KeYu Blog on January 21, 2019
+    </p>
+</div>
+<hr>
+
 <div class="post-preview">
     <a href="/2019/01/20/mybatisrediscache/">
         <h2 class="post-title">
@@ -540,50 +587,6 @@ lock前缀的指令在多核处理器...
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2018/12/24/redispersistence/">
-        <h2 class="post-title">
-            Redis的持久化
-        </h2>
-        
-        <h3 class="post-subtitle">
-            The persistence of Redis
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                目录
-
-  常见的持久化方式
-  快照(snapshotting)    
-      工作原理
-      相关参数
-      优点
-      缺陷
-    
-  
-  只追加文件(append-only-file,AOF)    
-      工作原理
-      相关参数
-      优点
-      缺点
-    
-  
-  注意
-
-
-常见的持久化方式
-
-  主从：通过从服务器保...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by KeYu Blog on December 24, 2018
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -620,52 +623,52 @@ lock前缀的指令在多核处理器...
         </a>
         
         
-                <a data-sort="0036" 
+                <a data-sort="0037" 
                     href="/archive/?tag=%E7%AE%97%E6%B3%95"
                     title="算法"
                     rel="4">算法</a>
         
-                <a data-sort="0033" 
+                <a data-sort="0034" 
                     href="/archive/?tag=JAVA%E7%AC%94%E8%AE%B0"
                     title="JAVA笔记"
                     rel="7">JAVA笔记</a>
         
-                <a data-sort="0035" 
+                <a data-sort="0036" 
                     href="/archive/?tag=Java%E5%B9%B6%E5%8F%91"
                     title="Java并发"
                     rel="5">Java并发</a>
         
-                <a data-sort="0036" 
+                <a data-sort="0037" 
                     href="/archive/?tag=JVM%E7%AC%94%E8%AE%B0"
                     title="JVM笔记"
                     rel="4">JVM笔记</a>
         
                 <a data-sort="0037" 
-                    href="/archive/?tag=GUI"
-                    title="GUI"
-                    rel="3">GUI</a>
-        
-                <a data-sort="0037" 
                     href="/archive/?tag=Redis"
                     title="Redis"
-                    rel="3">Redis</a>
+                    rel="4">Redis</a>
         
                 <a data-sort="0037" 
                     href="/archive/?tag=Spring"
                     title="Spring"
-                    rel="3">Spring</a>
+                    rel="4">Spring</a>
         
                 <a data-sort="0038" 
+                    href="/archive/?tag=GUI"
+                    title="GUI"
+                    rel="3">GUI</a>
+        
+                <a data-sort="0039" 
                     href="/archive/?tag=%E6%BA%90%E7%A0%81"
                     title="源码"
                     rel="2">源码</a>
         
-                <a data-sort="0038" 
+                <a data-sort="0039" 
                     href="/archive/?tag=%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B"
                     title="面对对象编程"
                     rel="2">面对对象编程</a>
         
-                <a data-sort="0038" 
+                <a data-sort="0039" 
                     href="/archive/?tag=STL"
                     title="STL"
                     rel="2">STL

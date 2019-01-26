@@ -13,7 +13,7 @@ tags:
 
 # 简介
 Java为数据结构中的映射定义了一个接口java.util.Map，此接口主要有四个常用的实现类，分别是HashMap、Hashtable、LinkedHashMap和TreeMap，类继承关系如下图所示：
-![](https://pic2.zhimg.com/80/26341ef9fe5caf66ba0b7c40bba264a5_hd.png)
+![](/img/in-post/java_collection/hashmap1.png)
 HashMap具有以下特点：
 * 根据hashcode值存储数据，大多数情况可以直接定位到它的值，具有较快的访问速度。
 * 是非线程安全的，若需要满足线程安全，可以使用ConcurrentHashMap
@@ -21,7 +21,7 @@ HashMap具有以下特点：
 
 # 结构
 从结构上来讲，HashMap是数组+链表+红黑树(JDK1.8增加红黑树)。如下图所示：  
-![](https://pic1.zhimg.com/80/8db4a3bdfb238da1a1c4431d2b6e075c_hd.png)
+![](/img/in-post/java_collection/hashmap2.png)
 
 # 键值对
 HashMap中有一个非常重要的字段`transient Node<K,V>[] table;`  
@@ -91,7 +91,7 @@ static int indexFor(int h, int length) {  //jdk1.7的源码，jdk1.8没有这个
 
 ## put方法
 执行过程如下：  
-![](https://pic3.zhimg.com/80/58e67eae921e4b431782c07444af824e_hd.png)
+![](/img/in-post/java_collection/hashmap3.png)
 ```java
  public V put(K key, V value) {
         //对key进行hash处理后，执行putVal方法
@@ -152,7 +152,7 @@ final V putVal(int hash, K key, V value, boolean onlyIfAbsent,
 
 ## 扩容机制
 扩容既是重新计算容量,数组无法自动扩容，方法就是用一个新的数组来代替已有的容量小的数组。
-![](https://pic2.zhimg.com/80/a285d9b2da279a18b052fe5eed69afe9_hd.png)
+![](/img/in-post/java_collection/hashmap4.png)
 * 由于是二倍扩容，因为hash的高位运算。hash值可以被分为两类。
   * 新增加的高位为1：索引变为原索引+oldCap
   * 新增加的高位为0：索引不变
@@ -288,12 +288,12 @@ public class HashMapInfiniteLoop {
 其中初始化了一个长度为2的数组，loadFactor=0.75，也就是说，当put第二个key的时候，map将会扩容。
 
 * 通过设置断点让线程1和线程2同时debug到transfer方法(3.3小节代码块)的首行。注意此时两个线程已经成功添加数据。放开thread1的断点至transfer方法的“Entry next = e.next;” 这一行；然后放开线程2的的断点，让线程2进行resize。结果如下图。  
-![](https://pic4.zhimg.com/80/fa10635a66de637fe3cbd894882ff0c7_hd.png)  
+![](/img/in-post/java_collection/hashmap5.png)  
 * 注意，Thread1的 e 指向了key(3)，而next指向了key(7)，其在线程二rehash后，指向了线程二重组后的链表。  
 * 线程一被调度回来执行，先是执行 newTalbe[i] = e， 然后是e=next，导致了e指向了key(7)，而下一次循环的next = e.next导致了next指向了key(3)。 
-![](https://pic4.zhimg.com/80/d39d7eff6e8e04f98f5b53bebe2d4d7f_hd.png)  
+![](/img/in-post/java_collection/hashmap6.png)  
 * e.next = newTable[i] 导致 key(3).next 指向了 key(7)。注意：此时的key(7).next 已经指向了key(3)， 环形链表就这样出现了。
-![](https://pic2.zhimg.com/80/5f3cf5300f041c771a736b40590fd7b1_hd.png)
+![](/img/in-post/java_collection/hashmap7.png)
 # 推荐阅读
 * [Java 8系列之重新认识HashMap](https://zhuanlan.zhihu.com/p/21673805)
 * [jdk1.8中ConcurrentHashMap的实现原理](https://blog.csdn.net/fjse51/article/details/55260493)

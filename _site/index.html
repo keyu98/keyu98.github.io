@@ -218,6 +218,51 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2019/01/27/javaarraylist/">
+        <h2 class="post-title">
+            ArrayList
+        </h2>
+        
+        <h3 class="post-subtitle">
+            java集合源码剖析之ArrayList
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                目录
+
+  简介    
+      区别
+      特性
+    
+  
+  属性
+  方法实现    
+      构造函数
+      扩容机制
+      查找
+      增加
+      删除
+    
+  
+  线程不安全性
+  参考
+
+
+简介
+Java为数据结构中的映射定义了一个接口java.util.List，此接口主要有三个常用的集合实现类，类继承关系如下:  
+
+区别...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by KeYu on January 27, 2019
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2019/01/25/javahashmap/">
         <h2 class="post-title">
             HashMap
@@ -550,41 +595,6 @@ private void safeCount(){
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2018/12/27/volatile/">
-        <h2 class="post-title">
-            volatile原理
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Principle of Volatile
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                实现原理
-1
-2
-//instance是volatile变量
-instance = new Singleton();
-
-转换为汇编代码：
-1
-2
-0x01a3de1d: movb $0×0,0×1104800(%esi);
-0x01a3de24: lock add1 $0×0,(%esp)
-
-在有volatile变量修饰的共享变量进行写操作时会多出第二行代码。
-lock前缀的指令在多核处理器...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by KeYu Blog on December 27, 2018
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -621,7 +631,7 @@ lock前缀的指令在多核处理器...
         </a>
         
         
-                <a data-sort="0038" 
+                <a data-sort="0039" 
                     href="/archive/?tag=%E7%AE%97%E6%B3%95"
                     title="算法"
                     rel="5">算法</a>
@@ -629,44 +639,44 @@ lock前缀的指令在多核处理器...
                 <a data-sort="0035" 
                     href="/archive/?tag=JAVA%E7%AC%94%E8%AE%B0"
                     title="JAVA笔记"
-                    rel="8">JAVA笔记</a>
+                    rel="9">JAVA笔记</a>
         
-                <a data-sort="0038" 
+                <a data-sort="0039" 
                     href="/archive/?tag=Java%E5%B9%B6%E5%8F%91"
                     title="Java并发"
                     rel="5">Java并发</a>
         
-                <a data-sort="0039" 
+                <a data-sort="0040" 
                     href="/archive/?tag=JVM%E7%AC%94%E8%AE%B0"
                     title="JVM笔记"
                     rel="4">JVM笔记</a>
         
-                <a data-sort="0039" 
+                <a data-sort="0040" 
                     href="/archive/?tag=Redis"
                     title="Redis"
                     rel="4">Redis</a>
         
-                <a data-sort="0039" 
+                <a data-sort="0040" 
                     href="/archive/?tag=Spring"
                     title="Spring"
                     rel="4">Spring</a>
         
-                <a data-sort="0040" 
+                <a data-sort="0041" 
                     href="/archive/?tag=GUI"
                     title="GUI"
                     rel="3">GUI</a>
         
-                <a data-sort="0041" 
+                <a data-sort="0042" 
                     href="/archive/?tag=%E6%BA%90%E7%A0%81"
                     title="源码"
                     rel="2">源码</a>
         
-                <a data-sort="0041" 
+                <a data-sort="0042" 
                     href="/archive/?tag=%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B"
                     title="面对对象编程"
                     rel="2">面对对象编程</a>
         
-                <a data-sort="0041" 
+                <a data-sort="0042" 
                     href="/archive/?tag=STL"
                     title="STL"
                     rel="2">STL

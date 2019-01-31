@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "ArrayList"
-subtitle: "java集合源码剖析之ArrayList"
+subtitle: "Java集合源码剖析之ArrayList"
 author: "KeYu"
 header-style: text
 tags:

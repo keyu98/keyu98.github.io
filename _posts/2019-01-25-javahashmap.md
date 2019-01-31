@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "HashMap"
-subtitle: "java集合源码剖析之HashMap"
+subtitle: "Java集合源码剖析之HashMap"
 author: "KeYu"
 header-style: text
 tags:

@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "ArrayList"
+title: "LinkedList"
 subtitle: "Java集合源码剖析之LinkedList"
 author: "KeYu"
 header-style: text

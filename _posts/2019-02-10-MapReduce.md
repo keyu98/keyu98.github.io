@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "MapReduce"
-subtitle: "映射/规约与海量数据处理"
+subtitle: "映射/归约与海量数据处理"
 author: "KeYu"
 header-style: text
 tags:

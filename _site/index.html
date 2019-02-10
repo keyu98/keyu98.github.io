@@ -218,6 +218,29 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2019/02/10/MapReduce/">
+        <h2 class="post-title">
+            MapReduce
+        </h2>
+        
+        <h3 class="post-subtitle">
+            映射/规约与海量数据处理
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                
+  MapReduce是一种编程模型，用于大规模数据集(大于1TB)的并行运算。概念”Map(映射)”和”Reduce(归约)”，和它们的主要思想，都是从函数式编程语言里借来的，还有从矢量编程语言里借来的特性。它极大地方便了编程人员在不会分布式并行编程的情况下，将自己的程序运行在分布式系统上。 当前的软件实现是指定一个Map(映射)函数，用来把一组键值对映射成一组新的键值对，指定并发的Re...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by KeYu on February 10, 2019
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2019/02/02/javapriorityqueue/">
         <h2 class="post-title">
             PriorityQueue
@@ -390,11 +413,7 @@ Java为数据结构中的映射定义了一个接口java.util.Map，此接口主
         
         <div class="post-content-preview">
             
-                
-  MapReduce是一种编程模型，用于大规模数据集（大于1TB）的并行运算。概念”Map（映射）”和”Reduce（归约）”
-
-
-基本思想
+                基本思想
 
   使用一个bit位来标记某个元素对应的value，而key就是该元素在若干bit中的位置。这样大大节省了存储空间。
 
@@ -404,7 +423,9 @@ Java为数据结构中的映射定义了一个接口java.util.Map，此接口主
   对于海量的无重复密集元素排序，其有着占用少的优点。
   步骤：
     
-      将...
+      将Bit-map所有bit置为1
+      将第一个value为n的元素放进Bit-map中(将第n位bit置为1)
+      按照以...
             
         </div>
     </a>
@@ -555,38 +576,6 @@ Maven配置
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2019/01/01/ReentrantLock1/">
-        <h2 class="post-title">
-            ReentrantLock的加锁和解锁原理
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Principle of ReentrantLock
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                ReentrantLock的实现依赖于Java同步器框架AQS。
-AQS使用一个整型的volatile变量(命名为state)来维护同步状态。
-
-
-  ReentrantLock分为公平锁和非公平锁
-    公平锁
-    使用公平锁时，加锁方法lock()的调用轨迹：
-    
-      ReentrantLock：lock()
-      FairSync：lock()
-      A...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by KeYu Blog on January 1, 2019
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -626,49 +615,54 @@ AQS使用一个整型的volatile变量(命名为state)来维护同步状态。
                 <a data-sort="0041" 
                     href="/archive/?tag=%E7%AE%97%E6%B3%95"
                     title="算法"
-                    rel="5">算法</a>
+                    rel="6">算法</a>
         
-                <a data-sort="0035" 
+                <a data-sort="0036" 
                     href="/archive/?tag=JAVA%E7%AC%94%E8%AE%B0"
                     title="JAVA笔记"
                     rel="11">JAVA笔记</a>
         
-                <a data-sort="0041" 
+                <a data-sort="0042" 
                     href="/archive/?tag=Java%E5%B9%B6%E5%8F%91"
                     title="Java并发"
                     rel="5">Java并发</a>
         
-                <a data-sort="0042" 
+                <a data-sort="0043" 
                     href="/archive/?tag=JVM%E7%AC%94%E8%AE%B0"
                     title="JVM笔记"
                     rel="4">JVM笔记</a>
         
-                <a data-sort="0042" 
+                <a data-sort="0043" 
                     href="/archive/?tag=Redis"
                     title="Redis"
                     rel="4">Redis</a>
         
-                <a data-sort="0042" 
+                <a data-sort="0043" 
                     href="/archive/?tag=Spring"
                     title="Spring"
                     rel="4">Spring</a>
         
-                <a data-sort="0043" 
+                <a data-sort="0044" 
                     href="/archive/?tag=GUI"
                     title="GUI"
                     rel="3">GUI</a>
         
-                <a data-sort="0044" 
+                <a data-sort="0045" 
+                    href="/archive/?tag=%E6%B5%B7%E9%87%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"
+                    title="海量数据处理"
+                    rel="2">海量数据处理</a>
+        
+                <a data-sort="0045" 
                     href="/archive/?tag=%E6%BA%90%E7%A0%81"
                     title="源码"
                     rel="2">源码</a>
         
-                <a data-sort="0044" 
+                <a data-sort="0045" 
                     href="/archive/?tag=%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B"
                     title="面对对象编程"
                     rel="2">面对对象编程</a>
         
-                <a data-sort="0044" 
+                <a data-sort="0045" 
                     href="/archive/?tag=STL"
                     title="STL"
                     rel="2">STL

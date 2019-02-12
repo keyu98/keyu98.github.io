@@ -19,12 +19,41 @@ tag:
 * 性能极高-Redis能读的速度是110000次/s,写的速度是81000次/s
 
 # 原理
+## 装饰器模式
 * 在MyBatis的存储模块中，采用装饰器模式的变体。
 ![](\img\in-post\MybatisCache.PNG)  
 结构如上图所示
 * 在装饰器模式下，可扩展性强。
 * 当有新功能添加时，我们只需要添加新的装饰器实现类，然后以组合方式添加这个新的装饰器即可。
 * 如果我们要实现一个自己的二级缓存，我们只需要实现MyBatis的Cache接口。
+
+> 如下图，在启动二级缓存后，`CachingExecutor`作为`Executor`的装饰者，增强了Executor的功能，使其具有缓存查询的功能。
+
+![](\img\in-post\mybatiscache2.PNG)
+
+## CacheKey
+* CacheKey可以说是实现缓存的关键，MyBatis根据CacheKey的不同从而区分缓存是否命中。(即两次查询是否是完全相同的)
+
+```java
+@Override
+  public String toString() {
+    StringBuilder returnValue = new StringBuilder().append(hashcode).append(':').append(checksum);
+    for (int i = 0; i < updateList.size(); i++) {
+      returnValue.append(':').append(updateList.get(i));
+    }
+
+    return returnValue.toString();
+  }
+```
+以下为一次缓存生成的CacheKey经过toString方法生成的字符串
+`-1322037613:765342372:site.keyu.askme.dao.CommentDao.getCommentById:0:2147483647:select   id,  user_id, content, created_date, entity_id, entity_type, status   from   comment   where id=?:25:SqlSessionFactoryBean`
+
+* 它由以下四个部分构成:
+  * MappedStatement的id
+  * 指定查询结果集的范围，也就是RowBound.offset和RowBounds.limit
+  * 查询所使用的SQL语句，也就是boundSql.getSql()方法返回的SQL语句，其中可能包含"?"占位符
+  * 用户传递给上述SQL语句的实际参数值
+
 
 ## 实现
 

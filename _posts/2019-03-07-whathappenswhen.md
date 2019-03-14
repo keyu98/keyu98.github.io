@@ -1,7 +1,7 @@
 ---
 layout: post
 title:  "发生了什么？"
-subtitle: "当你再浏览器输入URL，敲击回车之后"
+subtitle: "当你在浏览器输入URL，敲击回车之后"
 header-img: "img/about-bg-walle.jpg"
 tag: 
     - 网络原理

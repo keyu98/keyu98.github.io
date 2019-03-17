@@ -117,6 +117,8 @@
                     
                     
                     
+                    
+                    
                 </ul>
             </div>
         </div>
@@ -217,6 +219,40 @@
                 postlist-container
             ">
     			
+<div class="post-preview">
+    <a href="/2019/03/17/paxos/">
+        <h2 class="post-title">
+            Paxos算法理解
+        </h2>
+        
+        <h3 class="post-subtitle">
+            分布式系统中一致性问题的共识算法
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                Paxos是什么
+是用于解决分布式系统中一致性问题的共识算法（Consensus Algorithm）
+Paxos要解决的根本问题可以概括为一句话将所有节点都写入同一个值，且被写入后不再更改。
+
+Paxos基础
+角色
+
+  Proposers(提议人)
+    
+      为达成一致性提出意见，他可以提出议案(value)，不同的Proposer可以提出不同的value
+    
+  
+ ...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by KeYu Blog on March 17, 2019
+    </p>
+</div>
+<hr>
+
 <div class="post-preview">
     <a href="/2019/03/07/whathappenswhen/">
         <h2 class="post-title">
@@ -559,46 +595,6 @@ Java为数据结构中的映射定义了一个接口java.util.Map，此接口主
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2019/01/21/eventqueue/">
-        <h2 class="post-title">
-            异步队列
-        </h2>
-        
-        <h3 class="post-subtitle">
-            项目实战:Redis实现的异步队列缓解压力
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                场景
-介绍
-
-  频繁地对数据库的插入操作，使数据库压力增大
-  追求更快的响应速度
-
-
-方案
-
-  使用异步队列使任务异步进行，将任务放进队列即可返回，不必等待执行完毕，大大增大了响应速度
-  在队列中顺序进行，对于实时性不高的任务，可以慢慢执行，减轻了数据库的压力
-
-
-异步队列
-
-
-  生产者产生事件，是事件的来源。
-  事件产生时，不急着处理，而是将事件放进一个先进先出的队列中。
-  ...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by KeYu Blog on January 21, 2019
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -635,62 +631,62 @@ Java为数据结构中的映射定义了一个接口java.util.Map，此接口主
         </a>
         
         
-                <a data-sort="0044" 
+                <a data-sort="0045" 
                     href="/archive/?tag=%E7%AE%97%E6%B3%95"
                     title="算法"
                     rel="6">算法</a>
         
-                <a data-sort="0038" 
+                <a data-sort="0039" 
                     href="/archive/?tag=JAVA%E7%AC%94%E8%AE%B0"
                     title="JAVA笔记"
                     rel="12">JAVA笔记</a>
         
-                <a data-sort="0045" 
+                <a data-sort="0046" 
                     href="/archive/?tag=Java%E5%B9%B6%E5%8F%91"
                     title="Java并发"
                     rel="5">Java并发</a>
         
-                <a data-sort="0046" 
+                <a data-sort="0047" 
                     href="/archive/?tag=JVM%E7%AC%94%E8%AE%B0"
                     title="JVM笔记"
                     rel="4">JVM笔记</a>
         
-                <a data-sort="0046" 
+                <a data-sort="0047" 
                     href="/archive/?tag=Redis"
                     title="Redis"
                     rel="4">Redis</a>
         
-                <a data-sort="0046" 
+                <a data-sort="0047" 
                     href="/archive/?tag=Spring"
                     title="Spring"
                     rel="4">Spring</a>
         
-                <a data-sort="0047" 
+                <a data-sort="0048" 
                     href="/archive/?tag=GUI"
                     title="GUI"
                     rel="3">GUI</a>
         
-                <a data-sort="0048" 
+                <a data-sort="0049" 
                     href="/archive/?tag=%E6%B5%B7%E9%87%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"
                     title="海量数据处理"
                     rel="2">海量数据处理</a>
         
-                <a data-sort="0048" 
+                <a data-sort="0049" 
                     href="/archive/?tag=%E6%BA%90%E7%A0%81"
                     title="源码"
                     rel="2">源码</a>
         
-                <a data-sort="0048" 
+                <a data-sort="0049" 
                     href="/archive/?tag=%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86"
                     title="网络原理"
                     rel="2">网络原理</a>
         
-                <a data-sort="0048" 
+                <a data-sort="0049" 
                     href="/archive/?tag=%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B"
                     title="面对对象编程"
                     rel="2">面对对象编程</a>
         
-                <a data-sort="0048" 
+                <a data-sort="0049" 
                     href="/archive/?tag=STL"
                     title="STL"
                     rel="2">STL

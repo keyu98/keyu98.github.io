@@ -188,7 +188,7 @@
 
 
 
-<header class="intro-header" style="background-image: url('/img/homepage.jpg')">
+<header class="intro-header" style="background-image: url('/img/black-cat.jpg')">
   <div class="container">
     <div class="row">
       <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
@@ -219,6 +219,33 @@
                 postlist-container
             ">
     			
+<div class="post-preview">
+    <a href="/2019/08/16/dockerNet/">
+        <h2 class="post-title">
+            Docker的网络通信原理
+        </h2>
+        
+        <h3 class="post-subtitle">
+            同一宿主机内的docker通信
+        </h3>
+        
+        <div class="post-content-preview">
+            
+                最近学习了下有关docker的网络通信原理，因此想记一下笔记，便于自己消化。
+虚拟网桥
+
+
+  已经有学过docker的原理，docker通过network namespace来限制网络，从而使容器进程只能看到自己的network namespace中的网络栈。所以在同一宿主机中的容器进程是不能通过unix socket来进行通信的，因为他们之间并不”可见”。 
+  每一个容器其实可以看做一...
+            
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by KeYu Blog on August 16, 2019
+    </p>
+</div>
+<hr>
+
 <div class="post-preview">
     <a href="/2019/05/12/x509tls/">
         <h2 class="post-title">
@@ -562,45 +589,6 @@ Java为数据结构中的映射定义了一个接口java.util.List，此接口�
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2019/01/25/javahashmap/">
-        <h2 class="post-title">
-            HashMap
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Java集合源码剖析之HashMap
-        </h3>
-        
-        <div class="post-content-preview">
-            
-                目录
-
-  简介
-  结构
-  键值对
-  关键字段
-  实现    
-      确认哈希桶数组索引位置
-      put方法
-      扩容机制
-    
-  
-  线程的不安全性
-  推荐阅读
-
-
-简介
-Java为数据结构中的映射定义了一个接口java.util.Map，此接口主要有四个常用的实现类，分别是HashMap、Hashtable、LinkedHashMap和TreeMa...
-            
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by KeYu on January 25, 2019
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
 
@@ -637,62 +625,62 @@ Java为数据结构中的映射定义了一个接口java.util.Map，此接口主
         </a>
         
         
-                <a data-sort="0046" 
+                <a data-sort="0047" 
                     href="/archive/?tag=%E7%AE%97%E6%B3%95"
                     title="算法"
                     rel="6">算法</a>
         
-                <a data-sort="0040" 
+                <a data-sort="0041" 
                     href="/archive/?tag=JAVA%E7%AC%94%E8%AE%B0"
                     title="JAVA笔记"
                     rel="12">JAVA笔记</a>
         
-                <a data-sort="0047" 
+                <a data-sort="0048" 
                     href="/archive/?tag=Java%E5%B9%B6%E5%8F%91"
                     title="Java并发"
                     rel="5">Java并发</a>
         
-                <a data-sort="0048" 
+                <a data-sort="0049" 
+                    href="/archive/?tag=%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86"
+                    title="网络原理"
+                    rel="4">网络原理</a>
+        
+                <a data-sort="0049" 
                     href="/archive/?tag=JVM%E7%AC%94%E8%AE%B0"
                     title="JVM笔记"
                     rel="4">JVM笔记</a>
         
-                <a data-sort="0048" 
+                <a data-sort="0049" 
                     href="/archive/?tag=Redis"
                     title="Redis"
                     rel="4">Redis</a>
         
-                <a data-sort="0048" 
+                <a data-sort="0049" 
                     href="/archive/?tag=Spring"
                     title="Spring"
                     rel="4">Spring</a>
         
-                <a data-sort="0049" 
-                    href="/archive/?tag=%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86"
-                    title="网络原理"
-                    rel="3">网络原理</a>
-        
-                <a data-sort="0049" 
+                <a data-sort="0050" 
                     href="/archive/?tag=GUI"
                     title="GUI"
                     rel="3">GUI</a>
         
-                <a data-sort="0050" 
+                <a data-sort="0051" 
                     href="/archive/?tag=%E6%B5%B7%E9%87%8F%E6%95%B0%E6%8D%AE%E5%A4%84%E7%90%86"
                     title="海量数据处理"
                     rel="2">海量数据处理</a>
         
-                <a data-sort="0050" 
+                <a data-sort="0051" 
                     href="/archive/?tag=%E6%BA%90%E7%A0%81"
                     title="源码"
                     rel="2">源码</a>
         
-                <a data-sort="0050" 
+                <a data-sort="0051" 
                     href="/archive/?tag=%E9%9D%A2%E5%AF%B9%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B"
                     title="面对对象编程"
                     rel="2">面对对象编程</a>
         
-                <a data-sort="0050" 
+                <a data-sort="0051" 
                     href="/archive/?tag=STL"
                     title="STL"
                     rel="2">STL

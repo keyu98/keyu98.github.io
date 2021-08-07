@@ -16,8 +16,8 @@
     <meta property="og:type" content="website">
     <meta property="og:description" content="我干了什么 究竟拿了时间换了什么">
     
-    <meta property="og:image" content="http://localhost:4000/img/me.jpg">
-    <meta property="og:url" content="http://localhost:4000/">
+    <meta property="og:image" content="https://keyu.site/img/me.jpg">
+    <meta property="og:url" content="https://keyu.site/">
     <meta property="og:site_name" content="博客 | KeYu Blog">
     
     <title>博客 | KeYu Blog</title>
@@ -29,7 +29,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/">
+    <link rel="canonical" href="https://keyu.site/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -225,21 +225,16 @@
             存储快照
         </h2>
         
-        <h3 class="post-subtitle">
-            由git原理联想的快照优点
-        </h3>
-        
         <div class="post-content-preview">
             
-                在对Git原理的学习中看到了这两幅对比图，其中比较了git和其他版本控制的不同之处
+                存储快照原理
 
-CVS、Subversion、Perforce、Bazaar 等等将它们保存的信息看作是一组基本文件和每个文件随时间逐步累积的差异
+  存储网络行业协会SNIA（StorageNetworking Industry Association）快照的定义：关于指定数据集合的一个完全可用拷贝，该拷贝包括相应数据在某个时间点（拷贝开始的时间点）的映像。快照可以是其所表示的数据的一个副本，也可以是数据的一个复制品
 
-Git 不按照以上方式对待或保存数据。 反之，Git 更像是把数据看作是对小型文件系统的一组快照,变想着对Git这样做的缘由一探究竟
 
-存储快照原理
 
-  存储网络行业协会S...
+  有一点值得一提，存储快照与拷贝不同，它是可用的,但却不是完整的。
+  存储快照的实现方式大概...
             
         </div>
     </a>
@@ -757,7 +752,7 @@ transient Object[] queue; // non-private t...
 </ul>
 
                 <p class="copyright text-muted">
-                    Copyright &copy; KeYu Blog 2020
+                    Copyright &copy; KeYu Blog 2021
                     <br>
                     Powered by <a href="http://huangxuan.me">Hux Blog</a> |
                     

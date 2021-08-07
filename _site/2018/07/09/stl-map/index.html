@@ -15,7 +15,6 @@
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="目录
-
 ">
     
     <meta property="article:published_time" content="2018-07-09T00:00:00Z">
@@ -25,8 +24,8 @@
     <meta property="article:tag" content="STL">
     
     
-    <meta property="og:image" content="http://localhost:4000/img/me.jpg">
-    <meta property="og:url" content="http://localhost:4000/2018/07/09/stl-map/">
+    <meta property="og:image" content="https://keyu.site/img/me.jpg">
+    <meta property="og:url" content="https://keyu.site/2018/07/09/stl-map/">
     <meta property="og:site_name" content="博客 | KeYu Blog">
     
     <title>C++ map容器用法 - 博客 | KeYu Blog</title>
@@ -38,7 +37,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2018/07/09/stl-map/">
+    <link rel="canonical" href="https://keyu.site/2018/07/09/stl-map/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -327,15 +326,15 @@ map对象的访问可通过下标和迭代器两种方式实现：</li>
   <p>map容器提供的insert操作</p>
 </blockquote>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>m.insert(e) ;
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>e是一个用在m上的value_type类型的值。如果键e.first不在m中，则插入一个值为e.second的新元素；如果该键在m中已存在，那么不进行任何操作。该函数返回一个pair类型对象，包含指向键为e.first的元素的map迭代器，以及一个bool类型的对象，表示是否插入了该元素。</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>m.insert(beg, end);
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>beg和end是标记元素范围的迭代器，对于该范围内的所有元素，如果它的键在m中不存在，则将该键及其关联的值插入到m。 返回void类型。</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>m.insert(iter, e);
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>e是value_type类型的值，如果e.first不在m中，则创建新元素，并以迭代器iter为起点搜索新元素存储的位置，返回一个迭代器，指向m中具有给定键的元素。
@@ -547,7 +546,7 @@ map对象的访问可通过下标和迭代器两种方式实现：</li>
 </ul>
 
                 <p class="copyright text-muted">
-                    Copyright &copy; KeYu Blog 2020
+                    Copyright &copy; KeYu Blog 2021
                     <br>
                     Powered by <a href="http://huangxuan.me">Hux Blog</a> |
                     

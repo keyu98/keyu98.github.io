@@ -15,7 +15,6 @@
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="目录
-
 ">
     
     <meta property="article:published_time" content="2018-11-10T00:00:00Z">
@@ -25,8 +24,8 @@
     <meta property="article:tag" content="JAVA笔记">
     
     
-    <meta property="og:image" content="http://localhost:4000/img/me.jpg">
-    <meta property="og:url" content="http://localhost:4000/2018/11/10/effectivejava2/">
+    <meta property="og:image" content="https://keyu.site/img/me.jpg">
+    <meta property="og:url" content="https://keyu.site/2018/11/10/effectivejava2/">
     <meta property="og:site_name" content="博客 | KeYu Blog">
     
     <title>Object通用方法 - 博客 | KeYu Blog</title>
@@ -38,7 +37,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2018/11/10/effectivejava2/">
+    <link rel="canonical" href="https://keyu.site/2018/11/10/effectivejava2/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -284,18 +283,18 @@
 
 <h1 id="1equals">1.equals()</h1>
 
-<p>覆盖equals方法看起来简单，实际上很容易导致错误，而且后果非常的严重，应该尽量避免覆盖该方法，在这种情况下，类的每一个实例都<code class="highlighter-rouge">只和自身相等</code>。</p>
+<p>覆盖equals方法看起来简单，实际上很容易导致错误，而且后果非常的严重，应该尽量避免覆盖该方法，在这种情况下，类的每一个实例都<code class="language-plaintext highlighter-rouge">只和自身相等</code>。</p>
 
-<p>那么，什么时候应该覆盖<code class="highlighter-rouge">Object.equals</code>呢？如果类具有自己特有的“逻辑相等”概念，并且超类（即父类）还没有覆盖equals以实现期望的行为，这个时候，我们就需要覆盖equals方法。</p>
+<p>那么，什么时候应该覆盖<code class="language-plaintext highlighter-rouge">Object.equals</code>呢？如果类具有自己特有的“逻辑相等”概念，并且超类（即父类）还没有覆盖equals以实现期望的行为，这个时候，我们就需要覆盖equals方法。</p>
 
-<p>equals方法实现了<code class="highlighter-rouge">等价关系</code>:</p>
+<p>equals方法实现了<code class="language-plaintext highlighter-rouge">等价关系</code>:</p>
 <ul>
-  <li><code class="highlighter-rouge">自反性</code>
+  <li><code class="language-plaintext highlighter-rouge">自反性</code>
     <blockquote>
       <p>x.equals(x); // true</p>
     </blockquote>
   </li>
-  <li><code class="highlighter-rouge">对称性</code></li>
+  <li><code class="language-plaintext highlighter-rouge">对称性</code></li>
 </ul>
 
 <blockquote>
@@ -303,7 +302,7 @@
 </blockquote>
 
 <ul>
-  <li><code class="highlighter-rouge">传递性</code></li>
+  <li><code class="language-plaintext highlighter-rouge">传递性</code></li>
 </ul>
 
 <blockquote>
@@ -312,7 +311,7 @@
 </blockquote>
 
 <ul>
-  <li><code class="highlighter-rouge">一致性</code></li>
+  <li><code class="language-plaintext highlighter-rouge">一致性</code></li>
 </ul>
 
 <p>多次调用 equals() 方法结果不变</p>
@@ -322,7 +321,7 @@
 </blockquote>
 
 <ul>
-  <li><code class="highlighter-rouge">与 null 的比较</code></li>
+  <li><code class="language-plaintext highlighter-rouge">与 null 的比较</code></li>
 </ul>
 
 <p>对任何不是 null 的对象 x 调用 x.equals(null) 结果都为 false</p>
@@ -332,7 +331,7 @@
 </blockquote>
 
 <p>以下为一系列高质量equals方法诀窍：</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -370,9 +369,9 @@
 <span class="p">}</span></code></pre></figure>
 
 <h1 id="2hascode">2.hascode()</h1>
-<p>此方法用于返回<code class="highlighter-rouge">散列值</code>，而在equals中时用来判断对象是否等价。若两个对象散列值相同，他们不一定等价，但如果两个对象等价，那么他们的散列值必然相同。</p>
+<p>此方法用于返回<code class="language-plaintext highlighter-rouge">散列值</code>，而在equals中时用来判断对象是否等价。若两个对象散列值相同，他们不一定等价，但如果两个对象等价，那么他们的散列值必然相同。</p>
 
-<p>而在我们覆盖<code class="highlighter-rouge">equals（）</code>时，一定要注意覆盖<code class="highlighter-rouge">hascode（）</code>方法，保证两者散列值也相等，不然会出现错误。</p>
+<p>而在我们覆盖<code class="language-plaintext highlighter-rouge">equals（）</code>时，一定要注意覆盖<code class="language-plaintext highlighter-rouge">hascode（）</code>方法，保证两者散列值也相等，不然会出现错误。</p>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="sr">/*当我们企图将没有覆盖hascode（）的类
 与HashMap一起使用时       */</span>
@@ -398,7 +397,7 @@
 
 <h1 id="3tostring">3.toString()</h1>
 <p>默认返回 ToStringExample@4554617c 这种形式，其中 @ 后面的数值为散列码的无符号十六进制表示。  <br />
-当对象传递给println，printf，字符串联操作符（+）以及assert或者调试器打印出来时，toString方法会被<code class="highlighter-rouge">自动调用</code>。</p>
+当对象传递给println，printf，字符串联操作符（+）以及assert或者调试器打印出来时，toString方法会被<code class="language-plaintext highlighter-rouge">自动调用</code>。</p>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="kp">public</span> <span class="k">class</span> <span class="nc">ToStringExample</span> <span class="p">{</span>
 
@@ -411,12 +410,12 @@
 <span class="no">ToStringExample</span> <span class="n">example</span> <span class="o">=</span> <span class="n">new</span> <span class="no">ToStringExample</span><span class="p">(</span><span class="mi">123</span><span class="p">);</span>
 <span class="no">System</span><span class="p">.</span><span class="nf">out</span><span class="p">.</span><span class="nf">println</span><span class="p">(</span><span class="n">example</span><span class="p">.</span><span class="nf">toString</span><span class="p">());</span><span class="sr">//</span><span class="err">返回</span><span class="no">ToStringExample</span><span class="err">@</span><span class="mi">4554617</span><span class="n">c</span></code></pre></figure>
 
-<p>记得始终要<code class="highlighter-rouge">覆盖</code>toString()，提供好的toString可以使类使用起来更加舒适。</p>
+<p>记得始终要<code class="language-plaintext highlighter-rouge">覆盖</code>toString()，提供好的toString可以使类使用起来更加舒适。</p>
 
 <p>在实际运用中，toString方法应当返回对象中包含的所以值得关注的信息。</p>
 
 <h1 id="4clone">4.clone()</h1>
-<p>clone() 是 Object 的 <code class="highlighter-rouge">protected </code>方法，它不是 public，一个类不显式去重写 clone()，其它类就不能直接去调用该类实例的 clone() 方法。</p>
+<p>clone() 是 Object 的 <code class="language-plaintext highlighter-rouge">protected </code>方法，它不是 public，一个类不显式去重写 clone()，其它类就不能直接去调用该类实例的 clone() 方法。</p>
 
 <p>重写 clone() 得到以下实现：</p>
 
@@ -437,7 +436,7 @@
 <span class="p">}</span>
 <span class="sr">//</span><span class="err">最后抛出异常，</span><span class="n">java</span><span class="p">.</span><span class="nf">lang</span><span class="o">.</span><span class="no">CloneNotSupportedException</span><span class="p">:</span> <span class="no">CloneExample</span></code></pre></figure>
 
-<p>以上抛出了 CloneNotSupportedException，这是因为 CloneExample 没有实现 <code class="highlighter-rouge">Cloneable 接口</code>。</p>
+<p>以上抛出了 CloneNotSupportedException，这是因为 CloneExample 没有实现 <code class="language-plaintext highlighter-rouge">Cloneable 接口</code>。</p>
 
 <p>应该注意的是，clone() 方法并不是 Cloneable 接口的方法，而是 Object 的一个 protected 方法。Cloneable 接口只是规定，如果一个类没有实现 Cloneable 接口又调用了 clone() 方法，就会抛出 CloneNotSupportedException。</p>
 
@@ -657,7 +656,7 @@
 </ul>
 
                 <p class="copyright text-muted">
-                    Copyright &copy; KeYu Blog 2020
+                    Copyright &copy; KeYu Blog 2021
                     <br>
                     Powered by <a href="http://huangxuan.me">Hux Blog</a> |
                     

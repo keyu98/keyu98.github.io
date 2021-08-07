@@ -14,8 +14,7 @@
     <meta property="og:title" content="mysql数据库和MySQLdb环境配置 - 博客 | KeYu Blog">
     
     <meta property="og:type" content="article">
-    <meta property="og:description" content="
-">
+    <meta property="og:description" content="">
     
     <meta property="article:published_time" content="2018-09-08T00:00:00Z">
     
@@ -24,8 +23,8 @@
     <meta property="article:tag" content="环境配置">
     
     
-    <meta property="og:image" content="http://localhost:4000/img/me.jpg">
-    <meta property="og:url" content="http://localhost:4000/2018/09/08/mysql-peizhi/">
+    <meta property="og:image" content="https://keyu.site/img/me.jpg">
+    <meta property="og:url" content="https://keyu.site/2018/09/08/mysql-peizhi/">
     <meta property="og:site_name" content="博客 | KeYu Blog">
     
     <title>mysql数据库和MySQLdb环境配置 - 博客 | KeYu Blog</title>
@@ -37,7 +36,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2018/09/08/mysql-peizhi/">
+    <link rel="canonical" href="https://keyu.site/2018/09/08/mysql-peizhi/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -271,17 +270,17 @@
 1.找到此电脑,右键属性<br />
 2.点击高级系统设置<br />
 3.点击环境变量<br />
-4.在系统的path下编辑,新添<code class="highlighter-rouge">mysql serve主目录下的bin文件夹地址即可</code></p>
+4.在系统的path下编辑,新添<code class="language-plaintext highlighter-rouge">mysql serve主目录下的bin文件夹地址即可</code></p>
 </blockquote>
 
 <p>最后打开cmd命令,输入
-<code class="highlighter-rouge">mysql -u root -p</code><br />
+<code class="language-plaintext highlighter-rouge">mysql -u root -p</code><br />
 mysql启动成功</p>
 
 <h1 id="为python增加mysqldb模块">为python增加MySQLdb模块</h1>
 
 <p>打开python,输入</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -300,7 +299,7 @@ ImportError: No module named MySQLdb
 <p>选择合适的版本,不然安装包识别不到python,直接安装即可.</p>
 
 <p>安装完毕后,打开python,输入</p>
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre>&gt;&gt;&gt;import MySQLdb
 &gt;&gt;&gt;
@@ -322,11 +321,11 @@ ImportError: No module named MySQLdb
     <span class="k">for</span> <span class="n">data</span> <span class="k">in</span> <span class="n">cur</span><span class="p">.</span><span class="nf">fetchall</span><span class="p">():</span>
         <span class="nb">print</span> <span class="n">data</span></code></pre></figure>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 </pre></td><td class="rouge-code"><pre>python testdb.py 
 </pre></td></tr></tbody></table></code></pre></div></div>
 <p>报错:
-<code class="highlighter-rouge">[ERROR]1251--Client does not support authentication protocol requested by server</code></p>
+<code class="language-plaintext highlighter-rouge">[ERROR]1251--Client does not support authentication protocol requested by server</code></p>
 
 <p>查找原因:</p>
 <blockquote>
@@ -556,7 +555,7 @@ FLUSH PRIVILEGES;</p>
 </ul>
 
                 <p class="copyright text-muted">
-                    Copyright &copy; KeYu Blog 2020
+                    Copyright &copy; KeYu Blog 2021
                     <br>
                     Powered by <a href="http://huangxuan.me">Hux Blog</a> |
                     

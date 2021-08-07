@@ -15,7 +15,6 @@
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="目录
-
 ">
     
     <meta property="article:published_time" content="2018-11-04T00:00:00Z">
@@ -25,8 +24,8 @@
     <meta property="article:tag" content="源码">
     
     
-    <meta property="og:image" content="http://localhost:4000/img/me.jpg">
-    <meta property="og:url" content="http://localhost:4000/2018/11/04/robothink/">
+    <meta property="og:image" content="https://keyu.site/img/me.jpg">
+    <meta property="og:url" content="https://keyu.site/2018/11/04/robothink/">
     <meta property="og:site_name" content="博客 | KeYu Blog">
     
     <title><机器人足球>Think函数 - 博客 | KeYu Blog</title>
@@ -38,7 +37,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2018/11/04/robothink/">
+    <link rel="canonical" href="https://keyu.site/2018/11/04/robothink/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -259,14 +258,14 @@
 
 <p>此函数用于机器人的思考与行动，声明在</p>
 <blockquote>
-  <p><code class="highlighter-rouge">behaviors\naobehavior.cc</code>的138行左右</p>
+  <p><code class="language-plaintext highlighter-rouge">behaviors\naobehavior.cc</code>的138行左右</p>
 </blockquote>
 
-<p><code class="highlighter-rouge">string NaoBehavior::Think(const std::string&amp; message)</code></p>
+<p><code class="language-plaintext highlighter-rouge">string NaoBehavior::Think(const std::string&amp; message)</code></p>
 
 <p>返回值为string类型,一系列的字符串代表机器人接下来的行动。返回的字符串将在</p>
 <blockquote>
-  <p><code class="highlighter-rouge">main.cc</code>的519行左右</p>
+  <p><code class="language-plaintext highlighter-rouge">main.cc</code>的519行左右</p>
 </blockquote>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">while</span> <span class="p">(</span><span class="n">gLoop</span><span class="p">)</span>
@@ -284,7 +283,7 @@
 <h1 id="init">init</h1>
 
 <blockquote>
-  <p><code class="highlighter-rouge">behaviors\naobehavior.cc</code>的192行左右</p>
+  <p><code class="language-plaintext highlighter-rouge">behaviors\naobehavior.cc</code>的192行左右</p>
 </blockquote>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">while</span> <span class="p">(</span><span class="n">gLoop</span><span class="p">)</span>
@@ -299,13 +298,13 @@
 
 <p>返回的string格式为</p>
 <ul>
-  <li><code class="highlighter-rouge">(init(unum 机器人号码)(teamname 机器人队伍的名称))</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(init(unum 机器人号码)(teamname 机器人队伍的名称))</code></li>
   <li>用于初始机器人的号码及其队伍信息</li>
 </ul>
 
 <h1 id="beam">beam</h1>
 <blockquote>
-  <p><code class="highlighter-rouge">behaviors\naobehavior.cc</code>的238行左右</p>
+  <p><code class="language-plaintext highlighter-rouge">behaviors\naobehavior.cc</code>的238行左右</p>
 </blockquote>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span><span class="p">(</span><span class="o">!</span><span class="n">initBeamed</span><span class="p">)</span> <span class="p">{</span><span class="sr">//</span><span class="err">如果初始位置没有初始化</span>
@@ -338,13 +337,13 @@
 
 <p>返回的string格式为</p>
 <ul>
-  <li><code class="highlighter-rouge">(beam 机器人初始化在x轴坐标 机器人初始化在y轴坐标 机器人面向的角度)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(beam 机器人初始化在x轴坐标 机器人初始化在y轴坐标 机器人面向的角度)</code></li>
   <li>用于初始机器人初始位置及方向信息</li>
 </ul>
 
 <h1 id="composeaction">composeAction</h1>
 <blockquote>
-  <p><code class="highlighter-rouge">behaviors\naobehavior.cc</code>的287行左右</p>
+  <p><code class="language-plaintext highlighter-rouge">behaviors\naobehavior.cc</code>的287行左右</p>
 </blockquote>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="n">action</span> <span class="o">=</span> <span class="n">action</span> <span class="o">+</span> <span class="n">composeAction</span><span class="p">();</span>
@@ -354,44 +353,44 @@
 
 <p>composeAction函数包含了绝大部分机器人思考做出的行动信息以及机器人的交流</p>
 <blockquote>
-  <p><code class="highlighter-rouge">behaviors\servercomm</code>的63行左右</p>
+  <p><code class="language-plaintext highlighter-rouge">behaviors\servercomm</code>的63行左右</p>
 </blockquote>
 
 <p>返回的string格式为</p>
 <ul>
-  <li><code class="highlighter-rouge">(he1 HeadYaw参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(he1 HeadYaw参数)</code></li>
   <li>
-    <p><code class="highlighter-rouge">(he2 HeadPitch参数)</code></p>
+    <p><code class="language-plaintext highlighter-rouge">(he2 HeadPitch参数)</code></p>
   </li>
-  <li><code class="highlighter-rouge">(lae1 LShoulderPitch参数)</code></li>
-  <li><code class="highlighter-rouge">(lae2 LShoulderRoll参数)</code></li>
-  <li><code class="highlighter-rouge">(lae3 LElbowYaw参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(lae1 LShoulderPitch参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(lae2 LShoulderRoll参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(lae3 LElbowYaw参数)</code></li>
   <li>
-    <p><code class="highlighter-rouge">(lae4 LElbowRoll参数)</code></p>
+    <p><code class="language-plaintext highlighter-rouge">(lae4 LElbowRoll参数)</code></p>
   </li>
-  <li><code class="highlighter-rouge">(rae1 RShoulderPitch参数)</code></li>
-  <li><code class="highlighter-rouge">(rae2 RShoulderRoll参数)</code></li>
-  <li><code class="highlighter-rouge">(rae3 RElbowYaw参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(rae1 RShoulderPitch参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(rae2 RShoulderRoll参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(rae3 RElbowYaw参数)</code></li>
   <li>
-    <p><code class="highlighter-rouge">(rae4 RElbowRoll参数)</code></p>
+    <p><code class="language-plaintext highlighter-rouge">(rae4 RElbowRoll参数)</code></p>
   </li>
-  <li><code class="highlighter-rouge">(lle1 LHipYawPitch参数)</code></li>
-  <li><code class="highlighter-rouge">(lle2 LHipRoll参数)</code></li>
-  <li><code class="highlighter-rouge">(lle3 LHipPitch参数)</code></li>
-  <li><code class="highlighter-rouge">(lle4 LKneePitch参数)</code></li>
-  <li><code class="highlighter-rouge">(lle5 LAnklePitch参数)</code></li>
-  <li><code class="highlighter-rouge">(lle6 LAnkleRoll参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(lle1 LHipYawPitch参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(lle2 LHipRoll参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(lle3 LHipPitch参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(lle4 LKneePitch参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(lle5 LAnklePitch参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(lle6 LAnkleRoll参数)</code></li>
   <li>
-    <p><code class="highlighter-rouge">(lle7 LToePitch参数)</code></p>
+    <p><code class="language-plaintext highlighter-rouge">(lle7 LToePitch参数)</code></p>
   </li>
-  <li><code class="highlighter-rouge">(rle1 RHipYawPitch参数)</code></li>
-  <li><code class="highlighter-rouge">(rle2 RHipRoll参数)</code></li>
-  <li><code class="highlighter-rouge">(rle3 RHipPitch参数)</code></li>
-  <li><code class="highlighter-rouge">(rle4 RKneePitch参数)</code></li>
-  <li><code class="highlighter-rouge">(rle5 RAnklePitch参数)</code></li>
-  <li><code class="highlighter-rouge">(rle6 RAnkleRoll参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(rle1 RHipYawPitch参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(rle2 RHipRoll参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(rle3 RHipPitch参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(rle4 RKneePitch参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(rle5 RAnklePitch参数)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(rle6 RAnkleRoll参数)</code></li>
   <li>
-    <p><code class="highlighter-rouge">(rle7 RToePitch参数)</code></p>
+    <p><code class="language-plaintext highlighter-rouge">(rle7 RToePitch参数)</code></p>
   </li>
   <li>对应了NAO机器人的所有关节信息
 <img src="\img\in-post\nao.PNG" alt="NAO关节结构" /></li>
@@ -401,7 +400,7 @@
 <p>在composeAction函数关节设置过后，紧接着的是机器人的交流信息</p>
 
 <blockquote>
-  <p><code class="highlighter-rouge">servercomm\primitives.cc</code>的162行左右</p>
+  <p><code class="language-plaintext highlighter-rouge">servercomm\primitives.cc</code>的162行左右</p>
 </blockquote>
 
 <figure class="highlight"><pre><code class="language-ruby" data-lang="ruby"><span class="k">if</span> <span class="p">(</span><span class="n">canTrust</span> <span class="o">||</span> <span class="n">fallen</span><span class="p">)</span> <span class="p">{</span>
@@ -422,7 +421,7 @@
     <span class="p">}</span></code></pre></figure>
 
 <ul>
-  <li><code class="highlighter-rouge">(say 交流的信息)</code></li>
+  <li><code class="language-plaintext highlighter-rouge">(say 交流的信息)</code></li>
   <li>信息包括机器人的编号，时间，最后一次看到足球的时间，球的xy坐标，机器人的xy坐标，自己是否跌倒</li>
 </ul>
 
@@ -631,7 +630,7 @@
 </ul>
 
                 <p class="copyright text-muted">
-                    Copyright &copy; KeYu Blog 2020
+                    Copyright &copy; KeYu Blog 2021
                     <br>
                     Powered by <a href="http://huangxuan.me">Hux Blog</a> |
                     

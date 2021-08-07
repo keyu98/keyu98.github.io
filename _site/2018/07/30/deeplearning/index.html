@@ -15,7 +15,6 @@
     
     <meta property="og:type" content="article">
     <meta property="og:description" content="目录
-
 ">
     
     <meta property="article:published_time" content="2018-07-30T00:00:00Z">
@@ -25,8 +24,8 @@
     <meta property="article:tag" content="深度学习">
     
     
-    <meta property="og:image" content="http://localhost:4000/img/me.jpg">
-    <meta property="og:url" content="http://localhost:4000/2018/07/30/deeplearning/">
+    <meta property="og:image" content="https://keyu.site/img/me.jpg">
+    <meta property="og:url" content="https://keyu.site/2018/07/30/deeplearning/">
     <meta property="og:site_name" content="博客 | KeYu Blog">
     
     <title><机器学习笔记1>什么是深度学习 - 博客 | KeYu Blog</title>
@@ -38,7 +37,7 @@
     <link rel="shortcut icon" href="/img/favicon.ico">
     
     <!-- Canonical URL -->
-    <link rel="canonical" href="http://localhost:4000/2018/07/30/deeplearning/">
+    <link rel="canonical" href="https://keyu.site/2018/07/30/deeplearning/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -257,23 +256,23 @@
   <li><a href="#深度学习" id="markdown-toc-深度学习">深度学习</a></li>
 </ul>
 
-<p>要说深度学习<code class="highlighter-rouge">deep learning</code>,就先要谈到神经网络,或者称为人工神经网络<code class="highlighter-rouge">artificial neural network,ANN</code>.神经网络时一种人类由于受到生物神经细胞结构启发而研究出的一种算法体系.</p>
+<p>要说深度学习<code class="language-plaintext highlighter-rouge">deep learning</code>,就先要谈到神经网络,或者称为人工神经网络<code class="language-plaintext highlighter-rouge">artificial neural network,ANN</code>.神经网络时一种人类由于受到生物神经细胞结构启发而研究出的一种算法体系.</p>
 
 <h1 id="神经元">神经元</h1>
 <p>在了解神经网络前,先了解它的基本组成单元–神经元.
 <img src="\img\in-post\DL2.jpeg" alt="神经元" /></p>
 
 <p>上图就算是一个简单的神经元了,它有3个输入,分别是a1,a2,a3.<br />
-我们所使用的神经元通常由两个部分组成.一个是<code class="highlighter-rouge">线性模型</code>,另一个是<code class="highlighter-rouge">激励函数</code>.</p>
+我们所使用的神经元通常由两个部分组成.一个是<code class="language-plaintext highlighter-rouge">线性模型</code>,另一个是<code class="language-plaintext highlighter-rouge">激励函数</code>.</p>
 
 <blockquote>
   <p>我们先说这个神经元的线性模型.
-这里的a是一个3维的向量,当然它可以是其它维数的.我们由此建立了一个有3个<code class="highlighter-rouge">输入项</code>的神经元f(a),展开先为f(a1,2,a3).然后带有一个输出函数值output,这个output的输出值就是函数的输出值f(x).这个函数我们写作:<br />
-<code class="highlighter-rouge">y=f(x)=wx+b</code><br />
-这种方式也是神经元最核心部分对a所做的线性处理,其中a时一种1<em>n的矩阵,而w是一个n</em>1的<code class="highlighter-rouge">权重矩阵</code>,b是<code class="highlighter-rouge">偏执项</code>.</p>
+这里的a是一个3维的向量,当然它可以是其它维数的.我们由此建立了一个有3个<code class="language-plaintext highlighter-rouge">输入项</code>的神经元f(a),展开先为f(a1,2,a3).然后带有一个输出函数值output,这个output的输出值就是函数的输出值f(x).这个函数我们写作:<br />
+<code class="language-plaintext highlighter-rouge">y=f(x)=wx+b</code><br />
+这种方式也是神经元最核心部分对a所做的线性处理,其中a时一种1<em>n的矩阵,而w是一个n</em>1的<code class="language-plaintext highlighter-rouge">权重矩阵</code>,b是<code class="language-plaintext highlighter-rouge">偏执项</code>.</p>
 </blockquote>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 3
 4
@@ -302,15 +301,15 @@ f(x)=34*0.8+20*2.4+1*10=85.2
 </pre></td></tr></tbody></table></code></pre></div></div>
 
 <p>以上便是神经元工作时的简单场景.但是这些权重又是如何得到的呢?<br />
-大多时候是又<code class="highlighter-rouge">逆向</code>的方法得到的.我们首先要有庞大的客户样本,然后通过数据对权重的训练最后得到最合适的值.</p>
+大多时候是又<code class="language-plaintext highlighter-rouge">逆向</code>的方法得到的.我们首先要有庞大的客户样本,然后通过数据对权重的训练最后得到最合适的值.</p>
 
 <blockquote>
-  <p><code class="highlighter-rouge">激励函数</code>是神经元的重要组成部分,它在神经元当中紧跟在一个<code class="highlighter-rouge">f(x)=wx+b</code>函数后,用于加入一些非线性的因素,从而得到输出<code class="highlighter-rouge">z</code>.在目前深度学习框架中,大家大多选取比较好用的哪几种激励函数.</p>
+  <p><code class="language-plaintext highlighter-rouge">激励函数</code>是神经元的重要组成部分,它在神经元当中紧跟在一个<code class="language-plaintext highlighter-rouge">f(x)=wx+b</code>函数后,用于加入一些非线性的因素,从而得到输出<code class="language-plaintext highlighter-rouge">z</code>.在目前深度学习框架中,大家大多选取比较好用的哪几种激励函数.</p>
 </blockquote>
 
 <h1 id="loss函数">Loss函数</h1>
 
-<p>又名<code class="highlighter-rouge">损失函数</code></p>
+<p>又名<code class="language-plaintext highlighter-rouge">损失函数</code></p>
 <blockquote>
   <p>在统计学，统计决策理论和经济学中，损失函数是指一种将一个事件（在一个样本空间中的一个元素）映射到一个表达与其事件相关的经济成本或机会成本的实数上的一种函数。更通俗地说，在统计学中损失函数是一种衡量损失和错误（这种损失与“错误地”估计有关，如费用或者设备的损失）程度的函数。`</p>
 </blockquote>
@@ -318,9 +317,9 @@ f(x)=34*0.8+20*2.4+1*10=85.2
 <p>在机器学习中,我的理解是衡量机器学习过程中判断和理想值偏差的函数,当它的值足够小时,我们就大功告成了.</p>
 
 <p>以这种方式的损失函数为例:<br />
-<code class="highlighter-rouge">Loss=∑|w*xi+b-yi|</code></p>
+<code class="language-plaintext highlighter-rouge">Loss=∑|w*xi+b-yi|</code></p>
 
-<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code><table class="rouge-table"><tbody><tr><td class="rouge-gutter gl"><pre class="lineno">1
 2
 </pre></td><td class="rouge-code"><pre>继续按照上面的客户评分举例.
 w是权重矩阵,xi为第i个客户的数据向量,假设有n个客户的数据用于测试,y为实际的观测值.取绝对值的含义在于不论比实际观测值小或者大,都是一样的差距.Loss的值为每个数据映射后的值与实际观测值的差的和.理论上来说,当Loss值为0时,w就是理想权重,但是这种状况太理想化了,在实际的生活中几乎见不到.但有一点可以肯定,Loss越小就说明,映射关系越准确.我们在训练过程中,根据实际要求,设置不同的精度,达到精度范围内那便可以算作合格了.
@@ -328,19 +327,19 @@ w是权重矩阵,xi为第i个客户的数据向量,假设有n个客户的数据�
 
 <h1 id="神经网络">神经网络</h1>
 
-<p>一旦多个神经元首位链接形成了一个类似网络结构来协同工作的时候,那便可以被称作<code class="highlighter-rouge">神经网络</code>了.神经网络没有规定有多少层,也没有规定每一层有多少个神经元,全是在各个场景下,通过测试,最后得到的一个适用于当前场景的网络设计.
+<p>一旦多个神经元首位链接形成了一个类似网络结构来协同工作的时候,那便可以被称作<code class="language-plaintext highlighter-rouge">神经网络</code>了.神经网络没有规定有多少层,也没有规定每一层有多少个神经元,全是在各个场景下,通过测试,最后得到的一个适用于当前场景的网络设计.
 <img src="\img\in-post\/DL1.gif" alt="神经网络" /></p>
 
 <blockquote>
-  <p>一个神经网络通常分为这样几层:<code class="highlighter-rouge">输入层</code>(input layer),<code class="highlighter-rouge">隐藏层</code>(hidden layer).<code class="highlighter-rouge">输出层</code>(output layer).<br />
-<code class="highlighter-rouge">输出层</code>在整个网络的最前端部分,直接接受输入的向量,它不对数据做任何处理,因此这层不计入层数.<br />
-<code class="highlighter-rouge">隐藏层</code>可以有一层,或者多层.
-<code class="highlighter-rouge">输出层</code>是最后一层,它用于输出整个网络处理的值,这个值可能是一个分类向量值,也可能时一个类似线性回归那样产生的连续的值,也可能时别的复杂类型的值,根据需求不尽相同.<br />
+  <p>一个神经网络通常分为这样几层:<code class="language-plaintext highlighter-rouge">输入层</code>(input layer),<code class="language-plaintext highlighter-rouge">隐藏层</code>(hidden layer).<code class="language-plaintext highlighter-rouge">输出层</code>(output layer).<br />
+<code class="language-plaintext highlighter-rouge">输出层</code>在整个网络的最前端部分,直接接受输入的向量,它不对数据做任何处理,因此这层不计入层数.<br />
+<code class="language-plaintext highlighter-rouge">隐藏层</code>可以有一层,或者多层.
+<code class="language-plaintext highlighter-rouge">输出层</code>是最后一层,它用于输出整个网络处理的值,这个值可能是一个分类向量值,也可能时一个类似线性回归那样产生的连续的值,也可能时别的复杂类型的值,根据需求不尽相同.<br />
 神经元像图中所示首尾相接,前一个神经元接收数据,数据经过处理后传递给下一个神经元,像这样逐层传递.</p>
 </blockquote>
 
 <h1 id="深度学习">深度学习</h1>
-<p>所谓<code class="highlighter-rouge">深度学习</code>(Deep Learning),指的便是基于深度神经网络的学习,这个Deep指的时神经网络的深度,即层数多.</p>
+<p>所谓<code class="language-plaintext highlighter-rouge">深度学习</code>(Deep Learning),指的便是基于深度神经网络的学习,这个Deep指的时神经网络的深度,即层数多.</p>
 
 
                 <hr style="visibility: hidden;">
@@ -547,7 +546,7 @@ w是权重矩阵,xi为第i个客户的数据向量,假设有n个客户的数据�
 </ul>
 
                 <p class="copyright text-muted">
-                    Copyright &copy; KeYu Blog 2020
+                    Copyright &copy; KeYu Blog 2021
                     <br>
                     Powered by <a href="http://huangxuan.me">Hux Blog</a> |
                     

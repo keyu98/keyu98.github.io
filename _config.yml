@@ -1,15 +1,13 @@
 # Site settings
-title: Your site
+title: kylez.org
 description: >
-    Your description
-author: Your name
-email: your@e.mail
+    Kyle's pages.
+author: Kyle Zhao
+email: keyu98@qq.com
 baseurl: "" # the subpath of your site, e.g. /blog
-url: "https://yourname.github.io" # the base hostname & protocol for your site
-twitter_username: YourTwitter
-github_username:  YourGitHub
-
-disqus_shortname: YourDisqusShortname
+url: "https://kylez.org" # the base hostname & protocol for your site
+github_username:  keyu98
+# disqus_shortname: YourDisqusShortname
 
 # Build settings
 include: [_pages]

@@ -1,0 +1,79 @@
+---
+layout: post
+title:  "Principle of Volatile Keyword in Java"
+date:   2018-12-27 11:03:00
+---
+
+# Low-level Principle
+
+
+```java
+// instance is volatile variable
+instance = new Singleton();
+```
+
+convert to assembly language:
+
+```
+0x01a3de1d: movb $0×0,0×1104800(%esi);
+0x01a3de24: lock add1 $0×0,(%esp)
+```
+
+If a variable is declared to be volatile, process would execute `lock` command after `movb` when the varieble is written.
+
+
+`lock` would do these two things in multi-core cpu:
+
+- Write the cache line of the current processor back to system memory
+
+- This operation of writing back to memory will invalidate the data cached at other cores of cpu.
+
+# Memory Semantics
+
+When reading a valatile variable, JMM will invalidate the local memory corresponding to the thread. The thread will next read the shared variable from the memory.
+
+# Feature
+
+- Visibility: A read of a volatile variable always sees (any thread) the last write to the volatile variable.
+
+- Atomicity: The read/write of any single volatile variable is atomic, but compound operations like volatile++ are not atomic.
+
+# Atomicity in Compound Operations
+
+Such as `n ++` and `n = n + 1`.
+
+
+Example:
+
+```java
+public class Test {
+    public volatile int inc = 0;
+     
+    public void increase() {
+        inc++; //compound operations
+    }     
+    public static void main(String[] args) {
+        final Test test = new Test();
+        for(int i=0;i<10;i++){
+            new Thread(){
+                public void run() {
+                    for(int j=0;j<1000;j++)
+                        test.increase();
+                };
+            }.start();
+        }    
+        while(Thread.activeCount()>1)
+            Thread.yield();
+        System.out.println(test.inc);
+    }
+}
+```
+
+If variable **inc** is atomic, the result would be 10000. But in fact it is less than 10000.
+
+There is a situation:
+
+The inc value in memory is 10. In the inc ++ operation of thread 1, the original value of inc is read first. At this time, thread 1 is blocked, and then thread 2 performs inc ++ operation on the variable, and at this time thread 1 has not yet been written, so inc is still reading the main memory at this time, so it is still 10 (it should be 11).
+
+
+

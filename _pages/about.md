@@ -6,9 +6,9 @@ permalink: /about/
 This is Kyle Zhao(赵柯宇), I'm a software engineer at [tencent](https://tencent.com) on [Git](https://github.com/git/git) and Java Web.
 
 # * Work Experience
-## *Software Engineer*
+## *App Development*
 <pre>Tencent          2020.06 ~ now</pre>
-SCM, Infra, Web
+SCM, Infra, Web, Git
 
 <hr>
 

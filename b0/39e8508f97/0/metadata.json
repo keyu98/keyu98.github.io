@@ -1,0 +1,32 @@
+{
+  "cli_version": "0.4.5",
+  "checkpoint_id": "b039e8508f97",
+  "session_id": "8f8635c9-1247-4755-b6b5-3313abcb1a6f",
+  "strategy": "manual-commit",
+  "created_at": "2026-02-24T11:15:28.204739Z",
+  "branch": "master",
+  "checkpoints_count": 1,
+  "files_touched": [
+    "README.zh.md"
+  ],
+  "agent": "Claude Code",
+  "turn_id": "8280087cb885",
+  "transcript_identifier_at_start": "7b453cc7-0da4-4d54-8b58-8903e00a6288",
+  "token_usage": {
+    "input_tokens": 58781,
+    "cache_creation_tokens": 0,
+    "cache_read_tokens": 0,
+    "output_tokens": 541,
+    "api_call_count": 3
+  },
+  "initial_attribution": {
+    "calculated_at": "2026-02-24T11:15:28.188443Z",
+    "agent_lines": 36,
+    "human_added": 101,
+    "human_modified": 0,
+    "human_removed": 0,
+    "total_committed": 137,
+    "agent_percentage": 26.277372262773724
+  },
+  "transcript_path": ".claude-internal/projects/-Users-kylezhao-Code-keyu98-github-io/8f8635c9-1247-4755-b6b5-3313abcb1a6f.jsonl"
+}

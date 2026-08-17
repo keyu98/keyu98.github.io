@@ -1,0 +1,28 @@
+/* ==========================================================================
+   Binary background canvas
+   ========================================================================== */
+
+.binary-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+// Data-stream beam sweeping across the article
+.current-flash {
+    position: fixed;
+    left: 0;
+    height: 2px;
+    margin-top: -1px;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(to right, transparent, rgba($c-accent__blue, 0.45) 60%, rgba($c-accent__blue, 0.95));
+    box-shadow: 0 0 0.8rem rgba($c-accent__blue, 0.3);
+    will-change: transform, opacity;
+}
+
+.current-flash--rev {
+    background: linear-gradient(to left, transparent, rgba($c-accent__blue, 0.45) 60%, rgba($c-accent__blue, 0.95));
+}

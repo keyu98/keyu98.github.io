@@ -1,0 +1,39 @@
+/* ==========================================================================
+   Intro (homepage personal introduction)
+   ========================================================================== */
+
+.c-intro {
+    margin-bottom: 10rem; // 100px
+
+    .c-intro__title {
+        @include fs--title;
+        color: $c-base__02;
+    }
+}
+
+.c-intro__subtitle {
+    @include fs--heading-3;
+    color: $c-base__00;
+    margin-top: 1rem;
+}
+
+.c-intro__desc {
+    @include fs--body;
+    color: $c-base__01;
+    max-width: 68ch;
+    margin-top: 1.8rem;
+    margin-bottom: 2.4rem;
+}
+
+.c-intro__meta {
+    list-style: none;
+    margin-left: 0;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-wrap: wrap;
+        -ms-flex-wrap: wrap;
+            flex-wrap: wrap;
+    gap: 2.4rem;
+}
